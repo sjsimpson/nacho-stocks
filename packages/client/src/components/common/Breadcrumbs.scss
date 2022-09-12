@@ -1,0 +1,14 @@
+@import '../../styles/base';
+
+.breadcrumbs {
+  font-size: 12px;
+  line-height: 16px;
+
+  .breadcrumb {
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

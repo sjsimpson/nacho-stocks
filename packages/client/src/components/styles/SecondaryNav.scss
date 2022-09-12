@@ -1,0 +1,65 @@
+@import '../../styles/base';
+
+$nav-background: flat-tint($primary, .05, $surface);
+$nav-outline: flat-tint($primary, .15, $surface);
+
+.side-nav {
+  height: 100%;
+  width: 360px;
+  position: fixed;
+  // top: 80px;
+  padding: 8px 0px;
+  z-index: 7;
+
+  transition: transform .1s;
+  transform: translateX(-360px);
+
+  background-color: $nav-background;
+  border-left: 1px solid $nav-outline;
+  border-radius: 0px 12px 12px 0px;
+
+  &.open {
+    display: block;
+    width: 360px;
+
+    transition: transform .3s;
+    transform: translateX(88px);
+
+    box-shadow: $elevation-level-2;
+    // flex-direction: column;
+  }
+
+  .drawer-item {
+    // font-size: 16px;
+    display: flex;
+    align-items: center;
+
+    height: 48px;
+    width: 336px;
+
+    padding: 8px 16px;
+    margin: 0px 12px;
+
+    border: none;
+    border-radius: 24px;
+
+    color: $on-surface;
+    text-decoration: none;
+    transition: .2s;
+
+    &.active {
+      background-color: $secondary-container;
+
+      &:hover {
+        background-color: flat-tint($on-surface, $hover-opacity, $secondary-container);
+        color: flat-tint($on-surface, $hover-opacity, $on-surface);
+      }
+    }
+
+    &:hover {
+      background-color: tint($on-surface-variant, $hover-opacity);
+      color: flat-tint($on-surface-variant, $hover-opacity, $on-surface);
+    }
+  }
+
+}

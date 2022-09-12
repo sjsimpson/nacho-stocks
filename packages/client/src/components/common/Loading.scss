@@ -1,0 +1,67 @@
+@import '/src/styles/base';
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes expand-contract {
+  0%{
+    stroke-dasharray: 1,200;
+    stroke-dashoffset: 0;
+   }
+   50%{
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -35px;
+   }
+   100%{
+    stroke-dasharray: 89,200;
+    stroke-dashoffset: -124px;
+   }
+}
+
+.loading {
+  position: relative;
+  margin: 0 auto;
+  // width: 48px;
+
+  &.small {
+    width: 24px;
+  }
+
+  &.large {
+    width: 48px;
+  }
+
+  &:before {
+    content: '';
+    display: block;
+    padding-top: 100%;
+  }
+
+  animation: rotate 1.4s linear infinite;
+
+  .circular {
+    height: 100%;
+    width: 100%;
+    transform-origin: center center;
+
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+  }
+
+  circle {
+    stroke: $on-background;
+    // stroke-linecap: round;
+
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    // animation: expand-contract 1.4s ease-in-out 0s infinite normal none;
+    animation: expand-contract 1.4s ease-in-out infinite;
+  }
+}

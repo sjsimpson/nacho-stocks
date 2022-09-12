@@ -1,0 +1,124 @@
+@import '../../styles/base';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+.color-tester button {
+  margin-bottom: 4px;
+}
+
+
+.color-container {
+  display: flex;
+}
+
+.color-tester {
+  padding: 16px 32px;
+  width: 100%;
+  display: block;
+  font-weight: 500;
+
+  span {
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  &.primary {
+    background-color: $primary;
+    color: $on-primary
+  }
+
+  &.on-primary {
+    background-color: $on-primary;
+    color: $primary
+  }
+
+  &.primary-container {
+    background-color: $primary-container;
+    color: $on-primary-container;
+  }
+
+  &.on-primary-container {
+    background-color: $on-primary-container;
+    color: $primary-container;
+  }
+
+  &.secondary {
+    background-color: $secondary;
+    color: $on-secondary
+  }
+
+  &.on-secondary {
+    background-color: $on-secondary;
+    color: $secondary
+  }
+
+  &.secondary-container {
+    background-color: $secondary-container;
+    color: $on-secondary-container;
+  }
+
+  &.on-secondary-container {
+    background-color: $on-secondary-container;
+    color: $secondary-container;
+  }
+
+  &.tertiary {
+    background-color: $tertiary;
+    color: $on-tertiary
+  }
+
+  &.on-tertiary {
+    background-color: $on-tertiary;
+    color: $tertiary
+  }
+
+  &.tertiary-container {
+    background-color: $tertiary-container;
+    color: $on-tertiary-container;
+  }
+
+  &.on-tertiary-container {
+    background-color: $on-tertiary-container;
+    color: $tertiary-container;
+  }
+
+  &.background {
+    background-color: $background;
+    color: $on-background;
+  }
+
+  &.on-background {
+    background-color: $on-background;
+    color: $background;
+  }
+
+  &.surface {
+    background-color: $surface;
+    color: $on-surface;
+  }
+
+  &.on-surface {
+    background-color: $on-surface;
+    color: $surface;
+  }
+
+  &.surface-variant {
+    background-color: $surface-variant;
+    color: $on-surface-variant;
+  }
+
+  &.on-surface-variant {
+    background-color: $on-surface-variant;
+    color: $surface-variant;
+  }
+
+}
+
+.sign-up {
+  font-family: 'Roboto', 'Times New Roman';
+  box-sizing: border-box;
+
+
+
+  background-color: $primary;
+  color: #ecf0f1;
+}

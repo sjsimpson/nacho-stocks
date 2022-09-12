@@ -1,0 +1,164 @@
+@import '../../styles/base';
+
+.button {
+  font-family: 'Roboto';
+  font-weight: 500;
+  cursor: pointer;
+
+  box-sizing: border-box;
+  padding: 0px 24px;
+  margin-right: 16px;
+
+  border: none;
+  border-radius: 20px;
+
+  height: 40px;
+  transition: .2s;
+
+  background-color: $primary;
+  color: $on-primary;
+  box-shadow: $elevation-level-0;
+
+  &.button-elevated {
+    background-color: $on-primary;
+    color: $primary;
+    box-shadow: $elevation-level-1;
+
+    &:hover {
+      background-color: flat-tint($primary, $hover-opacity, $on-primary);
+      color: flat-tint($primary, $hover-opacity, $primary);
+      box-shadow: $elevation-level-2;
+    }
+
+    &:active {
+      background-color: flat-tint($primary, $active-opacity, $on-primary);
+      color: flat-tint($primary, $active-opacity, $primary);
+      box-shadow: $elevation-level-1;
+    }
+  }
+
+  &.button-filled {
+    background-color: $primary;
+    color: $on-primary;
+
+    &:hover {
+      background-color: flat-tint($on-primary, $hover-opacity, $primary);
+      color: flat-tint($on-primary, $hover-opacity, $on-primary);
+      box-shadow: $elevation-level-1;
+    }
+
+    &:active {
+      background-color: flat-tint($on-primary, $active-opacity, $primary);
+      color: flat-tint($on-primary, $active-opacity, $on-primary);
+      box-shadow: $elevation-level-0;
+    }
+  }
+
+  &.button-tonal {
+    background-color: $secondary-container;
+    color: $on-secondary-container;
+
+    &:hover {
+      background-color: flat-tint($on-secondary-container, $hover-opacity, $secondary-container);
+      color: flat-tint($on-secondary-container, $hover-opacity, $on-secondary-container);
+      box-shadow: $elevation-level-1;
+    }
+
+    &:active {
+      background-color: flat-tint($on-secondary-container, $active-opacity, $secondary-container);
+      color: flat-tint($on-secondary-container, $active-opacity, $on-secondary-container);
+      box-shadow: $elevation-level-0;
+    }
+  }
+
+  &.button-outlined {
+    color: $primary;
+    background-color: $clear;
+
+    // figure out border
+    border: 2px solid $outline;
+
+    &:hover {
+      background-color: tint($primary, $hover-opacity);
+      color: flat-tint($primary, $hover-opacity, $primary);
+    }
+
+    // &:focus {
+    //   border-color: $primary;
+    //   background-color: tint($primary, $active-opacity);
+    //   color: flat-tint($primary, $hover-opacity, $primary);
+    // }
+
+    &:active {
+      background-color: tint($primary, $active-opacity);
+      color: flat-tint($primary, $hover-opacity, $primary);
+    }
+
+  }
+
+  &.button-text {
+    color: $primary;
+    background-color: $clear;
+
+    &:hover {
+      background-color: tint($primary, $hover-opacity);
+      color: flat-tint($primary, $hover-opacity, $primary);
+    }
+
+    &:active {
+      background-color: tint($primary, $active-opacity);
+      color: flat-tint($primary, $hover-opacity, $primary);
+    }
+  }
+
+  &.button-title {
+    $color: $on-surface;
+    font-size: 20px;
+    color: $color;
+    background-color: $clear;
+
+    &:hover {
+      background-color: tint($primary, $hover-opacity);
+      color: flat-tint($primary, $hover-opacity, $color);
+    }
+
+    &:active {
+      background-color: tint($primary, $active-opacity);
+      color: flat-tint($primary, $hover-opacity, $color);
+    }
+  }
+}
+
+.icon-button {
+  font-family: 'Roboto';
+  font-weight: 500;
+  cursor: pointer;
+
+  box-sizing: border-box;
+  padding: 12px 12px;
+  margin-right: 16px;
+
+  border: none;
+  border-radius: 24px;
+
+  height: 48px;
+  width: 48px;
+  transition: .2s;
+
+  display: flex;
+  align-items: center;
+
+  background-color: $clear;
+  color: $on-primary;
+  box-shadow: $elevation-level-0;
+
+  &:hover {
+    background-color: tint($primary, $hover-opacity);
+    color: flat-tint($primary, $hover-opacity, $primary);
+  }
+
+  &:active {
+    background-color: tint($primary, $active-opacity);
+    color: flat-tint($primary, $hover-opacity, $primary);
+  }
+}

@@ -1,0 +1,11 @@
+@import '../../styles/base';
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px;
+}
+
+.breadcrumbs-container {
+  margin-bottom: 12px;
+}
