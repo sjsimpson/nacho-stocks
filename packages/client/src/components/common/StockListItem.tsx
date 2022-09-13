@@ -2,13 +2,9 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { Loading, LoaderSizes } from './Loading'
+import { Stock } from '../../types/stocks'
 import './StockListItem.scss'
-
-export interface Stock {
-  name: string
-  symbol: string
-  price: number
-}
+import { StockGraph } from './StockGraph'
 
 export const StockListItem = ({ stock }: { stock: Stock }) => {
   const [price, setPrice] = useState<number | undefined>(undefined)
@@ -16,7 +12,7 @@ export const StockListItem = ({ stock }: { stock: Stock }) => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    const fetchStocks = async () => {
+    const getStock = async () => {
       const res = await fetch(
         `http://localhost:3001/stock/${stock.symbol}/price`
       )
@@ -24,7 +20,7 @@ export const StockListItem = ({ stock }: { stock: Stock }) => {
       console.log('response.text', prices)
       setPrice(prices.c)
     }
-    fetchStocks()
+    getStock()
       .then((res) => {
         setIsLoading(false)
       })
@@ -44,7 +40,9 @@ export const StockListItem = ({ stock }: { stock: Stock }) => {
           <div className="stock-name">{stock.name}</div>
           <div className="stock-symbol">{stock.symbol}</div>
         </div>
-        <div className="trendlines">Graph</div>
+        <div className="trendlines">
+          <StockGraph symbol={stock.symbol} />
+        </div>
       </div>
       <div className="stock-container-right">
         <div className="currency-symbol">$</div>

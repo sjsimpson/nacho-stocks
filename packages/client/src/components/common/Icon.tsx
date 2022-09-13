@@ -14,6 +14,8 @@ export enum IconTypes {
   info = 'info',
   search = 'search',
   cancel = 'cancel',
+  login = 'login',
+  logout = 'logout',
 }
 
 export enum IconWeights {

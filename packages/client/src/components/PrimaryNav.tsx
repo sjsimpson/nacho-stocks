@@ -68,22 +68,11 @@ export const PrimaryNav = ({
       </section>
       <section className="primary-nav-bottom">
         {!auth.token ? (
-          <>
-            <Button
-              type={ButtonTypes.text}
-              text="Sign up"
-              onClick={openModal}
-            />
-            <Button
-              type={ButtonTypes.elevated}
-              text="Login"
-              onClick={openModal}
-            />
-          </>
+          <NavItem icon={IconTypes.login} label="Login" onClick={openModal} />
         ) : (
-          <Button
-            type={ButtonTypes.elevated}
-            text="Logout"
+          <NavItem
+            icon={IconTypes.logout}
+            label="Logout"
             onClick={handleLogout}
           />
         )}

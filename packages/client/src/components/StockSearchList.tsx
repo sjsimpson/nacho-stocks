@@ -1,13 +1,12 @@
 import './styles/Stocks.scss'
 
 import { useEffect, useState } from 'react'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, Outlet } from 'react-router-dom'
 
 import { useAuth } from './auth'
 import { SearchBar } from './common/SearchBar'
 import { StockListItem } from './common/StockListItem'
 
-import { NavLink, Outlet, useSearchParams } from 'react-router-dom'
 import { LoaderSizes, Loading } from './common/Loading'
 import { StockPage } from './StockPage'
 
@@ -112,15 +111,6 @@ export const StockSearchList = () => {
           )}
         </div>
       </div>
-
-      <Routes>
-        {stocks.map((stock) => (
-          <Route
-            path="/messages/:stockId"
-            element={<StockPage stock={stock} />}
-          />
-        ))}
-      </Routes>
     </div>
   )
 

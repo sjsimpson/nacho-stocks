@@ -50,10 +50,11 @@ app.post('/authenticate', jsonParser, async (req: Request, res: Response) => {
   res.send(token.compact())
 })
 
-app.get('/stocks', async (req: Request, res: Response) => {
+app.get('/stock/:symbol', async (req: Request, res: Response) => {
   try {
     // await _verifyToken(req)
-    const stocks = await stocksApi.getStocks()
+    const stocks = await stocksApi.getStock(req.params.symbol)
+    console.log('stocks', stocks)
     res.send(stocks)
   } catch (error: any) {
     res.status(401).send(error.message)
@@ -73,6 +74,16 @@ app.get('/stocks/search/:symbol', async (req, res) => {
 app.get('/stock/:symbol/price', async (req, res) => {
   try {
     const prices = await stocksApi.getPrices(req.params.symbol)
+    console.log(prices)
+    res.send(prices)
+  } catch (error: any) {
+    res.sendStatus(500)
+  }
+})
+
+app.get('/stock/:symbol/price-history', async (req, res) => {
+  try {
+    const prices = await stocksApi.getPriceHistory(req.params.symbol)
     console.log(prices)
     res.send(prices)
   } catch (error: any) {
