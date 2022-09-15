@@ -2,7 +2,7 @@
 
 $header-background: flat-tint($primary, .05, $surface);
 $hover-color: tint($on-surface-variant, $hover-opacity);
-$active-color: tint($on-surface-variant, $active-opacity);
+$pressed-color: tint($on-surface-variant, $active-opacity);
 
 .nav-link {
   cursor: pointer;
@@ -62,7 +62,7 @@ $active-color: tint($on-surface-variant, $active-opacity);
   &:active {
 
     .icon-container {
-      background-color: $active-color;
+      background-color: $pressed-color;
     }
 
     .nav-label {
@@ -75,9 +75,11 @@ $active-color: tint($on-surface-variant, $active-opacity);
   }
 
   &.active {
+    // $active-color: $primary;
+    $active-color: flat-tint($primary, .10, $header-background);
 
     .icon-container {
-      background-color: $secondary-container;
+      background-color: $active-color;
     }
 
     .nav-label {
@@ -90,7 +92,7 @@ $active-color: tint($on-surface-variant, $active-opacity);
 
     &:hover {
       .icon-container {
-        background-color: flat-tint($on-surface, $hover-opacity, $secondary-container);
+        background-color: flat-tint($on-surface, $hover-opacity, $active-color);
       }
 
       .material-symbols-outlined {
@@ -100,7 +102,7 @@ $active-color: tint($on-surface-variant, $active-opacity);
 
     &:active {
       .icon-container {
-        background-color: flat-tint($on-surface, $active-opacity, $secondary-container);
+        background-color: flat-tint($on-surface, $active-opacity, $active-color);
       }
 
       .material-symbols-outlined {

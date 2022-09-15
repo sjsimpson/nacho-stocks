@@ -35,11 +35,13 @@ $neutral-variant: hsl(20, 15%, 60%);
 $background: hsl(30, 25%, 99%);
 $on-background: hsl(30, 25%, 10%);
 
-$surface: hsl(30, 25%, 99%);
-$on-surface: hsl(30, 25%, 10%);
+$surface: hsl(30, 100%, 99%);
+$on-surface: hsl(30, 100%, 10%);
 
 $surface-variant: hsl(20, 15%, 90%);
 $on-surface-variant: hsl(20, 15%, 30%);
+
+$tinted-surface: flat-tint($primary, .05, $surface);
 
 $outline: hsl(20, 15%, 50%);
 

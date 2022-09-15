@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from './auth'
 
-import { StockSearchList } from './StockSearchList'
+import { StockSearch } from './StockSearch'
 
 export const Profile = () => {
   const auth = useAuth()
@@ -38,7 +38,7 @@ export const Profile = () => {
       <button onClick={() => console.log('auth', auth)}>Check Auth</button>
       <button onClick={handleLogout}>Logout</button>
       <button onClick={handleVerifyJWT}>Verify JWT</button>
-      <StockSearchList />
+      <StockSearch />
     </div>
   )
 }

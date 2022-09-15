@@ -1,14 +1,7 @@
 @import '../../styles/base';
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
 
-// body{
-//   background
-//   margin:0;
-//   padding:0;
-// }
-
-$primary-nav-background: flat-tint($primary, .05, $surface);
-$hover-color: flat-tint($primary, $hover-opacity, $primary-nav-background);
+$hover-color: flat-tint($primary, $hover-opacity, $tinted-surface);
 
 .primary-nav {
   position: fixed;
@@ -27,7 +20,7 @@ $hover-color: flat-tint($primary, $hover-opacity, $primary-nav-background);
   height: 100%;
   width: 88px;
 
-  background-color: $primary-nav-background;
+  background-color: $tinted-surface;
 }
 
 .primary-nav-top {

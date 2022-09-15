@@ -1,0 +1,79 @@
+@import '../../styles/base';
+
+.individual-stock {
+
+  display: flex;
+  flex-direction: column;
+  background-color: $tinted-surface;
+  border-radius: 12px;
+  padding: 16px 24px;
+
+  .stock-page-header-container {
+
+    display: inline-flex;
+    flex: 1 1 auto;
+    height: 52px;
+    width: 100%;
+    margin-bottom: 8px;
+
+    .stock-name-header {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      flex: 1 1 auto;
+      order: -1;
+
+      min-width: 75%;
+
+      .stock-name {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex: 1 1 auto;
+        order: -1;
+
+        font-size: 24px;
+        line-height: 32px;
+
+        margin-right: 16px;
+      }
+
+      .stock-symbol {
+        display: flex;
+        justify-content: flex-start;
+        flex: 1 1 auto;
+        order: 1;
+
+        font-size: 16px;
+        line-height: 20px;
+        font-weight: 300;
+      }
+    }
+
+    .stock-price-header {
+      display: inline-flex;
+      justify-content: flex-end;
+      flex: 1 1 auto;
+      order: 1;
+
+      min-width: 25%;
+
+      .currency-symbol {
+        font-size: 48px;
+        line-height: 52px;
+        font-weight: 300;
+      }
+
+      .stock-price {
+        display: flex;
+        justify-content: flex-end;
+        flex: 1 1 auto;
+        order: 1;
+
+        font-size: 48px;
+        line-height: 52px;
+        font-weight: 300;
+      }
+    }
+  }
+}

@@ -1,28 +1,23 @@
+import './style.scss'
+
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-import { Loading, LoaderSizes } from './Loading'
-import { Stock } from '../../types/stocks'
-import './StockListItem.scss'
-import { StockGraph } from './StockGraph'
+import { Trendline } from '../Trendline'
+import { Loading, LoaderSizes } from '../../common/Loading'
+
+import { Stock } from '../../../types/stocks'
+
+import { getStockPrice } from '../../../api/stocksApi'
 
 export const StockListItem = ({ stock }: { stock: Stock }) => {
   const [price, setPrice] = useState<number | undefined>(undefined)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
   const navigate = useNavigate()
 
   useEffect(() => {
-    const getStock = async () => {
-      const res = await fetch(
-        `http://localhost:3001/stock/${stock.symbol}/price`
-      )
-      const prices = await res.json()
-      console.log('response.text', prices)
-      setPrice(prices.c)
-    }
-    getStock()
+    getStockPrice(stock.symbol)
       .then((res) => {
-        setIsLoading(false)
+        setPrice(res.c)
       })
       .catch((err) => {
         console.log('Error in useEffect', err)
@@ -41,12 +36,13 @@ export const StockListItem = ({ stock }: { stock: Stock }) => {
           <div className="stock-symbol">{stock.symbol}</div>
         </div>
         <div className="trendlines">
-          <StockGraph symbol={stock.symbol} />
+          <Trendline symbol={stock.symbol} />
+          {/* <StockGraph symbol={stock.symbol} /> */}
         </div>
       </div>
       <div className="stock-container-right">
         <div className="currency-symbol">$</div>
-        {!isLoading ? (
+        {price ? (
           <div className="stock-price">{price}</div>
         ) : (
           <Loading size={LoaderSizes.small} />

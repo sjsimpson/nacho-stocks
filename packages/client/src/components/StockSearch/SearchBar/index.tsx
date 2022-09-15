@@ -1,6 +1,6 @@
-import './SearchBar.scss'
-import { Button, ButtonTypes } from './Button'
-import { Icon, IconTypes, ColorVariants } from './Icon'
+import './style.scss'
+
+import { Icon, IconTypes, ColorVariants } from '../../common/Icon'
 import { useState } from 'react'
 
 export const SearchBar = ({ handleSearch }: { handleSearch: Function }) => {

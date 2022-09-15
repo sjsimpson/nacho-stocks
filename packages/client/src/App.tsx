@@ -12,8 +12,8 @@ import { AuthProvider } from './components/auth'
 import { SecondaryNav } from './components/SecondaryNav'
 import { MainContent } from './components/common/MainContent'
 import { ColorTester } from './components/ColorTester'
-import { StockSearchList } from './components/StockSearchList'
-import { StockPage } from './components/StockPage'
+import { StockSearch } from './components/StockSearch'
+import { IndividualStock } from './components/IndividualStock'
 
 import { Stock } from './types/stocks'
 
@@ -38,8 +38,8 @@ export const App = () => {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="about" element={<About />} />
-                <Route path="stocks" element={<StockSearchList />} />
-                <Route path="stocks/:stockId" element={<StockPage />} />
+                <Route path="stocks" element={<StockSearch />} />
+                <Route path="stocks/:symbol" element={<IndividualStock />} />
                 <Route path="color-testing" element={<ColorTester />} />
                 {/* <Route path="graph" element={<StockSearchList />} /> */}
                 <Route

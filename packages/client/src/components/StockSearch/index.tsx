@@ -1,96 +1,39 @@
-import './styles/Stocks.scss'
+import './style.scss'
 
 import { useEffect, useState } from 'react'
 import { Route, Routes, Outlet } from 'react-router-dom'
 
-import { useAuth } from './auth'
-import { SearchBar } from './common/SearchBar'
-import { StockListItem } from './common/StockListItem'
+import { useAuth } from '../auth'
+import { SearchBar } from './SearchBar'
+import { StockListItem } from './StockListItem'
 
-import { LoaderSizes, Loading } from './common/Loading'
-import { StockPage } from './StockPage'
+import { LoaderSizes, Loading } from '../common/Loading'
 
-import { Stock } from '../types/stocks'
+import { Stock } from '../../types/stocks'
 
-export const StockSearchList = () => {
+import { searchStocks } from '../../api/stocksApi'
+
+export const StockSearch = () => {
   let [stocks, setStocks] = useState<Stock[]>([])
   // let [searchValue, setSearchValue] = useState<string>('')
   let [isLoading, setIsLoading] = useState<boolean>(false)
   // let [searchParams, setSearchParams] = useSearchParams()
-  const { token } = useAuth()
-
-  // useEffect(() => {
-  //   const fetchStocks = async () => {
-  //     const res = await fetch('http://localhost:3001/stocks', {
-  //       method: 'GET',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'X-API-TOKEN': token,
-  //       },
-  //     })
-
-  //     const test = await res.json()
-  //     console.log('response.text', test)
-  //     setStocks(test)
-  //   }
-
-  //   fetchStocks()
-  //     .then((res) => {
-  //       setIsLoading(false)
-  //     })
-  //     .catch((err) => {
-  //       setIsLoading(false)
-  //       console.log('Error in useEffect', err)
-  //     })
-  // }, [])
+  // const { token } = useAuth()
 
   const handleSearch = (searchValue: string) => {
     console.log('handle-search')
     setIsLoading(true)
-    const searchStocks = async () => {
-      const res = await fetch(
-        `http://localhost:3001/stocks/search/${searchValue}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-API-TOKEN': token,
-          },
-        }
-      )
 
-      const body = await res.json()
-      console.log('response.json', body)
-      setStocks(body)
-    }
-
-    searchStocks()
-      .then((res) => {
+    searchStocks(searchValue)
+      .then((res: any) => {
+        setStocks(res)
         setIsLoading(false)
       })
-      .catch((err) => {
+      .catch((err: any) => {
         setIsLoading(false)
         console.log('Error in useEffect', err)
       })
   }
-
-  // const handleInputChange = (event: any) => {
-  //   event.preventDefault()
-  //   setSearchValue(event.target.value)
-  // }
-
-  // const handleKeyDown = (event: any) => {
-  //   console.log('User pressed: ', event.key)
-
-  //   if (event.key === 'Enter') {
-  //     console.log('Enter key pressed ✅')
-  //     handleSearch()
-  //   }
-  // }
-
-  // if (isLoading) {
-  //   return <div>Loading...</div>
-  // }
 
   return (
     <div className="stocks">

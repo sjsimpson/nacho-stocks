@@ -1,8 +1,10 @@
-import _, { last } from 'lodash'
+import _ from 'lodash'
 
-const FINNHUB_TOKEN = 'cbumgh2ad3i8ctr83ob0'
+export const _symbolLookup = async (query: string, token: string | undefined) => {
+  if (!token) {
+    throw Error("Finnhub Token is undefined. Unable to interact with API.")
+  }
 
-export const _symbolLookup = async (query: string) => {
   const endpoint = 'https://finnhub.io/api/v1/search'
   const params: URLSearchParams = new URLSearchParams({
     q: query
@@ -12,7 +14,7 @@ export const _symbolLookup = async (query: string) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'X-Finnhub-Token': FINNHUB_TOKEN
+      'X-Finnhub-Token': token
     }
   }
 
@@ -24,7 +26,11 @@ export const _symbolLookup = async (query: string) => {
   }
 }
 
-export const getFinancials = async (symbol: string) => {
+export const getFinancials = async (symbol: string, token: string | undefined) => {
+  if (!token) {
+    throw Error("Finnhub Token is undefined. Unable to interact with API.")
+  }
+
   const endpoint = 'https://finnhub.io/api/v1/stock/metric'
   const params: URLSearchParams = new URLSearchParams({
     symbol,
@@ -35,7 +41,7 @@ export const getFinancials = async (symbol: string) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'X-Finnhub-Token': FINNHUB_TOKEN
+      'X-Finnhub-Token': token
     }
   }
 
@@ -47,7 +53,11 @@ export const getFinancials = async (symbol: string) => {
   }
 }
 
-export const getPrices = async (symbol: string) => {
+export const getPrices = async (symbol: string, token: string | undefined) => {
+  if (!token) {
+    throw Error("Finnhub Token is undefined. Unable to interact with API.")
+  }
+
   const endpoint = 'https://finnhub.io/api/v1/quote'
   const params: URLSearchParams = new URLSearchParams({ symbol })
   const requestUrl: URL = new URL(`${endpoint}?` + params)
@@ -55,7 +65,7 @@ export const getPrices = async (symbol: string) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'X-Finnhub-Token': FINNHUB_TOKEN
+      'X-Finnhub-Token': token
     }
   }
 
@@ -67,10 +77,13 @@ export const getPrices = async (symbol: string) => {
   }
 }
 
-export const searchStocks = async (query: string) => {
+export const searchStocks = async (query: string, token: string | undefined) => {
+  if (!token) {
+    throw Error("Finnhub Token is undefined. Unable to interact with API.")
+  }
 
   try {
-    const lookupResponse = await _symbolLookup(query)
+    const lookupResponse = await _symbolLookup(query, token)
     const stocks = lookupResponse.result
       .filter((stock: any) => !stock.symbol.includes("."))
       .map((stock: any) => ({
@@ -84,7 +97,11 @@ export const searchStocks = async (query: string) => {
   }
 }
 
-export const getStock = async (symbol: string) => {
+export const getStock = async (symbol: string, token: string | undefined) => {
+  if (!token) {
+    throw Error("Finnhub Token is undefined. Unable to interact with API.")
+  }
+
   const endpoint = 'https://finnhub.io/api/v1/stock/profile2'
   const params: URLSearchParams = new URLSearchParams({
     symbol
@@ -95,7 +112,7 @@ export const getStock = async (symbol: string) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'X-Finnhub-Token': FINNHUB_TOKEN
+      'X-Finnhub-Token': token
     }
   }
 
@@ -112,7 +129,11 @@ export const getStock = async (symbol: string) => {
   }
 }
 
-export const getPriceHistory = async (symbol: string) => {
+export const getPriceHistory = async (symbol: string, token: string | undefined) => {
+  if (!token) {
+    throw Error("Finnhub Token is undefined. Unable to interact with API.")
+  }
+
   const now = Date.now()
   const lastWeek = now - 2592000000
 
@@ -120,10 +141,6 @@ export const getPriceHistory = async (symbol: string) => {
   const nowFiltered = nowString.substring(0, nowString.length - 3)
   const lastWeekString = lastWeek.toString()
   const lastWeekFiltered = lastWeekString.substring(0, lastWeekString.length - 3)
-  console.log('now', now)
-  console.log('now-filtered', nowString.substring(0, nowString.length - 3))
-  console.log('lastWeek', lastWeek.toString())
-  console.log('lastWeek-filtered', lastWeek.toString())
 
   const endpoint = 'https://finnhub.io/api/v1/stock/candle'
   const params: URLSearchParams = new URLSearchParams({
@@ -138,7 +155,7 @@ export const getPriceHistory = async (symbol: string) => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      'X-Finnhub-Token': FINNHUB_TOKEN
+      'X-Finnhub-Token': token
     }
   }
 

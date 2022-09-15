@@ -1,0 +1,91 @@
+@import '../../../styles/base';
+
+$hover-color: tint($on-surface-variant, $hover-opacity);
+$pressed-color: tint($on-surface-variant, $active-opacity);
+
+.buy-widget {
+
+  display: flex;
+  flex: 1 1 auto;
+  height: 80;
+
+  .buy-container {
+    display: inline-flex;
+    justify-content: flex-start;
+    flex: 1 1 auto;
+    order: -1;
+  }
+
+  .button-container {
+    display: inline-flex;
+    justify-content: flex-end;
+    flex: 1 1 auto;
+    order: 1;
+  }
+
+  .mini-button {
+
+    cursor: pointer;
+    display: block;
+    user-select: none;
+    align-items: center;
+
+    height: 40px;
+    width: 40px;
+    padding: 8px;
+    border-radius: 4px;
+
+    &:hover {
+      background-color: $hover-color;
+    }
+
+    &:active {
+      background-color: $pressed-color;
+    }
+  }
+
+  .input-container {
+
+    display: inline-flex;
+    width: 80px;
+    height: 40px;
+    padding: 8px 16px;
+    margin: 0px 8px;
+    box-sizing: border-box;
+
+    color: $on-surface;
+    background-color: $surface-variant;
+    caret-color: $primary;
+
+    border-radius: 4px 4px 0px 0px;
+    border-bottom: 1px solid $on-surface-variant;
+
+    input {
+
+      display: block;
+
+      background-color: transparent;
+      outline: none;
+      border: none;
+      padding: 0px;
+      min-width: 100%;
+      // width: min-content;
+
+      /* ??? */
+      font-size: 16px;
+      line-height: 24px;
+
+      transition: .1s;
+
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+    }
+
+    &.active {
+      border-bottom: 1px solid $primary;
+    }
+  }
+}

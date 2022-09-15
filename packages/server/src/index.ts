@@ -18,6 +18,8 @@ const jsonParser = bodyParser.json()
 
 const signingKey = "super-secret-key-using-some-generator-like-secure-random"
 
+const finnhubToken = process.env.FINNHUB_TOKEN
+
 export interface QueryPayload {
   payload: string;
 }
@@ -53,7 +55,7 @@ app.post('/authenticate', jsonParser, async (req: Request, res: Response) => {
 app.get('/stock/:symbol', async (req: Request, res: Response) => {
   try {
     // await _verifyToken(req)
-    const stocks = await stocksApi.getStock(req.params.symbol)
+    const stocks = await stocksApi.getStock(req.params.symbol, finnhubToken)
     console.log('stocks', stocks)
     res.send(stocks)
   } catch (error: any) {
@@ -63,7 +65,7 @@ app.get('/stock/:symbol', async (req: Request, res: Response) => {
 
 app.get('/stocks/search/:symbol', async (req, res) => {
   try {
-    const stocks = await stocksApi.searchStocks(req.params.symbol)
+    const stocks = await stocksApi.searchStocks(req.params.symbol, finnhubToken)
     console.log(stocks)
     res.send(stocks)
   } catch (error: any) {
@@ -73,7 +75,7 @@ app.get('/stocks/search/:symbol', async (req, res) => {
 
 app.get('/stock/:symbol/price', async (req, res) => {
   try {
-    const prices = await stocksApi.getPrices(req.params.symbol)
+    const prices = await stocksApi.getPrices(req.params.symbol, finnhubToken)
     console.log(prices)
     res.send(prices)
   } catch (error: any) {
@@ -83,7 +85,7 @@ app.get('/stock/:symbol/price', async (req, res) => {
 
 app.get('/stock/:symbol/price-history', async (req, res) => {
   try {
-    const prices = await stocksApi.getPriceHistory(req.params.symbol)
+    const prices = await stocksApi.getPriceHistory(req.params.symbol, finnhubToken)
     console.log(prices)
     res.send(prices)
   } catch (error: any) {
