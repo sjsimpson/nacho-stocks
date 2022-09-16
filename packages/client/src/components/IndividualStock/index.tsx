@@ -16,7 +16,6 @@ import { getStock, getStockPrice } from '../../api/stocksApi'
 export const IndividualStock = () => {
   let [stock, setStock] = useState<Stock | undefined>(undefined)
   let [price, setPrice] = useState<number | undefined>(undefined)
-  let [numberToBuy, setNumberToBuy] = useState<number>(1)
 
   const { symbol } = useParams()
 

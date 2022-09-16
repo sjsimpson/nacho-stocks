@@ -4,9 +4,13 @@ import { useState } from 'react'
 import { Button, ButtonTypes } from '../../common/Button'
 import { Icon, IconTypes } from '../../common/Icon'
 
+import { useAuth } from '../../auth'
+
 export const BuyWidget = ({ price }: { price: number }) => {
   let [numberToBuy, setNumberToBuy] = useState<number>(1)
   let [active, setActive] = useState<boolean>(false)
+
+  const auth = useAuth()
 
   const increment = (event: any) => {
     event.preventDefault()
@@ -45,9 +49,15 @@ export const BuyWidget = ({ price }: { price: number }) => {
         </div>
       </div>
       <div className="button-container">
+        {!auth.token && (
+          <div className="auth-warning">
+            You must sign in to purchase stocks.
+          </div>
+        )}
         <Button
           type={ButtonTypes.filled}
           text={`Buy for $${(numberToBuy * price!).toFixed(2)}`}
+          disabled={!auth.token}
           onClick={() => {
             console.log('clicked buy')
           }}

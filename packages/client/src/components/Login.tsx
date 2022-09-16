@@ -1,15 +1,20 @@
-import { useState, MouseEventHandler } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from './auth'
 import { User } from '../types'
 
 import { Button, ButtonTypes } from './common/Button'
+import { TextField, TextFieldStyles, Colors } from './common/TextField'
+
+import { login } from '../api/authApi'
 
 import './styles/Login.scss'
 import './styles/Modal.scss'
+import { Icon, IconTypes } from './common/Icon'
 
 export const Login = ({ closeModal }: { closeModal: Function }) => {
-  const [user, setUser] = useState<User | null>({ username: '', password: '' })
+  let [username, setUsername] = useState<string>('')
+  let [password, setPassword] = useState<string>('')
 
   const auth = useAuth()
   const navigate = useNavigate()
@@ -19,37 +24,9 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
     closeModal()
   }
 
-  const handleInputChange = (event: any) => {
-    const { value, name } = event.target
-
-    const newUser: User = {
-      ...user,
-      [name]: value,
-    }
-
-    setUser(newUser)
-  }
-
-  const onSubmit = async (event: any) => {
-    event.preventDefault()
-
+  const onSubmit = async () => {
     try {
-      const res = await fetch('http://localhost:3001/authenticate', {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      })
-
-      if (res.status !== 200) {
-        throw new Error(res.statusText)
-      }
-
-      const token = await res.text()
-      console.log('token', token)
-
+      const token = await login({ username, password })
       auth.login(token)
       closeModal()
       navigate('/')
@@ -62,48 +39,55 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
     <div className="container">
       <div className="darkBG" onClick={handleClose} />
       <div className="modal centered">
-        <div className="header" style={{ display: 'inline' }}>
-          <span>Machu Login</span>
-          <button className="close" onClick={handleClose}>
-            close
-          </button>
+        <div className="login">
+          <div className="auth-header">
+            <div className="header-text">Login</div>
+            <div className="close-button" onClick={handleClose}>
+              <Icon icon={IconTypes.close} />
+            </div>
+          </div>
+          <div className="auth-content">
+            <div className="form-group">
+              <TextField
+                id="username"
+                value={username}
+                inputStyle={TextFieldStyles.outlined}
+                background={Colors.tintedSurface}
+                onInput={setUsername}
+                placeholder="Username"
+              />
+            </div>
+            <div className="form-group">
+              <TextField
+                id="password"
+                value={password}
+                type="password"
+                inputStyle={TextFieldStyles.outlined}
+                background={Colors.tintedSurface}
+                onInput={setPassword}
+                placeholder="Password"
+              />
+            </div>
+          </div>
+          <div className="auth-footer">
+            <div className="button-container">
+              <div style={{ marginRight: '16px' }}>
+                <Button
+                  type={ButtonTypes.filled}
+                  text="Check Auth"
+                  onClick={() => {
+                    console.log('auth', auth)
+                  }}
+                />
+              </div>
+              <Button
+                type={ButtonTypes.filled}
+                text="Login"
+                onClick={onSubmit}
+              />
+            </div>
+          </div>
         </div>
-        <form onSubmit={onSubmit}>
-          <div className="form-group">
-            <input
-              id="username"
-              type="username"
-              name="username"
-              value={user?.username}
-              onChange={handleInputChange}
-              required
-            />
-            <label className="control-label" htmlFor="username">
-              Username
-            </label>
-          </div>
-          <div className="form-group">
-            <input
-              id="password"
-              type="password"
-              name="password"
-              value={user?.password}
-              onChange={handleInputChange}
-              required
-            />
-            <label className="control-label" htmlFor="passowrd">
-              Password
-            </label>
-          </div>
-          <input className="button" type="submit" value="Login" />
-        </form>
-        <Button
-          type={ButtonTypes.filled}
-          text="Check Auth"
-          onClick={() => {
-            console.log('auth', auth)
-          }}
-        />
       </div>
     </div>
   )

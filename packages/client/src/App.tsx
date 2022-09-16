@@ -14,6 +14,7 @@ import { MainContent } from './components/common/MainContent'
 import { ColorTester } from './components/ColorTester'
 import { StockSearch } from './components/StockSearch'
 import { IndividualStock } from './components/IndividualStock'
+import { ComponentTesting } from './components/ComponentTesting'
 
 import { Stock } from './types/stocks'
 
@@ -41,6 +42,10 @@ export const App = () => {
                 <Route path="stocks" element={<StockSearch />} />
                 <Route path="stocks/:symbol" element={<IndividualStock />} />
                 <Route path="color-testing" element={<ColorTester />} />
+                <Route
+                  path="component-testing"
+                  element={<ComponentTesting />}
+                />
                 {/* <Route path="graph" element={<StockSearchList />} /> */}
                 <Route
                   path="profile"

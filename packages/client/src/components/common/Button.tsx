@@ -18,16 +18,26 @@ export const Button = ({
   onClick,
   icon,
   iconOnly = false,
+  disabled = false,
 }: {
   type: ButtonTypes
   text: string
   onClick: Function
   icon?: IconTypes
   iconOnly?: boolean
+  disabled?: boolean
 }) => {
   return (
     <button
-      className={iconOnly ? `icon-button` : `button ${type}`}
+      className={
+        disabled
+          ? iconOnly
+            ? `icon-button disabled`
+            : `button ${type} disabled`
+          : iconOnly
+          ? `icon-type`
+          : `button ${type}`
+      }
       onClick={() => {
         onClick()
       }}

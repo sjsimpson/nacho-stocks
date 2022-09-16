@@ -1,65 +1,67 @@
-.form-group {
-  position: relative;
-  margin-top: 2.25rem;
-  margin-bottom: 2.25rem;
+@import '../../styles/base';
 
-  .control-label {
-    position: absolute;
-    top: 0.25rem;
-    pointer-events: none;
-    padding-left: 0.125rem;
-    z-index: 1;
-    color: #b3b3b3;
-    font-size: 1rem;
-    font-weight: normal;
-    -webkit-transition: all 0.28s ease;
-    transition: all 0.28s ease;
+.login {
+  // display: flex;
+  // flex-direction: column;
+  // flex: 1 1 auto;
+  // order: 1;
+  // height: 100%;
+
+  .auth-header {
+    display: inline-flex;
+    width: 100%;
+    height: 48px;
+    align-items: center;
+
+    margin-bottom: 16px;
+
+    .header-text {
+      // display: flex;
+      justify-content: flex-start;
+      flex: 1 1 auto;
+      order: -1;
+
+      font-size: 24px;
+      line-height: 24px;
+      align-items: center;
+    }
+
+    .close-button {
+      display: inline-flex;
+      cursor: pointer;
+
+      justify-content: flex-end;
+      flex: 1 1 auto;
+      order: 1;
+
+      height: 24px;
+      width: 24px;
+    }
   }
 
-  input {
-    background: none;
-    border: none;
-    border-bottom: 1px solid #9e9e9e;
-    border-radius: 0;
-    outline: none;
-    color: transparent;
-    display: block;
-    font-size: 1rem;
-    line-height: 1.9;
-    padding: 0;
-    width: 100%;
-    -webkit-box-shadow: none;
-            box-shadow: none;
-    -webkit-transition: box-shadow .3s, border .3s;
-            transition: box-shadow .3s, border .3s, -webkit-box-shadow .3s;
+  .auth-content {
+    margin-bottom: 24px;
 
-    &:focus,
-    &:valid,
-    &.form-file,
-    &.has-value {
-      color: #333;
-      border-bottom: 1px solid #337ab7;
-      -webkit-box-shadow: 0 1px 0 0 #337ab7;
-              box-shadow: 0 1px 0 0 #337ab7;
+    .form-group {
+      margin-bottom: 16px;
     }
+  }
 
-    &:focus ~ .control-label,
-    &:valid ~ .control-label,
-    &.form-file ~ .control-label,
-    &.has-value ~ .control-label {
-      font-size: 0.8rem;
-      color: gray;
-      top: -1rem;
-      left: 0;
-    }
 
-    &:focus {
-      outline: none;
-    }
-    &:focus ~ .control-label {
-      color: #337ab7;
+  .auth-footer {
+    display: flex;
+
+    flex-direction: column;
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    // order: 1;
+
+    .button-container {
+      display: flex;
+      // flex-direction: column;
+      flex: 1 1 auto;
+      justify-content: flex-end;
+      // order: -1;
     }
   }
 }
-
-

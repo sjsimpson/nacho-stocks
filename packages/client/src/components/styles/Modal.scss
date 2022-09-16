@@ -1,12 +1,14 @@
+@import '../../styles/base';
 
 .darkBG {
   background-color: rgba(0, 0, 0, 0.2);
+
   width: 100vw;
   height: 100vh;
-  z-index: 10;
+  z-index: 100;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-44px, -50%);
   position: absolute;
 }
 
@@ -18,14 +20,20 @@
 }
 
 .modal {
+  color: $on-surface;
+  background: $tinted-surface;
+
+
+  min-width: 280px;
+  max-width: 560px;
+  width: 50%;
+  // height: 50%;
   padding: 24px;
-  width: 60%;
-  height: 60%;
-  background: white;
-  color: black;
-  z-index: 10;
-  border-radius: 2px;
-  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+
+  border-radius: 28px;
+  // box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+
+  z-index: 101;
 }
 
 

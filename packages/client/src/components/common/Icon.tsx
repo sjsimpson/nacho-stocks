@@ -18,6 +18,8 @@ export enum IconTypes {
   logout = 'logout',
   add = 'add',
   remove = 'remove',
+  close = 'close',
+  list = 'list',
 }
 
 export enum IconWeights {

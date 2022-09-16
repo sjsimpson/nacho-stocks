@@ -63,6 +63,11 @@ export const PrimaryNav = ({
           icon={IconTypes.palette}
           label="Color Testing"
         />
+        <NavLink
+          to="/component-testing"
+          icon={IconTypes.list}
+          label="Components"
+        />
         <NavLink to="/about" icon={IconTypes.info} label="About" />
         {/* </nav> */}
       </section>

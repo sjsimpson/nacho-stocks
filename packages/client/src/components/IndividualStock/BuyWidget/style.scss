@@ -88,4 +88,10 @@ $pressed-color: tint($on-surface-variant, $active-opacity);
       border-bottom: 1px solid $primary;
     }
   }
+
+  .auth-warning {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+  }
 }

@@ -126,6 +126,13 @@
       color: flat-tint($primary, $hover-opacity, $color);
     }
   }
+
+  &.disabled {
+    pointer-events: none;
+    color: tint($on-surface, .38);
+    background-color: tint($on-surface, $active-opacity);
+    box-shadow: $elevation-level-0;
+  }
 }
 
 .icon-button {
