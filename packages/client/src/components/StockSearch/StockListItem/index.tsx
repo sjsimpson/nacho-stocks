@@ -1,32 +1,32 @@
-import './style.scss'
+import './style.scss';
 
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { Trendline } from '../Trendline'
-import { Loading, LoaderSizes } from '../../common/Loading'
+import { Trendline } from '../Trendline';
+import { Loading, LoaderSizes } from '../../common/Loading';
 
-import { Stock } from '../../../types/stocks'
+import { Stock } from '../../../types/stocks';
 
-import { getStockPrice } from '../../../api/stocksApi'
+import { getStockPrice } from '../../../api/stocksApi';
 
 export const StockListItem = ({ stock }: { stock: Stock }) => {
-  const [price, setPrice] = useState<number | undefined>(undefined)
-  const navigate = useNavigate()
+  const [price, setPrice] = useState<number | undefined>(undefined);
+  const navigate = useNavigate();
 
   useEffect(() => {
     getStockPrice(stock.symbol)
       .then((res) => {
-        setPrice(res.c)
+        setPrice(res.price);
       })
       .catch((err) => {
-        console.log('Error in useEffect', err)
-      })
-  }, [])
+        console.log('Error in useEffect', err);
+      });
+  }, []);
 
   const handleClick = () => {
-    navigate(stock.symbol)
-  }
+    navigate(stock.symbol);
+  };
 
   return (
     <div onClick={handleClick} className="list-item">
@@ -49,5 +49,5 @@ export const StockListItem = ({ stock }: { stock: Stock }) => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
