@@ -7,8 +7,8 @@ export async function getPriceHistory(symbol: string): Promise<any> {
         'Content-Type': 'application/json',
       },
     }
-  );
-  return res.json();
+  )
+  return res.json()
 }
 
 export async function getStockPrice(symbol: string): Promise<any> {
@@ -17,8 +17,8 @@ export async function getStockPrice(symbol: string): Promise<any> {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
-  return res.json();
+  })
+  return res.json()
 }
 
 export async function getStock(symbol: string): Promise<any> {
@@ -27,9 +27,9 @@ export async function getStock(symbol: string): Promise<any> {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  })
 
-  return res.json();
+  return res.json()
 }
 
 export async function searchStocks(symbol: string): Promise<any> {
@@ -38,6 +38,6 @@ export async function searchStocks(symbol: string): Promise<any> {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
-  return res.json();
+  })
+  return res.json()
 }
