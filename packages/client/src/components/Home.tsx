@@ -1,7 +1,5 @@
 import { ContentBox } from './common/ContentBox'
 import { ContentSection } from './common/ContentSection'
-import { LoaderSizes, Loading } from './common/Loading'
-import { MainContent } from './common/MainContent'
 
 // import './Loading.scss'
 

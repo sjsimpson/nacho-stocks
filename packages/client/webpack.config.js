@@ -18,7 +18,12 @@ module.exports = {
         use: ['ts-loader'],
       },
       {
-        test: /\.s[ac]ss$/,
+        test: /\.css$/i,
+        include: /node_modules\/m3-react/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
+        test: /\.(s[ac]ss|css)$/,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },
     ],

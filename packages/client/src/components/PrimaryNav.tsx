@@ -1,15 +1,12 @@
 import './styles/PrimaryNav.scss'
 
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useMatch } from 'react-router-dom'
 
 import { useAuth } from './auth'
 import { Login } from './Login'
 
-import { Button, ButtonTypes } from './common/Button'
-import { IconTypes } from './common/Icon'
-import { NavLink } from './common/NavLink'
-import { NavItem } from './common/NavItem'
+import { NavItem, IconVariants } from 'm3-react'
 
 export const PrimaryNav = ({
   isOpen,
@@ -18,8 +15,6 @@ export const PrimaryNav = ({
   isOpen: boolean
   handleOpenSecondaryNav: Function
 }) => {
-  // export const PrimaryNav = () => {
-  // const [isOpen, setIsOpen] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
   const navigate = useNavigate()
   const auth = useAuth()
@@ -34,49 +29,67 @@ export const PrimaryNav = ({
 
   const handleLogout = (event: any) => {
     auth.logout()
-    navigate('/')
   }
 
-  const handleTitleClick = (event: any) => {
-    console.log('title click')
-    navigate('/')
-  }
-
-  const handleHover = () => {}
+  const match = (path: string, activeOnlyWhenExact: boolean = false) =>
+    !!useMatch({
+      path,
+      end: activeOnlyWhenExact,
+    })
 
   return (
     <div className="primary-nav">
       <section className="primary-nav-top">
         <NavItem
-          icon={isOpen ? IconTypes.closeMenu : IconTypes.openMenu}
+          icon={
+            isOpen
+              ? IconVariants.IconStyles.closeMenu
+              : IconVariants.IconStyles.openMenu
+          }
           onClick={handleOpenSecondaryNav}
         />
-        <NavLink
-          to="/"
-          icon={IconTypes.home}
+        <NavItem
+          match={match('/', true)}
+          onClick={() => navigate('/')}
+          icon={IconVariants.IconStyles.home}
           label="Home"
-          activeOnlyWhenExact
         />
-        <NavLink to="/stocks" icon={IconTypes.stocks} label="Stocks" />
-        <NavLink
-          to="/color-testing"
-          icon={IconTypes.palette}
+        <NavItem
+          match={match('/stocks', false)}
+          onClick={() => navigate('/stocks')}
+          icon={IconVariants.IconStyles.stocks}
+          label="Stocks"
+        />
+        <NavItem
+          match={match('/color-testing', false)}
+          onClick={() => navigate('/color-testing')}
+          icon={IconVariants.IconStyles.palette}
           label="Color Testing"
         />
-        <NavLink
-          to="/component-testing"
-          icon={IconTypes.list}
+        <NavItem
+          match={match('/component-testing', false)}
+          onClick={() => navigate('/component-testing')}
+          icon={IconVariants.IconStyles.list}
           label="Components"
         />
-        <NavLink to="/about" icon={IconTypes.info} label="About" />
+        <NavItem
+          match={match('/about', false)}
+          onClick={() => navigate('/about')}
+          icon={IconVariants.IconStyles.info}
+          label="About"
+        />
         {/* </nav> */}
       </section>
       <section className="primary-nav-bottom">
         {!auth.token ? (
-          <NavItem icon={IconTypes.login} label="Login" onClick={openModal} />
+          <NavItem
+            icon={IconVariants.IconStyles.login}
+            label="Login"
+            onClick={openModal}
+          />
         ) : (
           <NavItem
-            icon={IconTypes.logout}
+            icon={IconVariants.IconStyles.logout}
             label="Logout"
             onClick={handleLogout}
           />

@@ -2,7 +2,7 @@ import './style.scss'
 
 import { useEffect, useState } from 'react'
 import { VictoryLine } from 'victory'
-import { Loading, LoaderSizes } from '../../common/Loading'
+import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
 
 import { getPriceHistory } from '../../../api/stocksApi'
 
@@ -36,7 +36,9 @@ export const Trendline = ({ symbol }: { symbol: string }) => {
   return (
     <div>
       {isLoading ? (
-        <Loading size={LoaderSizes.large} />
+        <LoadingSpinner
+          size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
+        />
       ) : (
         <VictoryLine
           style={{ data: { stroke: color, strokeWidth: 10 } }}

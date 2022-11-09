@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Trendline } from '../Trendline';
-import { Loading, LoaderSizes } from '../../common/Loading';
+import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
 
 import { Stock } from '../../../types/stocks';
 
@@ -45,9 +45,11 @@ export const StockListItem = ({ stock }: { stock: Stock }) => {
         {price ? (
           <div className="stock-price">{price}</div>
         ) : (
-          <Loading size={LoaderSizes.small} />
+          <LoadingSpinner
+            size={LoadingSpinnerVariants.LoadingSpinnerSizes.small}
+          />
         )}
       </div>
     </div>
-  );
+  )
 };

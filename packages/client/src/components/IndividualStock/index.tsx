@@ -5,9 +5,7 @@ import { useParams } from 'react-router-dom';
 
 import { BuyWidget } from './BuyWidget';
 
-import { Button, ButtonTypes } from '../common/Button';
-import { Loading, LoaderSizes } from '../common/Loading';
-import { Icon, IconTypes } from '../common/Icon';
+import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
 import { PriceGraph } from './PriceGraph';
 import { Stock } from '../../types/stocks';
 
@@ -46,7 +44,9 @@ export const IndividualStock = () => {
               <div className="stock-symbol">{stock?.symbol}</div>
             </div>
           ) : (
-            <Loading size={LoaderSizes.large} />
+            <LoadingSpinner
+              size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
+            />
           )}
         </div>
         <div className="stock-price-header">
@@ -54,7 +54,9 @@ export const IndividualStock = () => {
           {price ? (
             <div className="stock-price">{price}</div>
           ) : (
-            <Loading size={LoaderSizes.small} />
+            <LoadingSpinner
+              size={LoadingSpinnerVariants.LoadingSpinnerSizes.small}
+            />
           )}
         </div>
       </div>
@@ -65,9 +67,11 @@ export const IndividualStock = () => {
         {price ? (
           <BuyWidget price={price} />
         ) : (
-          <Loading size={LoaderSizes.small} />
+          <LoadingSpinner
+            size={LoadingSpinnerVariants.LoadingSpinnerSizes.small}
+          />
         )}
       </div>
     </div>
-  );
+  )
 };

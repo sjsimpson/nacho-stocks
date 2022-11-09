@@ -8,7 +8,7 @@ import {
   VictoryTheme,
   VictoryTooltip,
 } from 'victory'
-import { Loading, LoaderSizes } from '../../common/Loading'
+import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
 
 import { getPriceHistory } from '../../../api/stocksApi'
 
@@ -39,7 +39,9 @@ export const PriceGraph = ({ symbol }: { symbol: string }) => {
   return (
     <div className="graph-container">
       {isLoading ? (
-        <Loading size={LoaderSizes.large} />
+        <LoadingSpinner
+          size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
+        />
       ) : (
         <VictoryLine
           style={{ data: { stroke: color } }}

@@ -1,23 +1,22 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuth } from './auth'
-import { User } from '../types'
 
-import { Button, ButtonTypes } from './common/Button'
-import { TextField, TextFieldStyles, Colors } from './common/TextField'
+import {
+  Button,
+  ButtonVariants,
+  Icon,
+  IconVariants,
+  TextInput,
+  TextInputVariants,
+} from 'm3-react'
 
 import { login } from '../api/authApi'
-
-import './styles/Login.scss'
-import './styles/Modal.scss'
-import { Icon, IconTypes } from './common/Icon'
 
 export const Login = ({ closeModal }: { closeModal: Function }) => {
   let [username, setUsername] = useState<string>('')
   let [password, setPassword] = useState<string>('')
 
   const auth = useAuth()
-  const navigate = useNavigate()
 
   const handleClose = (event: any) => {
     event.preventDefault()
@@ -29,7 +28,6 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
       const token = await login({ username, password })
       auth.login(token)
       closeModal()
-      navigate('/')
     } catch (err) {
       console.log('bad credentials', err)
     }
@@ -43,27 +41,27 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
           <div className="auth-header">
             <div className="header-text">Login</div>
             <div className="close-button" onClick={handleClose}>
-              <Icon icon={IconTypes.close} />
+              <Icon icon={IconVariants.IconStyles.close} />
             </div>
           </div>
           <div className="auth-content">
             <div className="form-group">
-              <TextField
+              <TextInput
                 id="username"
                 value={username}
-                inputStyle={TextFieldStyles.outlined}
-                background={Colors.tintedSurface}
+                inputStyle={TextInputVariants.TextInputStyles.outlined}
+                background={TextInputVariants.TextInputColors.tintedSurface}
                 onInput={setUsername}
                 placeholder="Username"
               />
             </div>
             <div className="form-group">
-              <TextField
+              <TextInput
                 id="password"
                 value={password}
                 type="password"
-                inputStyle={TextFieldStyles.outlined}
-                background={Colors.tintedSurface}
+                inputStyle={TextInputVariants.TextInputStyles.outlined}
+                background={TextInputVariants.TextInputColors.tintedSurface}
                 onInput={setPassword}
                 placeholder="Password"
               />
@@ -73,7 +71,7 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
             <div className="button-container">
               <div style={{ marginRight: '16px' }}>
                 <Button
-                  type={ButtonTypes.filled}
+                  type={ButtonVariants.ButtonStyles.filled}
                   text="Check Auth"
                   onClick={() => {
                     console.log('auth', auth)
@@ -81,7 +79,7 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
                 />
               </div>
               <Button
-                type={ButtonTypes.filled}
+                type={ButtonVariants.ButtonStyles.filled}
                 text="Login"
                 onClick={onSubmit}
               />

@@ -1,8 +1,7 @@
 import './style.scss'
 
 import { useState } from 'react'
-import { Button, ButtonTypes } from '../../common/Button'
-import { Icon, IconTypes } from '../../common/Icon'
+import { Button, ButtonVariants, Icon, IconVariants } from 'm3-react'
 
 import { useAuth } from '../../auth'
 
@@ -32,7 +31,7 @@ export const BuyWidget = ({ price }: { price: number }) => {
     <div className="buy-widget">
       <div className="buy-container">
         <div className="mini-button" onClick={increment}>
-          <Icon icon={IconTypes.add} />
+          <Icon icon={IconVariants.IconStyles.add} />
         </div>
         <div className={active ? 'input-container active' : 'input-container'}>
           <input
@@ -45,7 +44,7 @@ export const BuyWidget = ({ price }: { price: number }) => {
           />
         </div>
         <div className="mini-button" onClick={decrement}>
-          <Icon icon={IconTypes.remove} />
+          <Icon icon={IconVariants.IconStyles.remove} />
         </div>
       </div>
       <div className="button-container">
@@ -55,7 +54,7 @@ export const BuyWidget = ({ price }: { price: number }) => {
           </div>
         )}
         <Button
-          type={ButtonTypes.filled}
+          type={ButtonVariants.ButtonStyles.filled}
           text={`Buy for $${(numberToBuy * price!).toFixed(2)}`}
           disabled={!auth.token}
           onClick={() => {

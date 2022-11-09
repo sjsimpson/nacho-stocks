@@ -1,6 +1,6 @@
 import './style.scss'
 
-import { Icon, IconTypes, ColorVariants } from '../../common/Icon'
+import { Icon, IconVariants } from 'm3-react'
 import { useState } from 'react'
 
 export const SearchBar = ({ handleSearch }: { handleSearch: Function }) => {
@@ -34,8 +34,8 @@ export const SearchBar = ({ handleSearch }: { handleSearch: Function }) => {
       <div className="search-bar-content">
         <div className="icon-container">
           <Icon
-            icon={IconTypes.search}
-            color={ColorVariants.onSurfaceVariant}
+            icon={IconVariants.IconStyles.search}
+            color={IconVariants.IconColors.onSurfaceVariant}
           />
         </div>
         <div className="input-container">
@@ -57,8 +57,8 @@ export const SearchBar = ({ handleSearch }: { handleSearch: Function }) => {
               onClick={() => {
                 setSearchTerm('')
               }}
-              icon={IconTypes.cancel}
-              color={ColorVariants.onSurfaceVariant}
+              icon={IconVariants.IconStyles.cancel}
+              color={IconVariants.IconColors.onSurfaceVariant}
             />
           )}
         </div>

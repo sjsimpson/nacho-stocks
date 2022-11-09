@@ -7,7 +7,7 @@ import { useAuth } from '../auth'
 import { SearchBar } from './SearchBar'
 import { StockListItem } from './StockListItem'
 
-import { LoaderSizes, Loading } from '../common/Loading'
+import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
 
 import { Stock } from '../../types/stocks'
 
@@ -45,7 +45,9 @@ export const StockSearch = () => {
         <div>
           {isLoading ? (
             <div>
-              <Loading size={LoaderSizes.large} />
+              <LoadingSpinner
+                size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
+              />
             </div>
           ) : (
             stocks.map((stock) => (
