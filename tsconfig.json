@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": "./packages"
-  }
+  },
+  "typeRoots": ["@types", "./node_modules/@types"]
 }

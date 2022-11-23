@@ -17,7 +17,7 @@ export const login = async (
 
   if (!user) throw Error('No user found matching username and password.')
 
-  const claims = { iss: 'nacho-stocks', sub: user.username }
+  const claims = { iss: 'nacho-stocks', sub: user.id }
   const token: Jwt = jwt.create(claims, signingKey)
 
   if (!rememberMe) token.setExpiration(new Date().getTime() + 60 * 60 * 1000)

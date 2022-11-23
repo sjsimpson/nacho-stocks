@@ -6,6 +6,7 @@ import _ from 'lodash'
 import user from './routes/user'
 import stocks from './routes/stocks'
 import auth from './routes/auth'
+import positions from './routes/positions'
 
 const app = express()
 const port = 3003
@@ -33,6 +34,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/auth', auth)
 app.use('/user', user)
 app.use('/stocks', stocks)
+app.use('/positions', positions)
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`)
