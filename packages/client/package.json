@@ -5,7 +5,8 @@
   "license": "MIT",
   "author": "Spencer Simpson <spencerjsimpson@gmail.com>",
   "scripts": {
-    "dev": "yarn webpack-dev-server --mode development"
+    "dev": "yarn webpack-dev-server --mode development",
+    "build": "yarn webpack"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",
@@ -28,7 +29,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "m3-react": "^0.1.0",
+    "m3-react": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",

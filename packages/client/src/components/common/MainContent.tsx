@@ -8,10 +8,15 @@ export const MainContent = ({ children }: { children: any }) => {
 
   return (
     <div className="main-content">
-      <div className="breadcrumbs-container">
+      {/* <div className="breadcrumbs-container">
         <Breadcrumbs />
-      </div>
-      <main className="content-wrapper">{children}</main>
+      </div> */}
+      <main className="content-wrapper">
+        <div className="content-outer">
+          <div className="content-inner">{children}</div>
+          <div className="content-spacer" />
+        </div>
+      </main>
     </div>
   )
 }

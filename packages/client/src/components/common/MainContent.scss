@@ -1,9 +1,42 @@
 .main-content {
-  display: flex;
-  flex-direction: column;
-  padding: 20px 20px;
+  display: block;
+  // flex-direction: row-reverse;
+  width: 100%;
+  // margin-right: 20px;
+  padding-top: max(20px);
+  padding: 8px;
 }
 
 .breadcrumbs-container {
   margin-bottom: 12px;
+  padding-left: 20px;
 }
+
+.content-outer
+
+.content-spacer {
+  display: flex;
+  flex-direction: row-reverse;
+
+  width: 400px;
+}
+
+
+// @media only screen and (max-width: 768px) {
+//     .content-wrapper {
+//       margin-left: 40px;
+//     }
+// }
+
+// @media only screen and (min-width: 769px) and (max-width: 1280px) {
+//   .content-wrapper {
+//     margin-left: 64px;
+//   }
+// }
+
+
+// @media only screen and (min-width: 1281px) {
+//   .content-wrapper {
+//     margin-left: 128px;
+  // }
+// }

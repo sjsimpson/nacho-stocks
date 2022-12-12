@@ -13,6 +13,8 @@ import { Stock } from '../../types/stocks'
 
 import { searchStocks } from '../../api/stocksApi'
 
+import { PageHeader } from '../common/PageHeader'
+
 export const StockSearch = () => {
   let [stocks, setStocks] = useState<Stock[]>([])
   // let [searchValue, setSearchValue] = useState<string>('')
@@ -37,14 +39,17 @@ export const StockSearch = () => {
 
   return (
     <div className="stocks">
-      <span className="stocks-header">Stocks</span>
+      <PageHeader
+        title="Stock Search"
+        description="Search for a stocks using its symbol."
+      />
       <div>
         <div className="search-container">
           <SearchBar handleSearch={handleSearch} />
         </div>
         <div>
           {isLoading ? (
-            <div>
+            <div className="loading-content">
               <LoadingSpinner
                 size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
               />

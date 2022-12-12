@@ -1,3 +1,5 @@
+import './styles/ComponentTesting.scss'
+
 import { useState } from 'react'
 
 import {
@@ -7,6 +9,8 @@ import {
   TextInputVariants,
   IconVariants,
 } from 'm3-react'
+
+import { Card, CardStyles } from './common/Card'
 
 export const ComponentTesting = () => {
   let [input1, setInput1] = useState<string>('')
@@ -55,43 +59,64 @@ export const ComponentTesting = () => {
         <div className="field-container">
           <TextInput
             id="input1"
+            label="input1label"
             value={input1}
             inputStyle={TextInputVariants.TextInputStyles.filled}
             background={TextInputVariants.TextInputColors.tintedSurface}
-            onInput={setInput1}
+            onInput={(event: any) => setInput1(event.target.value)}
             placeholder="input1"
           />
         </div>
         <div className="field-container">
           <TextInput
             id="input2"
+            label="input2label"
             value={input2}
             inputStyle={TextInputVariants.TextInputStyles.outlined}
             background={TextInputVariants.TextInputColors.tintedSurface}
-            onInput={setInput2}
+            onInput={(event: any) => setInput2(event.target.value)}
             placeholder="input2"
           />
         </div>
         <div className="field-container">
           <TextInput
             id="input3"
+            label="input3label"
             value={input3}
             inputStyle={TextInputVariants.TextInputStyles.outlined}
             icon={IconVariants.IconStyles.search}
             background={TextInputVariants.TextInputColors.tintedSurface}
-            onInput={setInput3}
+            onInput={(event: any) => setInput3(event.target.value)}
             placeholder="input3"
           />
         </div>
         <div className="field-container ts">
           <TextInput
             id="input4"
+            label="input4label"
             value={input4}
             inputStyle={TextInputVariants.TextInputStyles.outlined}
             background={TextInputVariants.TextInputColors.tintedSurface}
-            onInput={setInput4}
+            onInput={(event: any) => setInput4(event.target.value)}
             placeholder="input4"
           />
+        </div>
+      </div>
+      <div>
+        <div className="card-container">
+          <Card cardStyle={CardStyles.elevated}>
+            <div>TEST</div>
+          </Card>
+        </div>
+        <div className="card-container">
+          <Card cardStyle={CardStyles.filled}>
+            <div>TEST</div>
+          </Card>
+        </div>
+        <div className="card-container">
+          <Card cardStyle={CardStyles.outlined}>
+            <div>TEST</div>
+          </Card>
         </div>
       </div>
     </>

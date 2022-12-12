@@ -1,0 +1,31 @@
+@import '../../styles/base';
+
+$background-color: $tinted-surface;
+
+.m3-card {
+  display: block;
+
+  padding: 16px;
+  height: 100%;
+  width: 100%;
+  background-color: $background-color;
+
+  border-radius: 12px;
+
+  &.outlined {
+    @include elevation-level-0;
+    background-color: $surface;
+    outline: 1px solid $outline;
+  }
+
+  &.filled {
+    @include elevation-level-0;
+    background-color: $surface-variant;
+  }
+
+  &.elevated {
+    @include elevation-level-1;
+    background-color: $surface;
+  }
+
+}

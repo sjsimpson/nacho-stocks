@@ -1,11 +1,12 @@
+import './styles/Login.scss'
+
 import { useState } from 'react'
 import { useAuth } from './auth'
 
 import {
   Button,
   ButtonVariants,
-  Icon,
-  IconVariants,
+  Dialog,
   TextInput,
   TextInputVariants,
 } from 'm3-react'
@@ -34,59 +35,45 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
   }
 
   return (
-    <div className="container">
-      <div className="darkBG" onClick={handleClose} />
-      <div className="modal centered">
+    <Dialog
+      close={closeModal}
+      header="Login"
+      content={
         <div className="login">
-          <div className="auth-header">
-            <div className="header-text">Login</div>
-            <div className="close-button" onClick={handleClose}>
-              <Icon icon={IconVariants.IconStyles.close} />
-            </div>
+          <div className="form-group">
+            <TextInput
+              id="username"
+              label="Username"
+              value={username}
+              inputStyle={TextInputVariants.TextInputStyles.outlined}
+              background={TextInputVariants.TextInputColors.tintedSurface}
+              onInput={(event: any) => setUsername(event.target.value)}
+              placeholder="Username"
+            />
           </div>
-          <div className="auth-content">
-            <div className="form-group">
-              <TextInput
-                id="username"
-                value={username}
-                inputStyle={TextInputVariants.TextInputStyles.outlined}
-                background={TextInputVariants.TextInputColors.tintedSurface}
-                onInput={setUsername}
-                placeholder="Username"
-              />
-            </div>
-            <div className="form-group">
-              <TextInput
-                id="password"
-                value={password}
-                type="password"
-                inputStyle={TextInputVariants.TextInputStyles.outlined}
-                background={TextInputVariants.TextInputColors.tintedSurface}
-                onInput={setPassword}
-                placeholder="Password"
-              />
-            </div>
-          </div>
-          <div className="auth-footer">
-            <div className="button-container">
-              <div style={{ marginRight: '16px' }}>
-                <Button
-                  type={ButtonVariants.ButtonStyles.filled}
-                  text="Check Auth"
-                  onClick={() => {
-                    console.log('auth', auth)
-                  }}
-                />
-              </div>
-              <Button
-                type={ButtonVariants.ButtonStyles.filled}
-                text="Login"
-                onClick={onSubmit}
-              />
-            </div>
+          <div className="form-group">
+            <TextInput
+              id="password"
+              label="Password"
+              value={password}
+              type="password"
+              inputStyle={TextInputVariants.TextInputStyles.outlined}
+              background={TextInputVariants.TextInputColors.tintedSurface}
+              onInput={(event: any) => setPassword(event.target.value)}
+              placeholder="Password"
+            />
           </div>
         </div>
-      </div>
-    </div>
+      }
+      footer={
+        <div className="button-container">
+          <Button
+            type={ButtonVariants.ButtonStyles.text}
+            text="Login"
+            onClick={onSubmit}
+          />
+        </div>
+      }
+    />
   )
 }

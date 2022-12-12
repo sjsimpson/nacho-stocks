@@ -1,8 +1,8 @@
-import './styles/SecondaryNav.scss'
+import './styles/NavDrawer.scss'
 
 import { NavLink } from 'react-router-dom'
 
-export const SecondaryNav = ({ open }: { open: boolean }) => {
+export const NavDrawer = ({ open }: { open: boolean }) => {
   return (
     <nav className={open ? 'side-nav open' : 'side-nav'}>
       <NavLink className="drawer-item" to="/">

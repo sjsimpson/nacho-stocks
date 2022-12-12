@@ -1,67 +1,15 @@
 @import '../../styles/base';
 
 .login {
-  // display: flex;
-  // flex-direction: column;
-  // flex: 1 1 auto;
-  // order: 1;
-  // height: 100%;
 
-  .auth-header {
-    display: inline-flex;
-    width: 100%;
-    height: 48px;
-    align-items: center;
-
+  .form-group {
     margin-bottom: 16px;
-
-    .header-text {
-      // display: flex;
-      justify-content: flex-start;
-      flex: 1 1 auto;
-      order: -1;
-
-      font-size: 24px;
-      line-height: 24px;
-      align-items: center;
-    }
-
-    .close-button {
-      display: inline-flex;
-      cursor: pointer;
-
-      justify-content: flex-end;
-      flex: 1 1 auto;
-      order: 1;
-
-      height: 24px;
-      width: 24px;
-    }
   }
 
-  .auth-content {
-    margin-bottom: 24px;
-
-    .form-group {
-      margin-bottom: 16px;
-    }
-  }
-
-
-  .auth-footer {
+  .button-container {
     display: flex;
 
-    flex-direction: column;
     flex: 1 1 auto;
     justify-content: flex-end;
-    // order: 1;
-
-    .button-container {
-      display: flex;
-      // flex-direction: column;
-      flex: 1 1 auto;
-      justify-content: flex-end;
-      // order: -1;
-    }
   }
 }

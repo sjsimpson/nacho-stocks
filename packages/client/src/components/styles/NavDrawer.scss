@@ -25,8 +25,7 @@ $nav-outline: flat-tint($primary, .15, $surface);
     transition: transform .3s;
     transform: translateX(88px);
 
-    box-shadow: $elevation-level-2;
-    // flex-direction: column;
+    @include elevation-level-2;
   }
 
   .drawer-item {
@@ -62,4 +61,10 @@ $nav-outline: flat-tint($primary, .15, $surface);
     }
   }
 
+}
+
+@media only screen and (max-width: 768px ) {
+  .side-nav {
+    display: none;
+  }
 }

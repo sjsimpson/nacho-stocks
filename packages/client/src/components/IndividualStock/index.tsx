@@ -52,7 +52,7 @@ export const IndividualStock = () => {
         <div className="stock-price-header">
           <div className="currency-symbol">$</div>
           {price ? (
-            <div className="stock-price">{price}</div>
+            <div className="stock-price">{price.toFixed(2)}</div>
           ) : (
             <LoadingSpinner
               size={LoadingSpinnerVariants.LoadingSpinnerSizes.small}
