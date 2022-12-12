@@ -9,12 +9,12 @@ import auth from './routes/auth'
 import positions from './routes/positions'
 
 const app = express()
-const port = 3003
-const appPort = process.env.SERVER_PORT || 3004
-// const appOrigin = authConfig.appOrigin || `http://localhost:${appPort}`;
-const appOrigin = `http://localhost:${appPort}`
+const serverPort = 3003
+const clientPort = process.env.CLIENT_PORT || 3004
+// const appOrigin = authConfig.appOrigin || `http://localhost:${clientPort}`;
+const appOrigin = `http://localhost:${clientPort}`
 
-const mongoDB = 'mongodb://127.0.0.1:27017/testing'
+const mongoDB = 'mongodb://mongo:27017/nacho-stocks'
 mongoose.connect(mongoDB)
 
 export interface QueryPayload {
@@ -36,6 +36,6 @@ app.use('/user', user)
 app.use('/stocks', stocks)
 app.use('/positions', positions)
 
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+app.listen(serverPort, () => {
+  console.log(`Example app listening at http://localhost:${serverPort}`)
 })

@@ -1,0 +1,32 @@
+services:
+  frontend:
+    container_name: client
+    restart: always
+    build:
+      context: packages/client
+      dockerfile: Dockerfile
+    ports:
+      - 3004:3004
+    stdin_open: true
+    depends_on:
+      - backend
+
+  backend:
+    container_name: server
+    restart: always
+    env_file:
+      - .env
+    build:
+      context: packages/server
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - 3003:3003
+
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27017:27017
