@@ -1,5 +1,5 @@
 const path = require('path')
-const { HotModuleReplacementPlugin } = require('webpack')
+// const { HotModuleReplacementPlugin } = require('webpack')
 
 module.exports = {
   entry: './src/index.tsx',
@@ -38,5 +38,5 @@ module.exports = {
     port: 3004,
     hot: true,
   },
-  plugins: [new HotModuleReplacementPlugin()],
+  plugins: [],
 }

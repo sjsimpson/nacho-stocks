@@ -1,31 +1,50 @@
-import './PrimaryNav.scss'
-
 import { useState } from 'react'
 import { useNavigate, useMatch } from 'react-router-dom'
+import {
+  Drawer,
+  DrawerItem,
+  IconVariants,
+  SideNav,
+  SideNavItem,
+  TopNav,
+  TopNavItem,
+} from 'm3-react'
 
 import { useAuth } from '../auth'
 import { Login } from '../Login'
 
-import { IconVariants, NavItem } from 'm3-react'
-
-interface INavItem {
+export interface INavLink {
   location: string
   label: string
   icon: IconVariants.IconStyles
   strictMatch: boolean
 }
 
-interface PrimaryNavProps {
-  isOpen: boolean
-  handleOpenSecondaryNav: Function
-}
-
-const PrimaryNav = (props: PrimaryNavProps) => {
+const PrimaryNav = () => {
+  const [showDrawer, setShowDrawer] = useState<boolean>(false)
   const [showModal, setShowModal] = useState<boolean>(false)
   const navigate = useNavigate()
   const auth = useAuth()
 
-  const navLinks: INavItem[] = [
+  const openModal = () => {
+    setShowModal(true)
+  }
+
+  const closeModal = () => {
+    setShowModal(false)
+  }
+
+  const handleLogout = (event: any) => {
+    auth.logout()
+  }
+
+  const match = (path: string, activeOnlyWhenExact: boolean = false) =>
+    !!useMatch({
+      path,
+      end: activeOnlyWhenExact,
+    })
+
+  const navLinks: INavLink[] = [
     {
       location: '/',
       label: 'Home',
@@ -58,61 +77,90 @@ const PrimaryNav = (props: PrimaryNavProps) => {
     },
   ]
 
-  const openModal = () => {
-    setShowModal(true)
-  }
-
-  const closeModal = () => {
-    setShowModal(false)
-  }
-
-  const handleLogout = (event: any) => {
-    auth.logout()
-  }
-
-  const match = (path: string, activeOnlyWhenExact: boolean = false) =>
-    !!useMatch({
-      path,
-      end: activeOnlyWhenExact,
-    })
-
   return (
-    <div className="primary-nav">
-      <section className="primary-nav-top">
-        <NavItem
-          icon={
-            props.isOpen
-              ? IconVariants.IconStyles.menuOpen
-              : IconVariants.IconStyles.menu
-          }
-          onClick={props.handleOpenSecondaryNav}
-        />
-        {navLinks.map((link: INavItem) => (
-          <NavItem
-            match={match(link.location, link.strictMatch)}
-            onClick={() => navigate(link.location)}
-            icon={link.icon}
-            label={link.label}
+    <>
+      {/* Displays when screen size is UNDER 768px */}
+      <TopNav
+        leftSection={
+          <TopNavItem
+            icon={
+              showDrawer
+                ? IconVariants.IconStyles.menuOpen
+                : IconVariants.IconStyles.menu
+            }
+            onClick={() => setShowDrawer(true)}
           />
-        ))}
-      </section>
-      <section className="primary-nav-bottom">
-        {!auth.token ? (
-          <NavItem
-            icon={IconVariants.IconStyles.login}
-            label="Login"
-            onClick={openModal}
-          />
-        ) : (
-          <NavItem
-            icon={IconVariants.IconStyles.logout}
-            label="Logout"
-            onClick={handleLogout}
-          />
-        )}
-      </section>
+        }
+        rightSection={<div>right</div>}
+      />
+
+      {/* Displays when screen size is OVER 768px */}
+      <SideNav
+        topSection={
+          <>
+            {navLinks.map((link: INavLink) => (
+              <SideNavItem
+                match={match(link.location, link.strictMatch)}
+                onClick={() => navigate(link.location)}
+                icon={link.icon}
+                label={link.label}
+              />
+            ))}
+          </>
+        }
+        bottomSection={
+          <>
+            {!auth.token ? (
+              <SideNavItem
+                icon={IconVariants.IconStyles.login}
+                label="Login"
+                onClick={openModal}
+              />
+            ) : (
+              <SideNavItem
+                icon={IconVariants.IconStyles.logout}
+                label="Logout"
+                onClick={handleLogout}
+              />
+            )}
+          </>
+        }
+      />
+
+      {/* Login modal */}
       {showModal && <Login closeModal={closeModal} />}
-    </div>
+
+      {/* Nav drawer */}
+      <Drawer
+        isOpen={showDrawer}
+        handleCloseDrawer={() => setShowDrawer(false)}
+        drawerContentTop={
+          <>
+            <div
+              className="close-drawer-button-container"
+              style={{ marginLeft: '6px', marginBottom: '8px' }}
+            >
+              <TopNavItem
+                icon={
+                  showDrawer
+                    ? IconVariants.IconStyles.menuOpen
+                    : IconVariants.IconStyles.menu
+                }
+                onClick={() => setShowDrawer(false)}
+              />
+            </div>
+            {navLinks.map((link: INavLink) => (
+              <DrawerItem
+                icon={link.icon}
+                label={link.label}
+                onClick={() => navigate(link.location)}
+                match={match(link.location, link.strictMatch)}
+              />
+            ))}
+          </>
+        }
+      />
+    </>
   )
 }
 
