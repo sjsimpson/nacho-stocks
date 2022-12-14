@@ -10,6 +10,9 @@ services:
     stdin_open: true
     depends_on:
       - backend
+    volumes:
+      - /app/node_modules/
+      - ./packages/client:/app
 
   backend:
     container_name: server
@@ -23,6 +26,9 @@ services:
       - mongo
     ports:
       - 3003:3003
+    volumes:
+      - /app/node_modules/
+      - ./packages/server:/app
 
   mongo:
     container_name: mongo

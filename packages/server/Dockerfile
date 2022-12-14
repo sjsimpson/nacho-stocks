@@ -1,9 +1,9 @@
 FROM node:18
 # RUN mkdir -p /app
-WORKDIR /app/server
-COPY package.json .
+WORKDIR /app
+COPY package.json /app
 RUN npm install
-COPY . .
+COPY . /app
 # Value set in .env file.
 EXPOSE 3003
 CMD ["npm", "run", "start"]

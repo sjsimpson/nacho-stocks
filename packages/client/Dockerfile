@@ -1,6 +1,10 @@
-FROM node:18-alpine
-WORKDIR /app/client
-COPY . .
-RUN npm install --silent
+FROM node:19-alpine
 
-CMD ["npm", "run", "dev"]
+WORKDIR /app
+
+# RUN yarn global add typescript
+
+COPY . /app
+RUN npm install
+
+CMD ["yarn", "dev"]
