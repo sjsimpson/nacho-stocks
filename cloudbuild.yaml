@@ -8,7 +8,7 @@
 
   # Building front end
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-f', 'packages/client/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/frontend:$COMMIT_SHA']
+    args: ['build', 'packages/client/', '-t', 'gcr.io/$PROJECT_ID/frontend:$COMMIT_SHA']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/frontend:$COMMIT_SHA']
   - name: 'gcr.io/cloud-builders/gcloud'
@@ -16,7 +16,7 @@
 
   # Building back end
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-f', 'packages/server/Dockerfile', '-t', 'gcr.io/$PROJECT_ID/backend:$COMMIT_SHA']
+    args: ['build', 'packages/server/', '-t', 'gcr.io/$PROJECT_ID/backend:$COMMIT_SHA']
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/backend:$COMMIT_SHA']
   - name: 'gcr.io/cloud-builders/gcloud'
