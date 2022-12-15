@@ -4981,10 +4981,10 @@ lru-cache@^7.4.4, lru-cache@^7.5.1, lru-cache@^7.7.1:
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-7.14.0.tgz"
   integrity sha512-EIRtP1GrSJny0dqb50QXRUNBxHJhcpxHC++M5tD7RYbvLLn5KVWKsbyswSSqDuU15UFi3bgTQIY8nhDMeF6aDQ==
 
-m3-react@^0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/m3-react/-/m3-react-0.2.0.tgz#4590ebaa84bb31c511b5992fa406ee5ecf4290d2"
-  integrity sha512-DBwVPM78vBalmX3UR5jPikctMWHOGw9lzjIhZebl/G1Tzn61hXJcS/pzBTNRIdmfs475In4q1cE+9LJyk2t4kQ==
+m3-react@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/m3-react/-/m3-react-0.3.0.tgz#ce5d2fd91526aed27aedea47bbf45db03c0685fd"
+  integrity sha512-9bJuZGhR9j6z3A0y00tL+UCXyipIjNCguQJoa/jQBksunv4zRzO9KlZCnVGKRAvkdSSt71sAzBcYscNl5q0UzA==
 
 make-dir@^2.1.0:
   version "2.1.0"
@@ -7704,9 +7704,9 @@ webpack-dev-server@^4.9.0:
     webpack-dev-middleware "^5.3.1"
     ws "^8.4.2"
 
-webpack-merge@^5.7.3:
+webpack-merge@^5.7.3, webpack-merge@^5.8.0:
   version "5.8.0"
-  resolved "https://registry.npmjs.org/webpack-merge/-/webpack-merge-5.8.0.tgz"
+  resolved "https://registry.yarnpkg.com/webpack-merge/-/webpack-merge-5.8.0.tgz#2b39dbf22af87776ad744c390223731d30a68f61"
   integrity sha512-/SaI7xY0831XwP6kzuwhKWVKDP9t1QY1h65lAFLbZqMPIuYcD9QAW4u9STIbU9kaJbPBB/geU/gLr1wDjOhQ+Q==
   dependencies:
     clone-deep "^4.0.1"
