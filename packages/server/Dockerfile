@@ -1,11 +1,13 @@
 FROM node:18
-# RUN mkdir -p /app
+
 WORKDIR /app
-COPY package.json /app
-RUN npm install
 COPY . /app
-# Value set in .env file.
+
+ENV PORT 8080
+ENV HOST 0.0.0.0
+
+RUN npm install
 RUN npm run build
 
-EXPOSE 3003
+EXPOSE 8080
 CMD ["npm", "run", "start"]
