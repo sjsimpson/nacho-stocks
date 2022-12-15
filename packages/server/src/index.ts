@@ -15,6 +15,7 @@ const clientPort = process.env.CLIENT_PORT || 3004
 const appOrigin = `http://localhost:${clientPort}`
 
 const mongoDB = 'mongodb://mongo:27017/nacho-stocks'
+// const mongoDB = 'mongodb://127.0.0.1:27017/nacho-stocks'
 mongoose.connect(mongoDB)
 
 export interface QueryPayload {

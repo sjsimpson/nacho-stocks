@@ -5,8 +5,10 @@
   "license": "MIT",
   "author": "Spencer Simpson <spencerjsimpson@gmail.com>",
   "scripts": {
-    "dev": "yarn webpack-dev-server --mode development",
-    "build": "yarn webpack"
+    "dev": "webpack-dev-server --mode development",
+    "build": "webpack --mode production",
+    "serve": "node index.js",
+    "start": "npm run build && npm run serve"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.10",

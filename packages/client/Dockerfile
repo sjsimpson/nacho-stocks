@@ -7,4 +7,4 @@ WORKDIR /app
 COPY . /app
 RUN npm install
 
-CMD ["yarn", "dev"]
+CMD ["yarn", "start"]

@@ -1,0 +1,7 @@
+ steps:
+  # running docker-compose
+  - name: 'docker/compose:2.13.0'
+    args: ['up', '-d']
+    env:
+      - FINNHUB_TOKEN=${_FINNHUB_TOKEN}
+      - SIGNING_KEY=${_SIGNING_KEY}
