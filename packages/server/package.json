@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "yarn nodemon ./src/index.ts",
-    "start": "tsc && node dist/index.js"
+    "build": "tsc",
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "body-parser": "^1.20.0",

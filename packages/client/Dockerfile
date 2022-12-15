@@ -8,4 +8,5 @@ COPY . /app
 RUN npm install
 
 EXPOSE 8080
-CMD ["yarn", "start"]
+RUN npm run build
+CMD ["npm", "run", "start"]
