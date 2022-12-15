@@ -1,7 +1,7 @@
  steps:
   # Building back end
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '--platform', 'linux/amd64', '-t', 'gcr.io/$PROJECT_ID/backend:$COMMIT_SHA']
+    args: ['build', '.', '--platform', 'linux/amd64', '-t', 'gcr.io/$PROJECT_ID/backend:$COMMIT_SHA']
     env:
       - FINNHUB_TOKEN=${_FINNHUB_TOKEN}
       - SIGNING_KEY=${_SIGNING_KEY}
