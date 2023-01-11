@@ -12,7 +12,10 @@ const app = express()
 const serverPort = process.env.PORT || 3003
 const clientPort = process.env.CLIENT_PORT || 3004
 // const appOrigin = authConfig.appOrigin || `http://localhost:${clientPort}`;
-const appOrigin = `http://localhost:${clientPort}`
+const appOrigin =
+  process.env.NODE_ENV === 'dev'
+    ? `http://localhost:${clientPort}`
+    : 'https://nachostocks.com'
 const mongoDB = process.env.MONGO_URI || 'mongodb://mongo:27017/nacho-stocks'
 
 mongoose.connect(mongoDB)

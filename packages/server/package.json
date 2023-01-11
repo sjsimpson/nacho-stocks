@@ -6,9 +6,9 @@
   "author": "Spencer Simpson <spencerjsimpson@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "dev": "yarn nodemon ./src/index.ts",
+    "dev": "NODE_ENV=dev nodemon ./src/index.ts",
     "build": "tsc",
-    "start": "node dist/index.js"
+    "start": "NODE_ENV=prod node dist/index.js"
   },
   "dependencies": {
     "body-parser": "^1.20.0",
