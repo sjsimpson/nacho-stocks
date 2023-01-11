@@ -153,7 +153,10 @@ const PrimaryNav = () => {
               <DrawerItem
                 icon={link.icon}
                 label={link.label}
-                onClick={() => navigate(link.location)}
+                onClick={() => {
+                  navigate(link.location)
+                  setShowDrawer(false)
+                }}
                 match={match(link.location, link.strictMatch)}
               />
             ))}
