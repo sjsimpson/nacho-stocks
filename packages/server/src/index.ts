@@ -13,9 +13,8 @@ const serverPort = process.env.PORT || 3003
 const clientPort = process.env.CLIENT_PORT || 3004
 // const appOrigin = authConfig.appOrigin || `http://localhost:${clientPort}`;
 const appOrigin = `http://localhost:${clientPort}`
+const mongoDB = process.env.MONGO_URI || 'mongodb://mongo:27017/nacho-stocks'
 
-const mongoDB = 'mongodb://mongo:27017/nacho-stocks'
-// const mongoDB = 'mongodb://127.0.0.1:27017/nacho-stocks'
 mongoose.connect(mongoDB)
 
 export interface QueryPayload {

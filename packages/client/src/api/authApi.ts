@@ -1,7 +1,8 @@
 import { User } from '../types'
+import config from '../../config'
 
 export async function login(user: User): Promise<string> {
-  const res = await fetch('http://localhost:3003/auth/login', {
+  const res = await fetch(config.apiURL + '/auth/login', {
     method: 'POST',
     headers: {
       Accept: 'application/json',
