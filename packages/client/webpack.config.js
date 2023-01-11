@@ -1,8 +1,9 @@
 const path = require('path')
+// const { HotModuleReplacementPlugin } = require('webpack')
 
 module.exports = {
   entry: './src/index.tsx',
-  // mode: 'development', ...set in package.json
+  // mode: 'development', // ...set in package.json
   module: {
     rules: [
       {
@@ -24,12 +25,12 @@ module.exports = {
   resolve: { extensions: ['*', '.js', '.jsx', '.ts', '.tsx'] },
   output: {
     path: path.resolve(__dirname, 'dist/'),
-    publicPath: '/dist/',
     filename: 'bundle.js',
+    publicPath: '/',
   },
   devServer: {
     port: 3004,
     hot: true,
   },
-  plugins: [],
+  // plugins: [new HotModuleReplacementPlugin()],
 }

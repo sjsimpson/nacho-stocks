@@ -4,16 +4,15 @@ services:
     restart: always
     build:
       context: packages/client
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.development
     ports:
-      # - 3004:3004
-      - 80:80
+      - 3004:3004
     stdin_open: true
     depends_on:
       - backend
-    # volumes:
-    #   - /app/node_modules/
-    #   - ./packages/client:/app
+    volumes:
+      - /app/node_modules/
+      - ./packages/client:/app
 
   backend:
     container_name: server
@@ -21,20 +20,21 @@ services:
     environment:
       - FINNHUB_TOKEN=${FINNHUB_TOKEN}
       - SIGNING_KEY=${SIGNING_KEY}
+      - MONGO_URI=${MONGO_URI}
     build:
       context: packages/server
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.development
     ports:
       - 3003:3003
-    # depends_on:
-    #   - mongo
-    # volumes:
-    #   - /app/node_modules/
-    #   - ./packages/server:/app
+    depends_on:
+      - mongo
+    volumes:
+      - /app/node_modules/
+      - ./packages/server:/app
 
-  # mongo:
-  #   container_name: mongo
-  #   restart: always
-  #   image: mongo:latest
-  #   ports:
-  #     - 27017:27017
+  mongo:
+    container_name: mongo
+    restart: always
+    image: mongo:latest
+    ports:
+      - 27017:27017
