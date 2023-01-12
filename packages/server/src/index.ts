@@ -18,6 +18,7 @@ const appOrigin =
     : 'https://nachostocks.com'
 const mongoDB = process.env.MONGO_URI || 'mongodb://mongo:27017/nacho-stocks'
 
+mongoose.set('strictQuery', false)
 mongoose.connect(mongoDB)
 
 export interface QueryPayload {

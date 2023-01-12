@@ -11,7 +11,6 @@ const router = express.Router()
 
 router.post('/login', jsonParser, async (req: Request, res: Response) => {
   try {
-    console.log('req.body:', req.body)
     const { username, password, rememberMe } = req.body
     const token: Jwt = await login(username, password, rememberMe)
     res.send(token.compact())

@@ -20,7 +20,6 @@ router
   })
   .post(jsonParser, async (req: Request, res: Response) => {
     try {
-      console.log(req.body)
       const user = await createUser(req.body)
       res.send(user)
     } catch (error: any) {

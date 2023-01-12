@@ -2,10 +2,6 @@
   # Building back end
   - name: 'gcr.io/cloud-builders/docker'
     args: ['build', 'packages/server/', '--platform', 'linux/amd64', '-t', 'gcr.io/$PROJECT_ID/backend:$COMMIT_SHA']
-    env:
-      - FINNHUB_TOKEN=${_FINNHUB_TOKEN}
-      - SIGNING_KEY=${_SIGNING_KEY}
-      - MONGO_URI=${_MONGO_URI}
   - name: 'gcr.io/cloud-builders/docker'
     args: ['push', 'gcr.io/$PROJECT_ID/backend:$COMMIT_SHA']
   - name: 'gcr.io/cloud-builders/gcloud'

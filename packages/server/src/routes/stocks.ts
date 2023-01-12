@@ -20,7 +20,6 @@ router.get('/:symbol', async (req: Request, res: Response) => {
 router.get('/:symbol/price', async (req: Request, res: Response) => {
   try {
     const price = await getPrice(req.params.symbol)
-    console.log('response', res)
     res.send({ price })
   } catch (error: any) {
     res.status(500).send(error.message)

@@ -27,7 +27,6 @@ router
   .post(verifyToken, jsonParser, async (req: Request, res: Response) => {
     try {
       const userId: string = res.locals.userId!
-      console.log(`USER ID: ${userId}`)
 
       const position = await createPosition({ ...req.body, userId })
 
@@ -42,7 +41,6 @@ router
   .get(verifyToken, async (req: Request, res: Response) => {
     try {
       const userId: string = res.locals.userId!
-      console.log(`USER ID: ${userId}`)
 
       const position = await createPosition({ ...req.body, userId })
 

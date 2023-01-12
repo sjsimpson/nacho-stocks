@@ -17,10 +17,8 @@ services:
   backend:
     container_name: server
     restart: always
-    environment:
-      - FINNHUB_TOKEN=${FINNHUB_TOKEN}
-      - SIGNING_KEY=${SIGNING_KEY}
-      - MONGO_URI=${MONGO_URI}
+    env_file:
+      - .env
     build:
       context: packages/server
       dockerfile: Dockerfile.development

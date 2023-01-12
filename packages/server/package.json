@@ -6,7 +6,6 @@
   "author": "Spencer Simpson <spencerjsimpson@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "create-env": "printenv > .env",
     "dev": "NODE_ENV=dev nodemon ./src/index.ts",
     "build": "tsc",
     "start": "NODE_ENV=prod node dist/index.js"
