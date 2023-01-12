@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import dotenv from 'dotenv'
 
-dotenv.config({ path: __dirname + '/../../../../.env' })
+dotenv.config()
 
 const finnhubToken = process.env.FINNHUB_TOKEN;
 const baseUrl = 'https://finnhub.io/api/v1';

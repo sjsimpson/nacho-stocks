@@ -2,7 +2,7 @@ import jwt, { Jwt } from 'njwt'
 import dotenv from 'dotenv'
 import { User } from '../models/user'
 
-dotenv.config({ path: __dirname + '/../../../../.env' })
+dotenv.config()
 
 const signingKey = process.env.SIGNING_KEY
 
