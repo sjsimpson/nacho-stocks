@@ -36,7 +36,7 @@ export const Login = ({ closeModal }: { closeModal: Function }) => {
 
   return (
     <Dialog
-      close={closeModal}
+      handleClose={handleClose}
       header="Login"
       content={
         <div className="login">

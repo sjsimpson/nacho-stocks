@@ -4981,10 +4981,10 @@ lru-cache@^7.4.4, lru-cache@^7.5.1, lru-cache@^7.7.1:
   resolved "https://registry.npmjs.org/lru-cache/-/lru-cache-7.14.0.tgz"
   integrity sha512-EIRtP1GrSJny0dqb50QXRUNBxHJhcpxHC++M5tD7RYbvLLn5KVWKsbyswSSqDuU15UFi3bgTQIY8nhDMeF6aDQ==
 
-m3-react@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/m3-react/-/m3-react-0.3.0.tgz#ce5d2fd91526aed27aedea47bbf45db03c0685fd"
-  integrity sha512-9bJuZGhR9j6z3A0y00tL+UCXyipIjNCguQJoa/jQBksunv4zRzO9KlZCnVGKRAvkdSSt71sAzBcYscNl5q0UzA==
+m3-react@^0.3.1:
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/m3-react/-/m3-react-0.3.1.tgz#4101bf8b4e8eed0a36d51a1c77203effc4f29949"
+  integrity sha512-E6u/VoTik1DAlrdWoqmxlj8xlG9prYXSqXG06/kSdfXTlvMGfswFFPcuZX+YafRUeqQlzaBHCqee5pO3QDUQKw==
 
 make-dir@^2.1.0:
   version "2.1.0"
