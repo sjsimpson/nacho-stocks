@@ -11,6 +11,7 @@ services:
     depends_on:
       - backend
     volumes:
+      - /app/.yalc/
       - /app/node_modules/
       - ./packages/client:/app
 
