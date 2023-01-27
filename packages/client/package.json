@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "lodash": "^4.17.21",
-    "m3-react": "^0.3.1",
+    "m3-react": "file:.yalc/m3-react",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",

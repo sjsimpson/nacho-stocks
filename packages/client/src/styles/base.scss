@@ -1,1 +1,12 @@
-@import '~m3-react/dist/esm/styles/m3';
+@import '~m3-react/src/resets';
+@import '~m3-react/src/components/Button/Button';
+@import '~m3-react/src/components/Dialog/Dialog';
+@import '~m3-react/src/components/Drawer/Drawer';
+@import '~m3-react/src/components/DrawerItem/DrawerItem';
+@import '~m3-react/src/components/Icon/Icon';
+@import '~m3-react/src/components/LoadingSpinner/LoadingSpinner';
+@import '~m3-react/src/components/SideNav/SideNav';
+@import '~m3-react/src/components/SideNavItem/SideNavItem';
+@import '~m3-react/src/components/TextInput/TextInput';
+@import '~m3-react/src/components/TopNav/TopNav';
+@import '~m3-react/src/components/TopNavItem/TopNavItem';

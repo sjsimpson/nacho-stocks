@@ -1,6 +1,9 @@
+@import './variables';
 @import './base';
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
 }
 
@@ -16,13 +19,10 @@
   width: 100%;
   margin-left: 88px;
 
-
-
   // &.open {
   //   margin-left:360px;
   //   width: calc(100% - 360px);
   // }
-
 }
 
 @media only screen and (max-width: 768px) {
