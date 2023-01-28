@@ -1,4 +1,4 @@
-@import '../../styles/base';
+@import '../../styles/variables.scss';
 
 $background-color: $tinted-surface;
 
@@ -27,5 +27,4 @@ $background-color: $tinted-surface;
     @include elevation-level-1;
     background-color: $surface;
   }
-
 }

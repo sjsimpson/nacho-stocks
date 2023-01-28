@@ -1,10 +1,9 @@
-@import '../../../styles/base';
+@import '../../../styles/variables.scss';
 
 $hover-color: tint($on-surface-variant, $hover-opacity);
 $pressed-color: tint($on-surface-variant, $active-opacity);
 
 .buy-widget {
-
   display: flex;
   flex: 1 1 auto;
   height: 80;
@@ -24,7 +23,6 @@ $pressed-color: tint($on-surface-variant, $active-opacity);
   }
 
   .mini-button {
-
     cursor: pointer;
     display: block;
     user-select: none;
@@ -45,7 +43,6 @@ $pressed-color: tint($on-surface-variant, $active-opacity);
   }
 
   .input-container {
-
     display: inline-flex;
     width: 80px;
     height: 40px;
@@ -61,7 +58,6 @@ $pressed-color: tint($on-surface-variant, $active-opacity);
     border-bottom: 1px solid $on-surface-variant;
 
     input {
-
       display: block;
 
       background-color: transparent;
@@ -75,7 +71,7 @@ $pressed-color: tint($on-surface-variant, $active-opacity);
       font-size: 16px;
       line-height: 24px;
 
-      transition: .1s;
+      transition: 0.1s;
 
       &::-webkit-outer-spin-button,
       &::-webkit-inner-spin-button {

@@ -1,4 +1,4 @@
-@import '../../styles/base';
+@import '../../styles/variables.scss';
 
 $background-color: $tinted-surface;
 
@@ -40,7 +40,7 @@ $background-color: $tinted-surface;
       .m3-header-description {
         font-size: 22px;
         line-height: 28px;
-        letter-spacing: .15px;
+        letter-spacing: 0.15px;
         font-weight: 500;
 
         color: $on-surface-variant;
@@ -50,15 +50,12 @@ $background-color: $tinted-surface;
 }
 
 @media only screen and (max-width: 768px) {
-
   .m3-page-header {
-
     .m3-header-container {
       padding: 40px;
       height: 160px;
 
       .m3-title-wrapper {
-
         .m3-header-title {
           font-size: 57px;
           line-height: 64px;
