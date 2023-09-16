@@ -83,10 +83,13 @@ export default function PrimaryNav() {
             <>
               {token ? (
                 <>
-                  <SideNavItem
-                    icon="account_circle"
-                    label="My Account"
-                    onClick={() => navigate('/profile')}
+                  <NavLink
+                    link={{
+                      location: '/profile',
+                      label: 'My Account',
+                      icon: 'account_circle',
+                      strictMatch: false,
+                    }}
                   />
                   <SideNavItem
                     icon="logout"

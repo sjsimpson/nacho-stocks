@@ -5,6 +5,7 @@ import { verifyToken } from '../middleware'
 import {
   createPosition,
   getCurrentPortfolioValue,
+  getGainsLosses,
   getPositionsByUser,
 } from '../controllers/positionController'
 import { AuthenticatedRequest } from '../types/authenticatedRequest'
@@ -68,4 +69,14 @@ router
     }
   })
 
+router
+  .route('/gains')
+  .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const value = await getGainsLosses(req.userId!)
+      res.send({ value })
+    } catch (error: any) {
+      res.status(500).send(error.message)
+    }
+  })
 export default router

@@ -52,11 +52,26 @@ const getCurrentPortfolioValue = async (userId: string) => {
   return value.toFixed(2)
 }
 
-const getGainsLosses = () => {}
+const getGainsLosses = async (userId: string) => {
+  const currentValue = await getCurrentPortfolioValue(userId)
+
+  // fix this, because we're pinging the db twice and don't need to
+  const positions = await getPositionsByUser(userId)
+
+  const initialValue = positions
+    .map((position) => position.price * position.quantity)
+    .reduce((acc, totalPrice) => acc + totalPrice)
+
+  const difference = parseInt(currentValue) - initialValue
+  console.log('difference', difference)
+
+  return difference.toFixed(2)
+}
 
 export {
   createPosition,
   getPosition,
   getPositionsByUser,
   getCurrentPortfolioValue,
+  getGainsLosses,
 }

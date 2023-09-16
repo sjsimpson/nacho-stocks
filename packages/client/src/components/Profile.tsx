@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { useNavigate } from 'react-router-dom'
+import { LoadingSpinner } from 'm3-react'
+import { Navigate, useNavigate } from 'react-router-dom'
 import api from '../api'
 import { useAuthStore } from '../stores/authStore'
 import Card from './common/Card'
@@ -30,6 +31,12 @@ export default function Profile() {
     queryFn: () =>
       api.get('/positions/value', { headers: { 'x-api-token': token } }),
     queryKey: ['value'],
+  })
+
+  const gains = useQuery({
+    queryFn: () =>
+      api.get('/positions/gains', { headers: { 'x-api-token': token } }),
+    queryKey: ['gains'],
   })
 
   return (
@@ -71,7 +78,7 @@ export default function Profile() {
             <div>
               Portfolio Value: {value.isSuccess && value.data.data.value}
             </div>
-            <div>Gains/Losses</div>
+            <div>Gains/Losses: {gains.isSuccess && gains.data.data.value}</div>
             <div>Best Performing Stock</div>
             <div>Worst Performing Stock</div>
           </div>

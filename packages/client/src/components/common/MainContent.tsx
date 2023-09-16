@@ -1,10 +1,14 @@
 import './MainContent.scss'
 
 // import Breadcrumbs from './Breadcrumbs'
-import { ReactNode } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
 
-export default function MainContent({ children }: { children: ReactNode }) {
+export default function MainContent({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   const location = useLocation()
 
   return (

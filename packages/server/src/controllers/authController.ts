@@ -20,6 +20,11 @@ export const login = async (
   const claims = { iss: 'nacho-stocks', sub: user.id }
   const token: Jwt = jwt.create(claims, jwtSecret)
 
-  if (!rememberMe) token.setExpiration(new Date().getTime() + 60 * 60 * 1000)
+  if (rememberMe) {
+    token.setExpiration(new Date().getTime() + 60 * 60 * 1000 * 240)
+  } else {
+    token.setExpiration(new Date().getTime() + 60 * 60 * 1000)
+  }
+
   return token
 }

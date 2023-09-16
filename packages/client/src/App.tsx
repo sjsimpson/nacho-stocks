@@ -5,7 +5,7 @@ import { Route, Routes } from 'react-router-dom'
 import Home from './components/Home'
 import About from './components/About'
 import Profile from './components/Profile'
-import RequireAuth from './components/RequireAuth'
+import RequireAuth, { Test } from './components/RequireAuth'
 import { AuthProvider } from './components/auth'
 import MainContent from './components/common/MainContent'
 import StockSearch from './components/StockSearch'
@@ -32,9 +32,9 @@ export const App = () => {
                 <Route
                   path="profile"
                   element={
-                    <RequireAuth>
+                    <Test>
                       <Profile />
-                    </RequireAuth>
+                    </Test>
                   }
                 />
                 <Route
