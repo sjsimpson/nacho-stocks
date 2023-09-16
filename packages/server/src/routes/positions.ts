@@ -1,12 +1,13 @@
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
-import jwt, { Jwt } from 'njwt'
 import dotenv from 'dotenv'
 import { verifyToken } from '../middleware'
 import {
   createPosition,
+  getCurrentPortfolioValue,
   getPositionsByUser,
 } from '../controllers/positionController'
+import { AuthenticatedRequest } from '../types/authenticatedRequest'
 
 dotenv.config({ path: __dirname + '/../../../../.env' })
 
@@ -15,36 +16,53 @@ const router = express.Router()
 
 router
   .route('/')
-  .get(verifyToken, async (req: Request, res: Response) => {
+  .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
-      console.log(`Getting stock positions for user: ${res.locals.userId}`)
-      const positions = await getPositionsByUser(res.locals.userId!)
+      console.log(`Getting stock positions for user: ${req.userId}`)
+      const positions = await getPositionsByUser(req.userId!)
       res.send(positions)
     } catch (error: any) {
       res.status(500).send(error.message)
     }
   })
-  .post(verifyToken, jsonParser, async (req: Request, res: Response) => {
-    try {
-      const userId: string = res.locals.userId!
+  .post(
+    verifyToken,
+    jsonParser,
+    async (req: AuthenticatedRequest, res: Response) => {
+      try {
+        const position = await createPosition({
+          ...req.body,
+          userId: req.userId!,
+        })
 
-      const position = await createPosition({ ...req.body, userId })
-
-      res.send(position)
-    } catch (error: any) {
-      res.status(500).send(error.message)
+        res.send(position)
+      } catch (error: any) {
+        res.status(500).send(error.message)
+      }
     }
-  })
+  )
+
+// router
+//   .route('/:symbol')
+//   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
+//     try {
+//       const position = await createPosition({
+//         ...req.body,
+//         userId: req.userId!,
+//       })
+//
+//       res.send(position)
+//     } catch (error: any) {
+//       res.status(500).send(error.message)
+//     }
+//   })
 
 router
-  .route('/:symbol')
-  .get(verifyToken, async (req: Request, res: Response) => {
+  .route('/value')
+  .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const userId: string = res.locals.userId!
-
-      const position = await createPosition({ ...req.body, userId })
-
-      res.send(position)
+      const value = await getCurrentPortfolioValue(req.userId!)
+      res.send({ value })
     } catch (error: any) {
       res.status(500).send(error.message)
     }

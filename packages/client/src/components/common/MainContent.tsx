@@ -1,9 +1,10 @@
 import './MainContent.scss'
 
-import { Breadcrumbs } from './Breadcrumbs'
+// import Breadcrumbs from './Breadcrumbs'
+import { ReactNode } from 'react'
 import { useLocation } from 'react-router-dom'
 
-export const MainContent = ({ children }: { children: any }) => {
+export default function MainContent({ children }: { children: ReactNode }) {
   const location = useLocation()
 
   return (
@@ -11,12 +12,7 @@ export const MainContent = ({ children }: { children: any }) => {
       {/* <div className="breadcrumbs-container">
         <Breadcrumbs />
       </div> */}
-      <main className="content-wrapper">
-        <div className="content-outer">
-          <div className="content-inner">{children}</div>
-          <div className="content-spacer" />
-        </div>
-      </main>
+      <main className="content-wrapper">{children}</main>
     </div>
   )
 }

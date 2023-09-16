@@ -1,16 +1,15 @@
-import './style.scss';
+import './StockListItem.scss'
 
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
-import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
+import { LoadingSpinner } from 'm3-react'
 
-import { Trendline } from '../Trendline'
-import { Stock } from '../../../types/stocks'
+import Trendline from '../Trendline'
 
 import { getStockPrice } from '../../../api/stocksApi'
 
-export const StockListItem = ({ stock }: { stock: Stock }) => {
+export default function StockListItem({ stock }: { stock: Stock }) {
   const [price, setPrice] = useState<number | undefined>(undefined)
   const navigate = useNavigate()
 
@@ -45,9 +44,7 @@ export const StockListItem = ({ stock }: { stock: Stock }) => {
           {price ? (
             <div className="stock-price">{price.toFixed(2)}</div>
           ) : (
-            <LoadingSpinner
-              size={LoadingSpinnerVariants.LoadingSpinnerSizes.small}
-            />
+            <LoadingSpinner size="small" />
           )}
         </div>
       </div>

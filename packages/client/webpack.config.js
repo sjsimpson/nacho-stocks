@@ -31,6 +31,7 @@ module.exports = {
   devServer: {
     port: 3004,
     hot: true,
+    historyApiFallback: true,
   },
   // plugins: [new HotModuleReplacementPlugin()],
 }

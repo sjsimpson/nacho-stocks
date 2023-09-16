@@ -1,6 +1,3 @@
-import { ColorTester } from './ColorTester'
-import { MainContent } from './common/MainContent'
-
-export const About = () => {
+export default function About() {
   return <>About</>
 }

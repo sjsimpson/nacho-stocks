@@ -1,20 +1,14 @@
-import './style.scss'
+import './PriceGraph.scss'
 
 import { useEffect, useState } from 'react'
-import {
-  VictoryChart,
-  VictoryLine,
-  VictoryLabel,
-  VictoryTheme,
-  VictoryTooltip,
-} from 'victory'
-import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
+import { VictoryLine } from 'victory'
+import { LoadingSpinner } from 'm3-react'
 
 import { getPriceHistory } from '../../../api/stocksApi'
 
 import { DataPoint } from '../../../types/datapoint'
 
-export const PriceGraph = ({ symbol }: { symbol: string }) => {
+export default function PriceGraph({ symbol }: { symbol: string }) {
   let [priceHistory, setPriceHistory] = useState<DataPoint[]>([])
   let [color, setColor] = useState<string>('')
   let [isLoading, setIsLoading] = useState<boolean>(true)
@@ -39,9 +33,7 @@ export const PriceGraph = ({ symbol }: { symbol: string }) => {
   return (
     <div className="graph-container">
       {isLoading ? (
-        <LoadingSpinner
-          size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
-        />
+        <LoadingSpinner size="large" />
       ) : (
         <VictoryLine
           style={{ data: { stroke: color } }}

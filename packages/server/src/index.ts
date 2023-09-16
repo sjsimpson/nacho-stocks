@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 import express, { Request, Response } from 'express'
 import cors from 'cors'
 import _ from 'lodash'
-
+import sessionMiddleware from './middleware/sessionMiddleware'
 import user from './routes/user'
 import stocks from './routes/stocks'
 import auth from './routes/auth'
@@ -26,6 +26,7 @@ export interface QueryPayload {
 }
 
 app.use(cors({ origin: appOrigin }))
+app.use(sessionMiddleware())
 
 app.get('/', (req: Request, res: Response) => {
   const responseData: QueryPayload = {

@@ -1,4 +1,4 @@
-export interface Stock {
+interface Stock {
   name: string
   symbol: string
 }

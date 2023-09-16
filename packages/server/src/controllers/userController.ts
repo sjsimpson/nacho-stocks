@@ -1,16 +1,25 @@
-import { User, IUser } from '../models/user'
+import UserModel from '../models/user'
 
-const createUser = async (user: IUser) => {
+const createUser = async ({
+  username,
+  password,
+  email,
+}: Omit<User, 'cashAssets'>) => {
   console.log('Adding user to database')
+  const user = await UserModel.create({
+    username,
+    password,
+    email,
+    cashAssets: 50000,
+  })
 
-  const createdUser = await User.create(user)
-  return createdUser
+  if (!user) throw Error('Unable to create new user.')
 }
 
 const getUser = async (id: string) => {
   console.log(`Checking for user by id: ${id}`)
 
-  const user = await User.findById(id)
+  const user = await UserModel.findById(id)
   return user
 }
 

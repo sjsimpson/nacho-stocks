@@ -1,21 +1,18 @@
-import './style.scss'
+import './StockSearch.scss'
 
-import { useEffect, useState } from 'react'
-import { Route, Routes, Outlet } from 'react-router-dom'
+import { useState } from 'react'
 
 import { useAuth } from '../auth'
-import { SearchBar } from './SearchBar'
-import { StockListItem } from './StockListItem'
+import SearchBar from './SearchBar'
+import StockListItem from './StockListItem'
 
-import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
-
-import { Stock } from '../../types/stocks'
+import { LoadingSpinner } from 'm3-react'
 
 import { searchStocks } from '../../api/stocksApi'
 
-import { PageHeader } from '../common/PageHeader'
+import PageHeader from '../common/PageHeader'
 
-export const StockSearch = () => {
+export default function StockSearch() {
   let [stocks, setStocks] = useState<Stock[]>([])
   let [isLoading, setIsLoading] = useState<boolean>(false)
 
@@ -47,9 +44,7 @@ export const StockSearch = () => {
         <div>
           {isLoading ? (
             <div className="loading-content">
-              <LoadingSpinner
-                size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
-              />
+              <LoadingSpinner size="large" />
             </div>
           ) : (
             stocks.map((stock) => (

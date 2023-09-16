@@ -1,16 +1,16 @@
 import './Card.scss'
 
-export enum CardStyles {
-  elevated = 'elevated',
-  filled = 'filled',
-  outlined = 'outlined',
-}
+export type CardStyles = 'elevated' | 'filled' | 'outlined'
 
-interface CardProps {
+interface CardProps extends React.HTMLProps<HTMLDivElement> {
   cardStyle: CardStyles
-  children: JSX.Element
 }
 
-export const Card = (props: CardProps) => {
-  return <div className={`m3-card ${props.cardStyle}`}>{props.children}</div>
+export default function Card(props: CardProps) {
+  const { cardStyle, children, ...rest } = props
+  return (
+    <div {...rest} className={`m3-card ${cardStyle}`}>
+      {children}
+    </div>
+  )
 }

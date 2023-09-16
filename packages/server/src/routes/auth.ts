@@ -10,10 +10,13 @@ const jsonParser = bodyParser.json()
 const router = express.Router()
 
 router.post('/login', jsonParser, async (req: Request, res: Response) => {
+  console.log('session', req.session)
   try {
     const { username, password, rememberMe } = req.body
     const token: Jwt = await login(username, password, rememberMe)
-    res.send(token.compact())
+
+    req.session.token = token.compact()
+    res.status(200).send()
   } catch (error: any) {
     res.status(500).send(error.message)
   }

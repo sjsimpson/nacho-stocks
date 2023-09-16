@@ -1,1 +1,3 @@
-export { default as PrimaryNav } from './PrimaryNav'
+import PrimaryNav from './PrimaryNav'
+
+export default PrimaryNav

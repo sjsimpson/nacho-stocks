@@ -1,0 +1,101 @@
+import { useQuery } from '@tanstack/react-query'
+import { useNavigate } from 'react-router-dom'
+import api from '../api'
+import { useAuthStore } from '../stores/authStore'
+import Card from './common/Card'
+import MainContent from './common/MainContent'
+// import { useAuth } from './auth'
+
+import StockSearch from './StockSearch'
+
+export default function Profile() {
+  // const auth = useAuth()
+  const token = useAuthStore((state) => state.token)
+  const setToken = useAuthStore((state) => state.setToken)
+  const navigate = useNavigate()
+
+  const handleLogout = (event: any) => {
+    event.preventDefault()
+    setToken(null)
+    // auth.logout()
+    navigate('/')
+  }
+
+  const positions = useQuery({
+    queryFn: () => api.get('/positions', { headers: { 'x-api-token': token } }),
+    queryKey: ['positions'],
+  })
+
+  const value = useQuery({
+    queryFn: () =>
+      api.get('/positions/value', { headers: { 'x-api-token': token } }),
+    queryKey: ['positions'],
+  })
+
+  return (
+    <MainContent>
+      <div>
+        <button onClick={() => console.log('auth', token)}>Check Auth</button>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
+      <div style={{ width: '100%', height: '100%', border: '1px solid black' }}>
+        <div style={{ width: '100%' }}>
+          <div
+            style={{
+              width: '100%',
+              height: '120px',
+              border: '1px solid black',
+            }}
+          >
+            Header
+          </div>
+          <div
+            style={{
+              display: 'flex',
+              direction: 'ltr',
+              width: '100%',
+              gap: 8,
+            }}
+          >
+            <div
+              style={{
+                width: '400px',
+                height: '320px',
+              }}
+            >
+              <Card cardStyle="elevated">
+                <div>Total Moneys</div>
+                <div>Portfolio Graph</div>
+              </Card>
+            </div>
+            <div>
+              Portfolio Value: {value.isSuccess && value.data.data.value}
+            </div>
+            <div>Gains/Losses</div>
+            <div>Best Performing Stock</div>
+            <div>Worst Performing Stock</div>
+          </div>
+        </div>
+        <div
+          style={{
+            width: '100%',
+            // height: '320px',
+            border: '1px solid black',
+          }}
+        >
+          Purchase History
+          <div>
+            {positions.isSuccess &&
+              positions.data.data.map((position: Position) => (
+                <>
+                  <div>{position.symbol}</div>
+                  <div>{position.price}</div>
+                  <div>{position.quantity}</div>
+                </>
+              ))}
+          </div>
+        </div>
+      </div>
+    </MainContent>
+  )
+}

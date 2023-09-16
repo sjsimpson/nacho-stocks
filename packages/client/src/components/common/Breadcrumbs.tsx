@@ -3,7 +3,7 @@ import _ from 'lodash'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 
-export const Breadcrumbs = () => {
+export default function Breadcrumbs() {
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -27,9 +27,9 @@ export const Breadcrumbs = () => {
         (breadcrumb) =>
           breadcrumb !== '' && (
             <span key={breadcrumb}>
-              <span>/ </span>
+              <span>/</span>
               <a className="breadcrumb" onClick={handleClick(breadcrumb)}>
-                {breadcrumb}{' '}
+                {breadcrumb}
               </a>
             </span>
           )

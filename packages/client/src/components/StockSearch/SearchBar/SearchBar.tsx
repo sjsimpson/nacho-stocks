@@ -1,7 +1,11 @@
-import { IconVariants, TextInput, TextInputVariants } from 'm3-react'
+import { TextInput } from 'm3-react'
 import { useState } from 'react'
 
-export const SearchBar = ({ handleSearch }: { handleSearch: Function }) => {
+export default function SearchBar({
+  handleSearch,
+}: {
+  handleSearch: Function
+}) {
   const [searchTerm, setSearchTerm] = useState<string>('')
 
   const handleSubmit = (event: any) => {
@@ -18,9 +22,9 @@ export const SearchBar = ({ handleSearch }: { handleSearch: Function }) => {
         type="search"
         value={searchTerm}
         onInput={(event: any) => setSearchTerm(event.target.value)}
-        icon={IconVariants.IconStyles.search}
-        inputStyle={TextInputVariants.TextInputStyles.outlined}
-        background={TextInputVariants.TextInputColors.surface}
+        icon="search"
+        inputStyle="outlined"
+        background="surface"
         placeholder="Stock symbol (i.e. AAPL, GOOG)"
       />
     </form>

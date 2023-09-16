@@ -3,7 +3,7 @@ import { useNavigate, useMatch } from 'react-router-dom'
 import {
   Drawer,
   DrawerItem,
-  IconVariants,
+  IconStyles,
   SideNav,
   SideNavItem,
   TopNav,
@@ -11,20 +11,23 @@ import {
 } from 'm3-react'
 
 import { useAuth } from '../auth'
-import { Login } from '../Login'
+import Login from '../Login'
+import { useAuthStore } from '../../stores/authStore'
+import useMediaQuery, { breakpoints } from '../../lib/useMediaQuery'
+import { NavLink as Link } from '../../types/navlink'
+import NavLink from './NavLink'
+import DrawerLink from './DrawerLink'
 
-export interface INavLink {
-  location: string
-  label: string
-  icon: IconVariants.IconStyles
-  strictMatch: boolean
-}
+export default function PrimaryNav() {
+  const [showDrawer, setShowDrawer] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
-const PrimaryNav = () => {
-  const [showDrawer, setShowDrawer] = useState<boolean>(false)
-  const [showModal, setShowModal] = useState<boolean>(false)
-  const navigate = useNavigate()
   const auth = useAuth()
+  const navigate = useNavigate()
+  const md = useMediaQuery(breakpoints.md)
+
+  const token = useAuthStore((state) => state.token)
+  const setToken = useAuthStore((state) => state.setToken)
 
   const openModal = () => {
     setShowModal(true)
@@ -35,7 +38,7 @@ const PrimaryNav = () => {
   }
 
   const handleLogout = (event: any) => {
-    auth.logout()
+    setToken(null)
   }
 
   const match = (path: string, activeOnlyWhenExact: boolean = false) =>
@@ -44,127 +47,104 @@ const PrimaryNav = () => {
       end: activeOnlyWhenExact,
     })
 
-  const navLinks: INavLink[] = [
+  const navLinks: Link[] = [
     {
       location: '/',
       label: 'Home',
-      icon: IconVariants.IconStyles.home,
+      icon: 'home',
       strictMatch: true,
     },
     {
       location: '/stocks',
       label: 'Stocks',
-      icon: IconVariants.IconStyles.monitoring,
-      strictMatch: false,
-    },
-    {
-      location: '/colors',
-      label: 'Colors',
-      icon: IconVariants.IconStyles.palette,
-      strictMatch: false,
-    },
-    {
-      location: '/components',
-      label: 'Components',
-      icon: IconVariants.IconStyles.list,
+      icon: 'monitoring',
       strictMatch: false,
     },
     {
       location: '/about',
       label: 'About',
-      icon: IconVariants.IconStyles.info,
+      icon: 'info',
       strictMatch: false,
     },
   ]
 
   return (
     <>
-      {/* Displays when screen size is UNDER 768px */}
-      <TopNav
-        leftSection={
-          <TopNavItem
-            icon={
-              showDrawer
-                ? IconVariants.IconStyles.menuOpen
-                : IconVariants.IconStyles.menu
+      {md ? (
+        <SideNav
+          topSection={
+            <>
+              {navLinks.map((link: Link) => (
+                <NavLink key={link.location} link={link} />
+              ))}
+            </>
+          }
+          bottomSection={
+            <>
+              {token ? (
+                <>
+                  <SideNavItem
+                    icon="account_circle"
+                    label="My Account"
+                    onClick={() => navigate('/profile')}
+                  />
+                  <SideNavItem
+                    icon="logout"
+                    label="Logout"
+                    onClick={handleLogout}
+                  />
+                </>
+              ) : (
+                <SideNavItem icon="login" label="Login" onClick={openModal} />
+              )}
+            </>
+          }
+        />
+      ) : (
+        <>
+          <TopNav
+            leftSection={
+              <TopNavItem
+                icon={showDrawer ? 'menu_open' : 'menu'}
+                onClick={() => setShowDrawer(true)}
+              />
             }
-            onClick={() => setShowDrawer(true)}
+            rightSection={<></>}
           />
-        }
-        rightSection={<div>right</div>}
-      />
-
-      {/* Displays when screen size is OVER 768px */}
-      <SideNav
-        topSection={
-          <>
-            {navLinks.map((link: INavLink) => (
-              <SideNavItem
-                match={match(link.location, link.strictMatch)}
-                onClick={() => navigate(link.location)}
-                icon={link.icon}
-                label={link.label}
-              />
-            ))}
-          </>
-        }
-        bottomSection={
-          <>
-            {!auth.token ? (
-              <SideNavItem
-                icon={IconVariants.IconStyles.login}
-                label="Login"
-                onClick={openModal}
-              />
-            ) : (
-              <SideNavItem
-                icon={IconVariants.IconStyles.logout}
-                label="Logout"
-                onClick={handleLogout}
-              />
-            )}
-          </>
-        }
-      />
+          <Drawer
+            isOpen={showDrawer}
+            handleCloseDrawer={() => setShowDrawer(false)}
+            drawerContentTop={
+              <>
+                <div
+                  className="close-drawer-button-container"
+                  style={{ marginLeft: '6px', marginBottom: '8px' }}
+                >
+                  <TopNavItem
+                    icon={showDrawer ? 'menu_open' : 'menu'}
+                    onClick={() => setShowDrawer(false)}
+                  />
+                </div>
+                {navLinks.map((link: Link) => (
+                  <DrawerLink
+                    key={link.location}
+                    link={link}
+                    onClick={(e: any) => {
+                      navigate(link.location)
+                      setShowDrawer(false)
+                    }}
+                  />
+                ))}
+              </>
+            }
+          />
+        </>
+      )}
 
       {/* Login modal */}
-      {showModal && <Login closeModal={closeModal} />}
+      <Login open={showModal} closeModal={closeModal} />
 
       {/* Nav drawer */}
-      <Drawer
-        isOpen={showDrawer}
-        handleCloseDrawer={() => setShowDrawer(false)}
-        drawerContentTop={
-          <>
-            <div
-              className="close-drawer-button-container"
-              style={{ marginLeft: '6px', marginBottom: '8px' }}
-            >
-              <TopNavItem
-                icon={
-                  showDrawer
-                    ? IconVariants.IconStyles.menuOpen
-                    : IconVariants.IconStyles.menu
-                }
-                onClick={() => setShowDrawer(false)}
-              />
-            </div>
-            {navLinks.map((link: INavLink) => (
-              <DrawerItem
-                icon={link.icon}
-                label={link.label}
-                onClick={() => {
-                  navigate(link.location)
-                  setShowDrawer(false)
-                }}
-                match={match(link.location, link.strictMatch)}
-              />
-            ))}
-          </>
-        }
-      />
     </>
   )
 }
-
-export default PrimaryNav

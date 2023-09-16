@@ -1,1 +1,390 @@
-@import '~m3-react/src/variables';
+@import '~m3-react/scss/variables';
+
+$source: #ffbb00;
+
+/* primary */
+$primary-0: #000000;
+$primary-5: #190f00;
+$primary-10: #261900;
+$primary-20: #412d00;
+$primary-25: #4f3700;
+$primary-30: #5d4200;
+$primary-35: #6c4d00;
+$primary-40: #7b5800;
+$primary-50: #9a7000;
+$primary-60: #bb8800;
+$primary-70: #dca100;
+$primary-80: #ffbb00;
+$primary-90: #ffdea4;
+$primary-95: #ffefd6;
+$primary-98: #fff8f3;
+$primary-99: #fffbff;
+$primary-100: #ffffff;
+
+/* secondary */
+$secondary-0: #000000;
+$secondary-5: #190f00;
+$secondary-10: #251a04;
+$secondary-20: #3b2e15;
+$secondary-25: #47391f;
+$secondary-30: #53452a;
+$secondary-35: #605034;
+$secondary-40: #6c5c3f;
+$secondary-50: #867556;
+$secondary-60: #a18e6e;
+$secondary-70: #bda987;
+$secondary-80: #d9c4a0;
+$secondary-90: #f6e0bb;
+$secondary-95: #ffefd6;
+$secondary-98: #fff8f3;
+$secondary-99: #fffbff;
+$secondary-100: #ffffff;
+
+/* tertiary */
+$tertiary-0: #000000;
+$tertiary-5: #011501;
+$tertiary-10: #0a2007;
+$tertiary-20: #1f361a;
+$tertiary-25: #2a4124;
+$tertiary-30: #354d2f;
+$tertiary-35: #40593a;
+$tertiary-40: #4c6545;
+$tertiary-50: #647e5c;
+$tertiary-60: #7d9874;
+$tertiary-70: #97b38d;
+$tertiary-80: #b2cfa7;
+$tertiary-90: #ceebc2;
+$tertiary-95: #dcf9d0;
+$tertiary-98: #ecffe2;
+$tertiary-99: #f7ffef;
+$tertiary-100: #ffffff;
+
+/* error */
+$error-0: #000000;
+$error5-0: #2d0001;
+$error1-00: #410002;
+$error2-00: #690005;
+$error2-05: #7e0007;
+$error3-00: #93000a;
+$error3-05: #a80710;
+$error4-00: #ba1a1a;
+$error5-00: #de3730;
+$error6-00: #ff5449;
+$error7-00: #ff897d;
+$error8-00: #ffb4ab;
+$error9-00: #ffdad6;
+$error9-05: #ffedea;
+$error9-08: #fff8f7;
+$error9-09: #fffbff;
+$error1-000: #ffffff;
+
+/* neutral */
+$neutral-0: #000000;
+$neutral-5: #13110c;
+$neutral-10: #1e1b16;
+$neutral-20: #34302a;
+$neutral-25: #3f3b35;
+$neutral-30: #4b4640;
+$neutral-35: #57524b;
+$neutral-40: #635e57;
+$neutral-50: #7c766f;
+$neutral-60: #969088;
+$neutral-70: #b1aaa2;
+$neutral-80: #cdc5bd;
+$neutral-90: #e9e1d9;
+$neutral-95: #f8efe7;
+$neutral-98: #fff8f3;
+$neutral-99: #fffbff;
+$neutral-100: #ffffff;
+
+/* neutral-variant */
+$neutral-variant-0: #000000;
+$neutral-variant-5: #161006;
+$neutral-variant-10: #211b10;
+$neutral-variant-20: #362f24;
+$neutral-variant-25: #423a2e;
+$neutral-variant-30: #4e4639;
+$neutral-variant-35: #5a5144;
+$neutral-variant-40: #665d4f;
+$neutral-variant-50: #7f7667;
+$neutral-variant-60: #9a8f80;
+$neutral-variant-70: #b5aa99;
+$neutral-variant-80: #d1c5b4;
+$neutral-variant-90: #eee1cf;
+$neutral-variant-95: #fcefdd;
+$neutral-variant-98: #fff8f3;
+$neutral-variant-99: #fffbff;
+$neutral-variant-100: #ffffff;
+
+/* standard */
+$primary: #7b5800;
+$on-primary: #ffffff;
+$primary-container: #ffdea4;
+$on-primary-container: #261900;
+$primary-fixed: #ffdea4;
+$on-primary-fixed: #261900;
+$primary-fixed-dim: #ffbb00;
+$on-primary-fixed-variant: #5d4200;
+$secondary: #6c5c3f;
+$on-secondary: #ffffff;
+$secondary-container: #f6e0bb;
+$on-secondary-container: #251a04;
+$secondary-fixed: #f6e0bb;
+$on-secondary-fixed: #251a04;
+$secondary-fixed-dim: #d9c4a0;
+$on-secondary-fixed-variant: #53452a;
+$tertiary: #4c6545;
+$on-tertiary: #ffffff;
+$tertiary-container: #ceebc2;
+$on-tertiary-container: #0a2007;
+$tertiary-fixed: #ceebc2;
+$on-tertiary-fixed: #0a2007;
+$tertiary-fixed-dim: #b2cfa7;
+$on-tertiary-fixed-variant: #354d2f;
+$error: #ba1a1a;
+$on-error: #ffffff;
+$error-container: #ffdad6;
+$on-error-container: #410002;
+$outline: #7f7667;
+$background: #fffbff;
+$on-background: #1e1b16;
+$surface: #fff8f3;
+$on-surface: #1e1b16;
+$surface-variant: #eee1cf;
+$on-surface-variant: #4e4639;
+$inverse-surface: #34302a;
+$inverse-on-surface: #f8efe7;
+$inverse-primary: #ffbb00;
+$shadow: #000000;
+$surface-tint: #7b5800;
+$outline-variant: #d1c5b4;
+$scrim: #000000;
+$surface-container-highest: #e9e1d9;
+$surface-container-high: #efe7de;
+$surface-container: #f5ede4;
+$surface-container-low: #fbf2e9;
+$surface-container-lowest: #ffffff;
+$surface-bright: #fff8f3;
+$surface-dim: #e1d9d0;
+
+/* light */
+$primary-light: #7b5800;
+$on-primary-light: #ffffff;
+$primary-container-light: #ffdea4;
+$on-primary-container-light: #261900;
+$primary-fixed-light: #ffdea4;
+$on-primary-fixed-light: #261900;
+$primary-fixed-dim-light: #ffbb00;
+$on-primary-fixed-variant-light: #5d4200;
+$secondary-light: #6c5c3f;
+$on-secondary-light: #ffffff;
+$secondary-container-light: #f6e0bb;
+$on-secondary-container-light: #251a04;
+$secondary-fixed-light: #f6e0bb;
+$on-secondary-fixed-light: #251a04;
+$secondary-fixed-dim-light: #d9c4a0;
+$on-secondary-fixed-variant-light: #53452a;
+$tertiary-light: #4c6545;
+$on-tertiary-light: #ffffff;
+$tertiary-container-light: #ceebc2;
+$on-tertiary-container-light: #0a2007;
+$tertiary-fixed-light: #ceebc2;
+$on-tertiary-fixed-light: #0a2007;
+$tertiary-fixed-dim-light: #b2cfa7;
+$on-tertiary-fixed-variant-light: #354d2f;
+$error-light: #ba1a1a;
+$on-error-light: #ffffff;
+$error-container-light: #ffdad6;
+$on-error-container-light: #410002;
+$outline-light: #7f7667;
+$background-light: #fffbff;
+$on-background-light: #1e1b16;
+$surface-light: #fff8f3;
+$on-surface-light: #1e1b16;
+$surface-variant-light: #eee1cf;
+$on-surface-variant-light: #4e4639;
+$inverse-surface-light: #34302a;
+$inverse-on-surface-light: #f8efe7;
+$inverse-primary-light: #ffbb00;
+$shadow-light: #000000;
+$surface-tint-light: #7b5800;
+$outline-variant-light: #d1c5b4;
+$scrim-light: #000000;
+$surface-container-highest-light: #e9e1d9;
+$surface-container-high-light: #efe7de;
+$surface-container-light: #f5ede4;
+$surface-container-low-light: #fbf2e9;
+$surface-container-lowest-light: #ffffff;
+$surface-bright-light: #fff8f3;
+$surface-dim-light: #e1d9d0;
+
+/* dark */
+$primary-dark: #ffbb00;
+$on-primary-dark: #412d00;
+$primary-container-dark: #5d4200;
+$on-primary-container-dark: #ffdea4;
+$primary-fixed-dark: #ffdea4;
+$on-primary-fixed-dark: #261900;
+$primary-fixed-dim-dark: #ffbb00;
+$on-primary-fixed-variant-dark: #5d4200;
+$secondary-dark: #d9c4a0;
+$on-secondary-dark: #3b2e15;
+$secondary-container-dark: #53452a;
+$on-secondary-container-dark: #f6e0bb;
+$secondary-fixed-dark: #f6e0bb;
+$on-secondary-fixed-dark: #251a04;
+$secondary-fixed-dim-dark: #d9c4a0;
+$on-secondary-fixed-variant-dark: #53452a;
+$tertiary-dark: #b2cfa7;
+$on-tertiary-dark: #1f361a;
+$tertiary-container-dark: #354d2f;
+$on-tertiary-container-dark: #ceebc2;
+$tertiary-fixed-dark: #ceebc2;
+$on-tertiary-fixed-dark: #0a2007;
+$tertiary-fixed-dim-dark: #b2cfa7;
+$on-tertiary-fixed-variant-dark: #354d2f;
+$error-dark: #ffb4ab;
+$on-error-dark: #690005;
+$error-container-dark: #93000a;
+$on-error-container-dark: #ffdad6;
+$outline-dark: #9a8f80;
+$background-dark: #1e1b16;
+$on-background-dark: #e9e1d9;
+$surface-dark: #16130e;
+$on-surface-dark: #cdc5bd;
+$surface-variant-dark: #4e4639;
+$on-surface-variant-dark: #d1c5b4;
+$inverse-surface-dark: #e9e1d9;
+$inverse-on-surface-dark: #1e1b16;
+$inverse-primary-dark: #7b5800;
+$shadow-dark: #000000;
+$surface-tint-dark: #ffbb00;
+$outline-variant-dark: #4e4639;
+$scrim-dark: #000000;
+$surface-container-highest-dark: #38342e;
+$surface-container-high-dark: #2d2924;
+$surface-container-dark: #231f1a;
+$surface-container-low-dark: #1e1b16;
+$surface-container-lowest-dark: #110e09;
+$surface-bright-dark: #3d3933;
+$surface-dim-dark: #16130e;
+
+/* display - large */
+$typescale-display-large-font-family-name: Roboto;
+$typescale-display-large-font-family-style: Regular;
+$typescale-display-large-font-weight: 400px;
+$typescale-display-large-font-size: 57px;
+$typescale-display-large-line-height: 64px;
+$typescale-display-large-letter-spacing: -0.25px;
+
+/* display - medium */
+$typescale-display-medium-font-family-name: Roboto;
+$typescale-display-medium-font-family-style: Regular;
+$typescale-display-medium-font-weight: 400px;
+$typescale-display-medium-font-size: 45px;
+$typescale-display-medium-line-height: 52px;
+$typescale-display-medium-letter-spacing: 0px;
+
+/* display - small */
+$typescale-display-small-font-family-name: Roboto;
+$typescale-display-small-font-family-style: Regular;
+$typescale-display-small-font-weight: 400px;
+$typescale-display-small-font-size: 36px;
+$typescale-display-small-line-height: 44px;
+$typescale-display-small-letter-spacing: 0px;
+
+/* headline - large */
+$typescale-headline-large-font-family-name: Roboto;
+$typescale-headline-large-font-family-style: Regular;
+$typescale-headline-large-font-weight: 400px;
+$typescale-headline-large-font-size: 32px;
+$typescale-headline-large-line-height: 40px;
+$typescale-headline-large-letter-spacing: 0px;
+
+/* headline - medium */
+$typescale-headline-medium-font-family-name: Roboto;
+$typescale-headline-medium-font-family-style: Regular;
+$typescale-headline-medium-font-weight: 400px;
+$typescale-headline-medium-font-size: 28px;
+$typescale-headline-medium-line-height: 36px;
+$typescale-headline-medium-letter-spacing: 0px;
+
+/* headline - small */
+$typescale-headline-small-font-family-name: Roboto;
+$typescale-headline-small-font-family-style: Regular;
+$typescale-headline-small-font-weight: 400px;
+$typescale-headline-small-font-size: 24px;
+$typescale-headline-small-line-height: 32px;
+$typescale-headline-small-letter-spacing: 0px;
+
+/* body - large */
+$typescale-body-large-font-family-name: Roboto;
+$typescale-body-large-font-family-style: Regular;
+$typescale-body-large-font-weight: 400px;
+$typescale-body-large-font-size: 16px;
+$typescale-body-large-line-height: 24px;
+$typescale-body-large-letter-spacing: 0.5px;
+
+/* body - medium */
+$typescale-body-medium-font-family-name: Roboto;
+$typescale-body-medium-font-family-style: Regular;
+$typescale-body-medium-font-weight: 400px;
+$typescale-body-medium-font-size: 14px;
+$typescale-body-medium-line-height: 20px;
+$typescale-body-medium-letter-spacing: 0.25px;
+
+/* body - small */
+$typescale-body-small-font-family-name: Roboto;
+$typescale-body-small-font-family-style: Regular;
+$typescale-body-small-font-weight: 400px;
+$typescale-body-small-font-size: 12px;
+$typescale-body-small-line-height: 16px;
+$typescale-body-small-letter-spacing: 0.4px;
+
+/* label - large */
+$typescale-label-large-font-family-name: Roboto;
+$typescale-label-large-font-family-style: Medium;
+$typescale-label-large-font-weight: 500px;
+$typescale-label-large-font-size: 14px;
+$typescale-label-large-line-height: 20px;
+$typescale-label-large-letter-spacing: 0.1px;
+
+/* label - medium */
+$typescale-label-medium-font-family-name: Roboto;
+$typescale-label-medium-font-family-style: Medium;
+$typescale-label-medium-font-weight: 500px;
+$typescale-label-medium-font-size: 12px;
+$typescale-label-medium-line-height: 16px;
+$typescale-label-medium-letter-spacing: 0.5px;
+
+/* label - small */
+$typescale-label-small-font-family-name: Roboto;
+$typescale-label-small-font-family-style: Medium;
+$typescale-label-small-font-weight: 500px;
+$typescale-label-small-font-size: 11px;
+$typescale-label-small-line-height: 16px;
+$typescale-label-small-letter-spacing: 0.5px;
+
+/* title - large */
+$typescale-title-large-font-family-name: Roboto;
+$typescale-title-large-font-family-style: Regular;
+$typescale-title-large-font-weight: 400px;
+$typescale-title-large-font-size: 22px;
+$typescale-title-large-line-height: 28px;
+$typescale-title-large-letter-spacing: 0px;
+
+/* title - medium */
+$typescale-title-medium-font-family-name: Roboto;
+$typescale-title-medium-font-family-style: Medium;
+$typescale-title-medium-font-weight: 500px;
+$typescale-title-medium-font-size: 16px;
+$typescale-title-medium-line-height: 24px;
+$typescale-title-medium-letter-spacing: 0.15px;
+
+/* title - small */
+$typescale-title-small-font-family-name: Roboto;
+$typescale-title-small-font-family-style: Medium;
+$typescale-title-small-font-weight: 500px;
+$typescale-title-small-font-size: 14px;
+$typescale-title-small-line-height: 20px;
+$typescale-title-small-letter-spacing: 0.1px;

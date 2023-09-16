@@ -1,9 +1,9 @@
-import { ContentBox } from './common/ContentBox'
-import { ContentSection } from './common/ContentSection'
+// import ContentBox from './common/ContentBox'
+// import ContentSection from './common/ContentSection'
 
-import { PageHeader } from './common/PageHeader'
+import PageHeader from './common/PageHeader'
 
-export const Home = () => {
+export default function Home() {
   return (
     <PageHeader
       title="Nacho Stocks"

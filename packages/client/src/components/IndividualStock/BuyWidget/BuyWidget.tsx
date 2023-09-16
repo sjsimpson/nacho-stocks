@@ -1,15 +1,25 @@
-import './style.scss'
+import './BuyWidget.scss'
 
 import { useState } from 'react'
-import { Button, ButtonVariants, Icon, IconVariants } from 'm3-react'
+import { Button, Icon } from 'm3-react'
 
+import { useAuthStore } from '../../../stores/authStore'
 import { useAuth } from '../../auth'
+import { useMutation } from '@tanstack/react-query'
+import api from '../../../api'
 
-export const BuyWidget = ({ price }: { price: number }) => {
-  let [numberToBuy, setNumberToBuy] = useState<number>(1)
-  let [active, setActive] = useState<boolean>(false)
+export default function BuyWidget({
+  price,
+  symbol,
+}: {
+  price: number
+  symbol: string
+}) {
+  const [numberToBuy, setNumberToBuy] = useState<number>(1)
+  const [active, setActive] = useState<boolean>(false)
 
-  const auth = useAuth()
+  const token = useAuthStore((state) => state.token)
+  // const auth = useAuth()
 
   const increment = (event: any) => {
     event.preventDefault()
@@ -27,11 +37,30 @@ export const BuyWidget = ({ price }: { price: number }) => {
     setNumberToBuy(parseInt(event.target.value))
   }
 
+  interface Position {
+    userId: string
+    symbol: string
+    price: number
+    quantity: number
+  }
+
+  const buyStock = useMutation(() =>
+    api.post(
+      '/positions',
+      {
+        symbol,
+        price,
+        quantity: numberToBuy,
+      },
+      { headers: { 'x-api-token': token } }
+    )
+  )
+
   return (
     <div className="buy-widget">
       <div className="buy-container">
         <div className="mini-button" onClick={increment}>
-          <Icon icon={IconVariants.IconStyles.add} />
+          <Icon icon="add" />
         </div>
         <div className={active ? 'input-container active' : 'input-container'}>
           <input
@@ -44,20 +73,21 @@ export const BuyWidget = ({ price }: { price: number }) => {
           />
         </div>
         <div className="mini-button" onClick={decrement}>
-          <Icon icon={IconVariants.IconStyles.remove} />
+          <Icon icon="remove" />
         </div>
       </div>
       <div className="button-container">
-        {!auth.token && (
+        {!token && (
           <div className="auth-warning">
             You must sign in to purchase stocks.
           </div>
         )}
         <Button
-          type={ButtonVariants.ButtonStyles.filled}
+          variant="filled"
           text={`Buy for $${(numberToBuy * price!).toFixed(2)}`}
-          disabled={!auth.token}
+          disabled={!token}
           onClick={() => {
+            buyStock.mutate()
             console.log('clicked buy')
           }}
         />

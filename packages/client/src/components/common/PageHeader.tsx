@@ -6,7 +6,7 @@ interface PageHeaderProps {
   centered?: boolean
 }
 
-export const PageHeader = (props: PageHeaderProps) => {
+export default function PageHeader(props: PageHeaderProps) {
   return (
     <div className="m3-page-header">
       <div

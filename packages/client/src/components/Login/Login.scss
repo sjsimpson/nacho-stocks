@@ -1,0 +1,130 @@
+@import '../../styles/variables.scss';
+
+@keyframes shake {
+  0% {
+    transform: translateX(0px);
+  }
+  15% {
+    transform: translateX(-4px);
+  }
+  30% {
+    transform: translateX(6px);
+  }
+  45% {
+    transform: translateX(-4px);
+  }
+  60% {
+    transform: translateX(6px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+.login {
+  position: relative;
+  .form-group {
+    margin-bottom: 16px;
+  }
+}
+
+.login-overlay {
+  display: flex;
+  flex-direction: column;
+
+  border-radius: inherit;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.24);
+
+  justify-content: center;
+}
+
+.login-footer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  justify-content: space-between;
+}
+
+.modal-background {
+  display: block;
+  visibility: hidden;
+  position: fixed;
+  background-color: black;
+  opacity: 0;
+
+  height: 100%;
+  width: 100%;
+  z-index: 1000;
+
+  transition: visibility 0.1s, opacity 0.1s;
+
+  &.open {
+    transition: opacity 0.3s;
+    visibility: visible;
+    opacity: 0.32;
+  }
+}
+
+.modal-header-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+
+  justify-content: space-between;
+  align-items: center;
+
+  .modal-header-start {
+    display: flex;
+    flex-direction: reverse;
+    align-items: center;
+  }
+
+  .back-button {
+    margin-right: 8px;
+    padding: 8px;
+    cursor: pointer;
+
+    height: 40px;
+    width: 40px;
+
+    transition: transform 100ms ease-in-out;
+
+    &:hover {
+      transform: translateX(-4px);
+    }
+  }
+
+  .close-button {
+    border-radius: 100%;
+    padding: 8px;
+    cursor: pointer;
+
+    height: 40px;
+    width: 40px;
+
+    &:hover {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+
+    &:active {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  .header-text {
+    font-size: 24px;
+    line-height: 24px;
+    margin-bottom: 0px;
+  }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out infinite;
+}

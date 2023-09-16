@@ -7,6 +7,12 @@
   box-sizing: border-box;
 }
 
+body {
+  background-color: $surface;
+  margin: 0px;
+  padding: 0px;
+}
+
 .app-container {
   display: flex;
   width: 100%;

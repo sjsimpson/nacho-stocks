@@ -1,8 +1,8 @@
-import './style.scss'
+import './Trendline.scss'
 
 import { useEffect, useState } from 'react'
 import { VictoryLine } from 'victory'
-import { LoadingSpinner, LoadingSpinnerVariants } from 'm3-react'
+import { LoadingSpinner } from 'm3-react'
 
 import { getPriceHistory } from '../../../api/stocksApi'
 
@@ -11,7 +11,7 @@ interface DataPoint {
   y: number
 }
 
-export const Trendline = ({ symbol }: { symbol: string }) => {
+export default function Trendline({ symbol }: { symbol: string }) {
   let [priceHistory, setPriceHistory] = useState<DataPoint[]>([])
   let [color, setColor] = useState<string>('')
   let [isLoading, setIsLoading] = useState<boolean>(true)
@@ -36,9 +36,7 @@ export const Trendline = ({ symbol }: { symbol: string }) => {
   return (
     <div>
       {isLoading ? (
-        <LoadingSpinner
-          size={LoadingSpinnerVariants.LoadingSpinnerSizes.large}
-        />
+        <LoadingSpinner size="large" />
       ) : (
         <VictoryLine
           style={{ data: { stroke: color, strokeWidth: 10 } }}
