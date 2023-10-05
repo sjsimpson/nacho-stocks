@@ -5,12 +5,10 @@ import api from '../api'
 import { useAuthStore } from '../stores/authStore'
 import Card from './common/Card'
 import MainContent from './common/MainContent'
-// import { useAuth } from './auth'
 
 import StockSearch from './StockSearch'
 
 export default function Profile() {
-  // const auth = useAuth()
   const token = useAuthStore((state) => state.token)
   const setToken = useAuthStore((state) => state.setToken)
   const navigate = useNavigate()
@@ -18,7 +16,6 @@ export default function Profile() {
   const handleLogout = (event: any) => {
     event.preventDefault()
     setToken(null)
-    // auth.logout()
     navigate('/')
   }
 
@@ -93,12 +90,12 @@ export default function Profile() {
           Purchase History
           <div>
             {positions.isSuccess &&
-              positions.data.data.map((position: Position) => (
-                <>
+              positions.data.data.map((position: Position, index: number) => (
+                <div key={position.symbol + index}>
                   <div>{position.symbol}</div>
                   <div>{position.price}</div>
                   <div>{position.quantity}</div>
-                </>
+                </div>
               ))}
           </div>
         </div>

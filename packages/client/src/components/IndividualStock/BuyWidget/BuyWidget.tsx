@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Button, Icon } from 'm3-react'
 
 import { useAuthStore } from '../../../stores/authStore'
-import { useAuth } from '../../auth'
 import { useMutation } from '@tanstack/react-query'
 import api from '../../../api'
 
@@ -19,7 +18,6 @@ export default function BuyWidget({
   const [active, setActive] = useState<boolean>(false)
 
   const token = useAuthStore((state) => state.token)
-  // const auth = useAuth()
 
   const increment = (event: any) => {
     event.preventDefault()

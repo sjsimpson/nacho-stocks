@@ -2,7 +2,6 @@ import './StockSearch.scss'
 
 import { useState } from 'react'
 
-import { useAuth } from '../auth'
 import SearchBar from './SearchBar'
 import StockListItem from './StockListItem'
 

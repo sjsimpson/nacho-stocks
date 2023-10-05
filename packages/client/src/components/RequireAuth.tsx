@@ -1,37 +1,25 @@
-import { useQuery } from '@tanstack/react-query'
-import api from '../api'
-
-import { Navigate, useLocation } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import { useAuthStore } from '../stores/authStore'
+import { useEffect, useMemo } from 'react'
+import verifyAuth from '../lib/verifyAuth'
 
-export default function RequireAuth({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const location = useLocation()
+export default function RequireAuth({ children }: { children: any }) {
   const token = useAuthStore((state) => state.token)
-  // const auth = useAuth()
-  if (!token) {
-    return <Navigate to="/" state={{ path: location.pathname }} replace />
-  }
+  const setToken = useAuthStore((state) => state.setToken)
 
-  return children
-}
+  useEffect(() => {
+    return () => {
+      if (!valid) setToken(null)
+    }
+  }, [])
 
-export function Test({ children }: { children: any }) {
-  // const location = useLocation()
-  const token = useAuthStore((state) => state.token)
-  const query = useQuery({
-    queryFn: () =>
-      api.get('/auth/authenticate', { headers: { 'x-api-token': token } }),
-    enabled: !!token,
-    refetchOnWindowFocus: true,
-  })
+  const valid = useMemo(() => {
+    if (!token) return false
+    return verifyAuth(token)
+  }, [token])
 
-  if (!token) return <Navigate to="/" replace />
-
-  if (!query.isLoading && query.isError) return <Navigate to="/" replace />
+  if (!valid) return <Navigate to="/" replace />
+  // if (!valid) return <Navigate to="/" state={{ path: location.pathname }} replace />
 
   return children
 }

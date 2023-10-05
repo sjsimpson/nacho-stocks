@@ -30,6 +30,7 @@ export default function Login({
   const [confirmedPass, setConfirmedPass] = useState('')
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState('')
 
   const shake = () => {
     const shaker = document.getElementById('login-shake')
@@ -59,9 +60,10 @@ export default function Login({
   const signup = useMutation(
     () => api.post('/user', { username, password, email }),
     {
-      onError: () => {
+      onError: (error) => {
         setLoading(false)
         shake()
+        setError('Error server side with signup')
       },
       onSuccess: () => {
         setLoading(false)
@@ -75,6 +77,7 @@ export default function Login({
     event.preventDefault()
     closeModal()
     setNewUser(false)
+    setError('')
   }
 
   const handleLogin = async () => {
@@ -83,19 +86,18 @@ export default function Login({
   }
 
   const handleSignUp = async () => {
-    setLoading(true)
     if (confirmedPass === password) {
+      setLoading(true)
       signup.mutate()
+    } else {
+      setError('Passwords must match')
+      shake()
     }
   }
 
   return (
     <>
-      <Dialog
-        open={open}
-        modalSize="small"
-        backgroundProps={{ id: 'login-shake' }}
-      >
+      <Dialog open={open} modalSize="small" innerProps={{ id: 'login-shake' }}>
         <DialogHeader>
           <div className="modal-header-container">
             <div className="modal-header-start">
@@ -168,6 +170,21 @@ export default function Login({
             )}
           </div>
         </DialogContent>
+        {error && (
+          <div
+            style={{
+              borderRadius: 2,
+              paddingTop: 8,
+              paddingBottom: 8,
+              paddingLeft: 16,
+              paddingRight: 16,
+              marginBottom: 16,
+              backgroundColor: 'red',
+            }}
+          >
+            {error}
+          </div>
+        )}
         <DialogFooter>
           <div
             className="login-footer"

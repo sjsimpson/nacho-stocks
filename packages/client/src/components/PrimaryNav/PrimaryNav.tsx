@@ -1,16 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useMatch } from 'react-router-dom'
-import {
-  Drawer,
-  DrawerItem,
-  IconStyles,
-  SideNav,
-  SideNavItem,
-  TopNav,
-  TopNavItem,
-} from 'm3-react'
+import { Drawer, SideNav, SideNavItem, TopNav, TopNavItem } from 'm3-react'
 
-import { useAuth } from '../auth'
 import Login from '../Login'
 import { useAuthStore } from '../../stores/authStore'
 import useMediaQuery, { breakpoints } from '../../lib/useMediaQuery'
@@ -22,7 +13,6 @@ export default function PrimaryNav() {
   const [showDrawer, setShowDrawer] = useState(false)
   const [showModal, setShowModal] = useState(false)
 
-  const auth = useAuth()
   const navigate = useNavigate()
   const md = useMediaQuery(breakpoints.md)
 
