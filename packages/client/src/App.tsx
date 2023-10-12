@@ -12,6 +12,7 @@ import IndividualStock from './components/IndividualStock'
 import PrimaryNav from './components/PrimaryNav'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import ToastProvider from './context/ToastProvider'
 
 const queryClient = new QueryClient()
 
@@ -22,28 +23,30 @@ export const App = () => {
       <div className="app-container">
         <div className="app-content">
           <MainContent>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="about" element={<About />} />
-              <Route path="stocks" element={<StockSearch />} />
-              <Route path="stocks/:symbol" element={<IndividualStock />} />
-              <Route
-                path="profile"
-                element={
-                  <RequireAuth>
-                    <Profile />
-                  </RequireAuth>
-                }
-              />
-              <Route
-                path="*"
-                element={
-                  <main style={{ padding: '1rem' }}>
-                    <p>There's nothing here!</p>
-                  </main>
-                }
-              />
-            </Routes>
+            <ToastProvider>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="about" element={<About />} />
+                <Route path="stocks" element={<StockSearch />} />
+                <Route path="stocks/:symbol" element={<IndividualStock />} />
+                <Route
+                  path="profile"
+                  element={
+                    <RequireAuth>
+                      <Profile />
+                    </RequireAuth>
+                  }
+                />
+                <Route
+                  path="*"
+                  element={
+                    <main style={{ padding: '1rem' }}>
+                      <p>There's nothing here!</p>
+                    </main>
+                  }
+                />
+              </Routes>
+            </ToastProvider>
           </MainContent>
         </div>
       </div>

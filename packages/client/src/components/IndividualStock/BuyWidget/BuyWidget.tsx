@@ -6,6 +6,7 @@ import { Button, Icon } from 'm3-react'
 import { useAuthStore } from '../../../stores/authStore'
 import { useMutation } from '@tanstack/react-query'
 import api from '../../../api'
+import { useToasts } from '../../../context/ToastProvider'
 
 export default function BuyWidget({
   price,
@@ -17,6 +18,7 @@ export default function BuyWidget({
   const [numberToBuy, setNumberToBuy] = useState<number>(1)
   const [active, setActive] = useState<boolean>(false)
 
+  const toast = useToasts()
   const token = useAuthStore((state) => state.token)
 
   const increment = (event: any) => {
@@ -35,23 +37,31 @@ export default function BuyWidget({
     setNumberToBuy(parseInt(event.target.value))
   }
 
-  interface Position {
-    userId: string
-    symbol: string
-    price: number
-    quantity: number
-  }
-
-  const buyStock = useMutation(() =>
-    api.post(
-      '/positions',
-      {
-        symbol,
-        price,
-        quantity: numberToBuy,
+  const buyStock = useMutation(
+    () =>
+      api.post(
+        '/positions',
+        {
+          symbol,
+          price,
+          quantity: numberToBuy,
+        },
+        { headers: { 'x-api-token': token } }
+      ),
+    {
+      onError: () => {
+        toast?.addToast({
+          type: 'error',
+          message: 'Error purchasing stock, please try again later.',
+        })
       },
-      { headers: { 'x-api-token': token } }
-    )
+      onSuccess: () => {
+        toast?.addToast({
+          type: 'success',
+          message: 'Stock purchase successful!',
+        })
+      },
+    }
   )
 
   return (
@@ -83,7 +93,7 @@ export default function BuyWidget({
         <Button
           variant="filled"
           text={`Buy for $${(numberToBuy * price!).toFixed(2)}`}
-          disabled={!token}
+          disabled={!token || buyStock.isLoading}
           onClick={() => {
             buyStock.mutate()
             console.log('clicked buy')

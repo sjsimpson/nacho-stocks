@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { LoadingSpinner } from 'm3-react'
 import { Navigate, useNavigate } from 'react-router-dom'
 import api from '../api'
+import { useToasts } from '../context/ToastProvider'
 import { useAuthStore } from '../stores/authStore'
 import Card from './common/Card'
 import MainContent from './common/MainContent'
@@ -12,6 +13,7 @@ export default function Profile() {
   const token = useAuthStore((state) => state.token)
   const setToken = useAuthStore((state) => state.setToken)
   const navigate = useNavigate()
+  const toasts = useToasts()
 
   const handleLogout = (event: any) => {
     event.preventDefault()
@@ -36,11 +38,16 @@ export default function Profile() {
     queryKey: ['gains'],
   })
 
+  const addToast = () => {
+    toasts?.addToast({ message: 'This is an error message', type: 'error' })
+  }
+
   return (
     <MainContent>
       <div>
         <button onClick={() => console.log('auth', token)}>Check Auth</button>
         <button onClick={handleLogout}>Logout</button>
+        <button onClick={addToast}>Add Toast</button>
       </div>
       <div style={{ width: '100%', height: '100%', border: '1px solid black' }}>
         <div style={{ width: '100%' }}>
