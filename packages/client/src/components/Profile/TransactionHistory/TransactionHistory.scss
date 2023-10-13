@@ -1,0 +1,12 @@
+@import '../../../styles/variables.scss';
+
+.history-contents {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  max-height: 400px;
+
+  overflow-y: scroll;
+}
+

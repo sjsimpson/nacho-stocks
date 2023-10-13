@@ -40,11 +40,12 @@ export default function BuyWidget({
   const buyStock = useMutation(
     () =>
       api.post(
-        '/positions',
+        '/transactions',
         {
           symbol,
           price,
           quantity: numberToBuy,
+          type: 'purchase',
         },
         { headers: { 'x-api-token': token } }
       ),

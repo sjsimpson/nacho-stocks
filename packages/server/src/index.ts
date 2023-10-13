@@ -5,6 +5,7 @@ import _ from 'lodash'
 import user from './routes/user'
 import stocks from './routes/stocks'
 import auth from './routes/auth'
+import transactions from './routes/transactions'
 import positions from './routes/positions'
 
 const app = express()
@@ -38,6 +39,7 @@ app.use('/auth', auth)
 app.use('/user', user)
 app.use('/stocks', stocks)
 app.use('/positions', positions)
+app.use('/transactions', transactions)
 
 app.listen(serverPort, () => {
   console.log(`Example app listening at http://localhost:${serverPort}`)

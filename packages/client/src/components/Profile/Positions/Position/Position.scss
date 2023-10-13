@@ -1,0 +1,60 @@
+@import '../../../../styles/variables.scss';
+
+.position {
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  // width: 100%;
+
+  border-radius: 4px;
+  padding: 8px 16px;
+
+  .state-layer {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    pointer-events: none;
+
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    border: none;
+    border-radius: inherit;
+  }
+
+  &:hover {
+    .state-layer {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+  &:active {
+    .state-layer {
+      background-color: rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .name {
+    font-size: 16px;
+    line-height: 24px;
+    height: 24px;
+    letter-spacing: 0.5px;
+    color: $on-surface;
+  }
+
+  .symbol {
+    font-size: 14px;
+    line-height: 20px;
+    height: 20px;
+    letter-spacing: 0.25px;
+    color: $on-surface-variant;
+  }
+
+  .total {
+    // justify-self: flex-end;
+    font-size: 24px;
+    line-height: 32px;
+  }
+}

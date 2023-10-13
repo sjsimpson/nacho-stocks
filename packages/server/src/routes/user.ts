@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express'
 import bodyParser from 'body-parser'
-import { createUser, getUser } from '../controllers/userController'
+import { createUser, getUser, updateUser } from '../controllers/userController'
 import { verifyToken } from '../middleware'
 import { AuthenticatedRequest } from '../types/authenticatedRequest'
 
@@ -27,5 +27,31 @@ router
       res.status(500).send(error.message)
     }
   })
+
+router
+  .route('/cash')
+  .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      console.log('getting cash for:', req.userId)
+      const user = await getUser(req.userId!)
+      console.log('user', user)
+      const cash = user?.cashAssets
+      res.send({ cash })
+    } catch (error: any) {
+      res.status(500).send(error.message)
+    }
+  })
+  .post(
+    jsonParser,
+    verifyToken,
+    async (req: AuthenticatedRequest, res: Response) => {
+      try {
+        await updateUser(req.params.id, req.body)
+        res.status(204).send('User successfully updated!')
+      } catch (error: any) {
+        res.status(500).send(error.message)
+      }
+    }
+  )
 
 export default router

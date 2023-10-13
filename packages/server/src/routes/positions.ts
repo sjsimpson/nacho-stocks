@@ -5,8 +5,9 @@ import { verifyToken } from '../middleware'
 import {
   createPosition,
   getCurrentPortfolioValue,
-  getGainsLosses,
-  getPositionsByUser,
+  // getGainsLosses,
+  getUserPosition,
+  getUserPositions,
 } from '../controllers/positionController'
 import { AuthenticatedRequest } from '../types/authenticatedRequest'
 
@@ -19,8 +20,7 @@ router
   .route('/')
   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
-      console.log(`Getting stock positions for user: ${req.userId}`)
-      const positions = await getPositionsByUser(req.userId!)
+      const positions = await getUserPositions(req.userId!)
       res.send(positions)
     } catch (error: any) {
       res.status(500).send(error.message)
@@ -43,25 +43,11 @@ router
     }
   )
 
-// router
-//   .route('/:symbol')
-//   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
-//     try {
-//       const position = await createPosition({
-//         ...req.body,
-//         userId: req.userId!,
-//       })
-//
-//       res.send(position)
-//     } catch (error: any) {
-//       res.status(500).send(error.message)
-//     }
-//   })
-
 router
   .route('/value')
   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
+      console.log('getting portfolio value')
       const value = await getCurrentPortfolioValue(req.userId!)
       res.send({ value })
     } catch (error: any) {
@@ -70,13 +56,25 @@ router
   })
 
 router
-  .route('/gains')
+  .route('/:symbol')
   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const value = await getGainsLosses(req.userId!)
-      res.send({ value })
+      const position = await getUserPosition(req.userId!, req.params.symbol)
+
+      res.send(position)
     } catch (error: any) {
       res.status(500).send(error.message)
     }
   })
+
+// router
+//   .route('/gains')
+//   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
+//     try {
+//       const value = await getGainsLosses(req.userId!)
+//       res.send({ value })
+//     } catch (error: any) {
+//       res.status(500).send(error.message)
+//     }
+//   })
 export default router

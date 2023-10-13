@@ -1,77 +1,83 @@
+import { getPrice } from './stockController'
 import PositionModel from '../models/position'
-import { getPrice, getStock } from './stockController'
+import { FilterQuery } from 'mongoose'
 
 const createPosition = async (position: Position) => {
-  console.log('Adding position to database')
-
   const createdPosition = await PositionModel.create(position)
   return createdPosition
 }
 
 const getPosition = async (id: string) => {
-  console.log(`Checking for position by id: ${id}`)
-
   const position = await PositionModel.findById(id)
   return position
 }
 
-const getPositionsByUser = async (userId: string) => {
-  console.log(`Getting positions by userId: ${userId}`)
+const updatePosition = async (
+  filter: FilterQuery<Position>,
+  quantity: number
+) => {
+  const position = await PositionModel.findOne(filter)
+  const updatedPosition = await PositionModel.findOneAndUpdate(
+    { ...filter },
+    { ...filter, quantity: position ? position.quantity + quantity : quantity },
+    { upsert: true, new: true }
+  )
+  return updatedPosition
+}
 
+const getUserPosition = async (userId: string, symbol: string) => {
+  const positions = await PositionModel.findOne({ userId, symbol })
+  return positions
+}
+
+const getUserPositions = async (userId: string) => {
   const positions = await PositionModel.find({ userId })
   return positions
 }
 
 const getCurrentPortfolioValue = async (userId: string) => {
-  const stockMap: { [key: string]: { quantity: number; price: number } } = {}
-
-  const positions = await getPositionsByUser(userId)
-
-  positions.forEach((position) => {
-    if (stockMap[position.symbol]) {
-      stockMap[position.symbol].quantity += position.quantity
-    } else {
-      const object = { quantity: position.quantity, price: 0 }
-      stockMap[position.symbol] = object
-    }
-  })
+  const positions = await getUserPositions(userId)
 
   const stocks = await Promise.all(
-    Object.keys(stockMap).map(async (symbol) => {
+    positions.map(async ({ symbol, quantity }) => {
       const price: number = await getPrice(symbol)
-      return { symbol, price, quantity: stockMap[symbol].quantity }
+      return { symbol, price, quantity }
     })
   )
 
   const value = stocks
     .map((stock) => stock.quantity * stock.price)
     .reduce((acc, totalPrice) => acc + totalPrice)
-
-  console.log(value)
+  console.log('portfolio value', value)
 
   return value.toFixed(2)
 }
 
-const getGainsLosses = async (userId: string) => {
-  const currentValue = await getCurrentPortfolioValue(userId)
-
-  // fix this, because we're pinging the db twice and don't need to
-  const positions = await getPositionsByUser(userId)
-
-  const initialValue = positions
-    .map((position) => position.price * position.quantity)
-    .reduce((acc, totalPrice) => acc + totalPrice)
-
-  const difference = parseInt(currentValue) - initialValue
-  console.log('difference', difference)
-
-  return difference.toFixed(2)
-}
+// const getGainsLosses = async (userId: string) => {
+//   const currentValue = await getCurrentPortfolioValue(userId)
+//
+//   // fix this, because we're pinging the db twice and don't need to
+//   const transactions = await getTransactionsByUser(userId)
+//   const positions = await getPositionsByUser(userId)
+//
+//   const baseValue = transactions.map((transaction) => )
+//
+//   const initialValue = positions
+//     .map((position) => position.price * position.quantity)
+//     .reduce((acc, totalPrice) => acc + totalPrice)
+//
+//   const difference = parseInt(currentValue) - initialValue
+//   console.log('difference', difference)
+//
+//   return difference.toFixed(2)
+// }
 
 export {
-  createPosition,
   getPosition,
-  getPositionsByUser,
+  createPosition,
+  getUserPosition,
+  getUserPositions,
+  // getGainsLosses,
   getCurrentPortfolioValue,
-  getGainsLosses,
+  updatePosition,
 }

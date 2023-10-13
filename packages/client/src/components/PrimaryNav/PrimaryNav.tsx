@@ -75,7 +75,7 @@ export default function PrimaryNav() {
                 <>
                   <NavLink
                     link={{
-                      location: '/profile',
+                      location: '/profile/portfolio',
                       label: 'My Account',
                       icon: 'account_circle',
                       strictMatch: false,

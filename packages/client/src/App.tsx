@@ -13,6 +13,8 @@ import PrimaryNav from './components/PrimaryNav'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import ToastProvider from './context/ToastProvider'
+import Portfolio from './components/Profile/Portfolio'
+import Account from './components/Profile/Account'
 
 const queryClient = new QueryClient()
 
@@ -36,7 +38,11 @@ export const App = () => {
                       <Profile />
                     </RequireAuth>
                   }
-                />
+                >
+                  <Route index element={<Portfolio />} />
+                  <Route path="portfolio" element={<Portfolio />} />
+                  <Route path="account" element={<Account />} />
+                </Route>
                 <Route
                   path="*"
                   element={

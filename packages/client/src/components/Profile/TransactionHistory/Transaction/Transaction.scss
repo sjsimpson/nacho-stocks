@@ -1,0 +1,83 @@
+@import '../../../../styles/variables.scss';
+
+@keyframes fade {
+  0%,
+  100% {
+    opacity: 5%;
+  }
+  50% {
+    opacity: 20%;
+  }
+}
+
+.transaction {
+  position: relative;
+  display: grid;
+  width: 100%;
+  grid-template-columns: 20% 35% 15% 15% 15%;
+
+  padding: 4px 8px;
+  border-radius: 4px;
+
+  .state-layer {
+    position: absolute;
+    pointer-events: none;
+
+    display: flex;
+    height: 100%;
+    width: 100%;
+
+    border: none;
+    border-radius: inherit;
+  }
+
+  &:hover {
+    .state-layer {
+      background-color: rgba(0, 0, 0, 0.08);
+    }
+  }
+
+  .name {
+    font-size: 16px;
+    line-height: 24px;
+    height: 24px;
+    letter-spacing: 0.5px;
+
+    // margin-bottom: 4px;
+    color: $on-surface;
+
+    &.placeholder {
+      width: 80%;
+    }
+  }
+
+  .symbol {
+    font-size: 14px;
+    line-height: 20px;
+    height: 20px;
+    letter-spacing: 0.25px;
+    color: $on-surface-variant;
+
+    &.placeholder {
+      width: 30%;
+    }
+  }
+
+  .header {
+    color: $on-surface-variant;
+    font-size: 12px;
+    line-height: 16px;
+    margin-bottom: 4px;
+  }
+
+  .value {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .placeholder {
+    border-radius: 4px;
+    background-color: black;
+    animation: fade 1s ease-in-out infinite;
+  }
+}
