@@ -1,8 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink as Link } from '../../../types/navlink'
 import './Nav.scss'
-import { SideNavItem } from 'm3-react'
-
 import { useNavigate, useMatch } from 'react-router-dom'
 
 type ProfileLink = Omit<Link, 'icon' | 'strictMatch'>
@@ -22,7 +20,6 @@ function Link(props: LinkProps) {
   const linkRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    console.log('match', match)
     setActive(match)
   }, [match])
 
@@ -52,9 +49,6 @@ function Link(props: LinkProps) {
 }
 
 export function Nav() {
-  const overlayRef = useRef<HTMLDivElement>(null)
-  const linkRef = useRef<HTMLDivElement>(null)
-  const [width, setWidth] = useState(0)
   const [overlayOffset, setOverlayOffset] = useState(0)
   const [overlayWidth, setOverlayWidth] = useState(0)
 
@@ -83,7 +77,6 @@ export function Nav() {
         />
       ))}
       <div
-        ref={overlayRef}
         className="overlay"
         style={{ width: overlayWidth, translate: overlayOffset }}
       />
