@@ -1,22 +1,26 @@
 import TransactionModel from '../models/transaction'
 import { getUserPosition, updatePosition } from './positionController'
-import { getUser, removeCashFromUser, updateUser } from './userController'
+import { getPrice } from './stockController'
+import { getUser, updateUserCash } from './userController'
 
-const createTransaction = async (transaction: Transaction) => {
-  const transactionCost = transaction.quantity * transaction.price
-  switch (transaction.type) {
+const createTransaction = async ({
+  userId,
+  type,
+  symbol,
+  quantity,
+}: Omit<Transaction, 'price'>) => {
+  const price = await getPrice(symbol)
+  const transactionCost = quantity * price
+  switch (type) {
     case 'sale':
-      const position = await getUserPosition(
-        transaction.userId,
-        transaction.symbol
-      )
+      const position = await getUserPosition(userId, symbol)
 
-      if (!position || transaction.quantity > position.quantity) {
+      if (!position || quantity > position.quantity) {
         throw Error("You can't sell stocks you don't have... sorry")
       }
       break
     case 'purchase':
-      const user = await getUser(transaction.userId)
+      const user = await getUser(userId)
 
       if (!user || transactionCost > user.cashAssets) {
         throw Error('Insufficient funds for transaction')
@@ -24,19 +28,23 @@ const createTransaction = async (transaction: Transaction) => {
       break
   }
 
-  const createdTransaction = await TransactionModel.create(transaction)
+  const createdTransaction = await TransactionModel.create({
+    userId,
+    type,
+    symbol,
+    quantity,
+    price,
+  })
+
   await updatePosition(
     {
-      userId: transaction.userId,
-      symbol: transaction.symbol,
+      userId: userId,
+      symbol: symbol,
     },
-    transaction.type === 'sale' ? -transaction.quantity : transaction.quantity
+    type === 'sale' ? -quantity : quantity
   )
 
-  await removeCashFromUser(
-    transaction.userId,
-    transaction.quantity * transaction.price
-  )
+  await updateUserCash(userId, (type === 'sale' ? -quantity : quantity) * price)
   return createdTransaction
 }
 

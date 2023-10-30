@@ -1,12 +1,12 @@
 @import '../../styles/variables.scss';
 
-.individual-stock {
-  display: flex;
-  flex-direction: column;
-  background-color: $tinted-surface;
-  border-radius: 12px;
-  padding: 16px 24px;
-
+// .individual-stock {
+//   display: flex;
+//   flex-direction: column;
+//   background-color: $tinted-surface;
+//   border-radius: 12px;
+//   padding: 16px 24px;
+//
   .stock-page-header-container {
     display: inline-flex;
     flex: 1 1 auto;
@@ -74,4 +74,4 @@
       }
     }
   }
-}
+// }

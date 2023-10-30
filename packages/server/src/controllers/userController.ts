@@ -46,7 +46,7 @@ const addCashToUser = async (id: string, cash: number) => {
   throw Error('Unable to find user.')
 }
 
-const removeCashFromUser = async (id: string, cash: number) => {
+const updateUserCash = async (id: string, cash: number) => {
   const user = await UserModel.findById(id)
 
   if (user) {
@@ -61,4 +61,4 @@ const removeCashFromUser = async (id: string, cash: number) => {
   throw Error('Unable to find user.')
 }
 
-export { createUser, getUser, updateUser, addCashToUser, removeCashFromUser }
+export { createUser, getUser, updateUser, addCashToUser, updateUserCash }

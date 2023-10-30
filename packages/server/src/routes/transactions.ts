@@ -29,6 +29,8 @@ router
     jsonParser,
     async (req: AuthenticatedRequest, res: Response) => {
       try {
+        console.log('req.body', req.body)
+
         const transaction = await createTransaction({
           ...req.body,
           userId: req.userId!,

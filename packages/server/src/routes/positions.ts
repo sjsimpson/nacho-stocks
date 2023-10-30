@@ -5,6 +5,7 @@ import { verifyToken } from '../middleware'
 import {
   createPosition,
   getCurrentPortfolioValue,
+  getPortfolioPerformanceHistory,
   // getGainsLosses,
   getUserPosition,
   getUserPositions,
@@ -50,6 +51,20 @@ router
       console.log('getting portfolio value')
       const value = await getCurrentPortfolioValue(req.userId!)
       res.send({ value })
+    } catch (error: any) {
+      res.status(500).send(error.message)
+    }
+  })
+
+router
+  .route('/performance-history')
+  .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
+    try {
+      const performanceHistory = await getPortfolioPerformanceHistory(
+        req.userId!
+      )
+
+      res.send(performanceHistory)
     } catch (error: any) {
       res.status(500).send(error.message)
     }

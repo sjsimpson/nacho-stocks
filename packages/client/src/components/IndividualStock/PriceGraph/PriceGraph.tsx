@@ -1,45 +1,39 @@
 import './PriceGraph.scss'
 
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { VictoryLine } from 'victory'
 import { LoadingSpinner } from 'm3-react'
 
-import { getPriceHistory } from '../../../api/stocksApi'
+import { getPriceHistory } from '../../../queries/stocks'
 
-import { DataPoint } from '../../../types/datapoint'
+interface PriceGraphProps {
+  symbol: string
+}
+export default function PriceGraph(props: PriceGraphProps) {
+  const { symbol } = props
 
-export default function PriceGraph({ symbol }: { symbol: string }) {
-  let [priceHistory, setPriceHistory] = useState<DataPoint[]>([])
-  let [color, setColor] = useState<string>('')
-  let [isLoading, setIsLoading] = useState<boolean>(true)
+  const history = getPriceHistory(symbol)
 
-  useEffect(() => {
-    getPriceHistory(symbol)
-      .then((res) => {
-        setPriceHistory(res)
-        updateColor(res)
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        console.log('Error in useEffect', err)
-      })
-  }, [])
-
-  const updateColor = (prices: DataPoint[]) => {
-    const diff = prices[prices.length - 1].y - prices[0].y
-    setColor(diff < 0 ? 'red' : 'green')
-  }
+  const color = useMemo(() => {
+    if (history.isSuccess) {
+      const prices = history.data.data
+      const diff = prices[prices.length - 1].y - prices[0].y
+      return diff < 0 ? 'red' : 'green'
+    }
+  }, [history])
 
   return (
     <div className="graph-container">
-      {isLoading ? (
+      {history.isLoading ? (
         <LoadingSpinner size="large" />
       ) : (
-        <VictoryLine
-          style={{ data: { stroke: color } }}
-          data={priceHistory}
-          animate
-        />
+        history.isSuccess && (
+          <VictoryLine
+            style={{ data: { stroke: color } }}
+            data={history.data.data}
+            animate
+          />
+        )
       )}
     </div>
   )

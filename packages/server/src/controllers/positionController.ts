@@ -1,4 +1,4 @@
-import { getPrice } from './stockController'
+import { getPrice, getPriceHistory } from './stockController'
 import PositionModel from '../models/position'
 import { FilterQuery } from 'mongoose'
 
@@ -53,6 +53,28 @@ const getCurrentPortfolioValue = async (userId: string) => {
   return value.toFixed(2)
 }
 
+const getPortfolioPerformanceHistory = async (userId: string) => {
+  const positions = await getUserPositions(userId)
+
+  const priceHistories = await Promise.all(
+    positions.map(async ({ symbol, quantity }) => {
+      return await getPriceHistory(symbol, quantity)
+    })
+  )
+
+  let portfolioValueHistory: { x: number; y: number }[] = []
+
+  priceHistories.map((history, index) => {
+    if (index === 0) {
+      portfolioValueHistory = [...history]
+    } else {
+      history.map((point, index) => (portfolioValueHistory[index].y += point.y))
+    }
+  })
+
+  return portfolioValueHistory
+}
+
 // const getGainsLosses = async (userId: string) => {
 //   const currentValue = await getCurrentPortfolioValue(userId)
 //
@@ -78,6 +100,7 @@ export {
   getUserPosition,
   getUserPositions,
   // getGainsLosses,
+  getPortfolioPerformanceHistory,
   getCurrentPortfolioValue,
   updatePosition,
 }

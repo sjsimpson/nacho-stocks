@@ -1,0 +1,52 @@
+.trade {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  align-items: center;
+
+  height: 48px;
+
+  .trade-button {
+    z-index: 10;
+
+    &.hidden {
+      transition: none;
+    }
+  }
+  .sell-button {
+    position: relative;
+    opacity: 100%;
+    visibility: visible;
+
+    transition: all 200ms;
+
+    &.hidden {
+      pointer-events: none;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      transition: all 200ms;
+      opacity: 0%;
+      visibility: hidden;
+    }
+  }
+
+  .buy-button {
+    position: relative;
+    transition: all 200ms;
+    opacity: 200%;
+
+    visibility: visible;
+
+    &.hidden {
+      pointer-events: none;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      transition: all 200ms;
+      opacity: 0%;
+      visibility: hidden;
+    }
+  }
+}

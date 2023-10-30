@@ -1,34 +1,19 @@
 import './Transaction.scss'
 
-import { useEffect, useState } from 'react'
-import { getStock } from '../../../../api/stocksApi'
 import clsx from 'clsx'
 
 import { useNavigate } from 'react-router-dom'
+import { getStock } from '../../../../../queries/stocks'
 
 interface TransactionProps {
   transaction: Transaction
 }
 function Transaction(props: TransactionProps) {
   const { transaction } = props
-  const [stock, setStock] = useState<Stock | null>(null)
-  const [isLoading, setIsLoading] = useState(false)
 
   const navigate = useNavigate()
 
-  useEffect(() => {
-    setIsLoading(true)
-    getStock(transaction.symbol)
-      .then((res) => {
-        console.log('loading stock', res)
-        setStock(res)
-        setIsLoading(false)
-      })
-      .catch((err: any) => {
-        console.log('Error')
-        setIsLoading(false)
-      })
-  }, [])
+  const stock = getStock(transaction.symbol)
 
   return (
     <div
@@ -50,10 +35,10 @@ function Transaction(props: TransactionProps) {
             gap: 8,
           }}
         >
-          <div className={clsx('name', isLoading && 'placeholder')}>
-            {stock?.name}
+          <div className={clsx('name', stock.isLoading && 'placeholder')}>
+            {stock.isSuccess && stock.data.data.name}
           </div>
-          <div className={clsx('symbol', isLoading && 'placeholder')}>
+          <div className={clsx('symbol', stock.isLoading && 'placeholder')}>
             {transaction.symbol}
           </div>
         </div>

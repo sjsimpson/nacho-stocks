@@ -1,182 +1,185 @@
-import _ from 'lodash';
+import _ from 'lodash'
 import dotenv from 'dotenv'
 
 dotenv.config()
 
-const finnhubToken = process.env.FINNHUB_TOKEN;
-const baseUrl = 'https://finnhub.io/api/v1';
+const finnhubToken = process.env.FINNHUB_TOKEN
+const baseUrl = 'https://finnhub.io/api/v1'
 
 export const getFinancials = async (symbol: string) => {
   if (!finnhubToken) {
-    throw Error('Finnhub Token is undefined. Unable to interact with API.');
+    throw Error('Finnhub Token is undefined. Unable to interact with API.')
   }
 
-  const endpoint = `${baseUrl}/stock/metric`;
+  const endpoint = `${baseUrl}/stock/metric`
   const params: URLSearchParams = new URLSearchParams({
     symbol,
     metric: 'all',
-  });
-  const requestUrl: URL = new URL(`${endpoint}?` + params);
+  })
+  const requestUrl: URL = new URL(`${endpoint}?` + params)
   const config: RequestInit = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'X-Finnhub-Token': finnhubToken,
     },
-  };
+  }
 
   try {
-    const response = await fetch(requestUrl, config);
-    return response.json();
+    const response = await fetch(requestUrl, config)
+    return response.json()
   } catch (e) {
-    throw Error('Error getting financials from Finnhub.');
+    throw Error('Error getting financials from Finnhub.')
   }
-};
+}
 
 export const getStock = async (symbol: string) => {
   if (!finnhubToken) {
-    throw Error('Finnhub Token is undefined. Unable to interact with API.');
+    throw Error('Finnhub Token is undefined. Unable to interact with API.')
   }
 
-  const endpoint = `${baseUrl}/stock/profile2`;
+  const endpoint = `${baseUrl}/stock/profile2`
   const params: URLSearchParams = new URLSearchParams({
     symbol,
-  });
+  })
 
-  const requestUrl: URL = new URL(`${endpoint}?` + params);
+  const requestUrl: URL = new URL(`${endpoint}?` + params)
   const config: RequestInit = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'X-Finnhub-Token': finnhubToken,
     },
-  };
+  }
 
   try {
-    const response = await fetch(requestUrl, config);
-    const rawStock = await response.json();
+    const response = await fetch(requestUrl, config)
+    const rawStock = await response.json()
     const stock = {
       name: rawStock.name,
       symbol: rawStock.ticker,
-    };
-    return stock;
+    }
+    return stock
   } catch (e) {
-    throw Error('Error getting stock from Finnhub.');
+    throw Error('Error getting stock from Finnhub.')
   }
-};
+}
 
 export const getPrice = async (symbol: string) => {
   if (!finnhubToken) {
-    throw Error('Finnhub Token is undefined. Unable to interact with API.');
+    throw Error('Finnhub Token is undefined. Unable to interact with API.')
   }
 
-  const endpoint = `${baseUrl}/quote`;
-  const params: URLSearchParams = new URLSearchParams({ symbol });
-  const requestUrl: URL = new URL(`${endpoint}?` + params);
+  const endpoint = `${baseUrl}/quote`
+  const params: URLSearchParams = new URLSearchParams({ symbol })
+  const requestUrl: URL = new URL(`${endpoint}?` + params)
   const config: RequestInit = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'X-Finnhub-Token': finnhubToken,
     },
-  };
+  }
 
   try {
-    const response = await fetch(requestUrl, config);
-    const price = await response.json();
-    return price.c;
+    const response = await fetch(requestUrl, config)
+    const price = await response.json()
+    return price.c
   } catch (e) {
-    throw Error('Error getting price from Finnhub.');
+    throw Error('Error getting price from Finnhub.')
   }
-};
+}
 
-export const getPriceHistory = async (symbol: string) => {
+export const getPriceHistory = async (
+  symbol: string,
+  quantity: number = 1
+): Promise<{ x: number; y: number }[]> => {
   if (!finnhubToken) {
-    throw Error('Finnhub Token is undefined. Unable to interact with API.');
+    throw Error('Finnhub Token is undefined. Unable to interact with API.')
   }
 
-  const now = Date.now();
-  const lastWeek = now - 2592000000;
+  const now = Date.now()
+  const lastWeek = now - 2592000000
 
-  const nowString = now.toString();
-  const nowFiltered = nowString.substring(0, nowString.length - 3);
-  const lastWeekString = lastWeek.toString();
+  const nowString = now.toString()
+  const nowFiltered = nowString.substring(0, nowString.length - 3)
+  const lastWeekString = lastWeek.toString()
   const lastWeekFiltered = lastWeekString.substring(
     0,
     lastWeekString.length - 3
-  );
+  )
 
-  const endpoint = `${baseUrl}/stock/candle`;
+  const endpoint = `${baseUrl}/stock/candle`
   const params: URLSearchParams = new URLSearchParams({
     symbol: symbol,
     resolution: 'D',
     from: lastWeekFiltered,
     to: nowFiltered,
-  });
+  })
 
-  const requestUrl: URL = new URL(`${endpoint}?` + params);
+  const requestUrl: URL = new URL(`${endpoint}?` + params)
   const config: RequestInit = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'X-Finnhub-Token': finnhubToken,
     },
-  };
+  }
 
   try {
-    const response = await fetch(requestUrl, config);
-    const rawPriceHistory = await response.json();
-    const priceHistory = rawPriceHistory.c.map(
-      (price: number, index: number) => ({ x: index, y: price })
-    );
-    return priceHistory;
+    const response = await fetch(requestUrl, config)
+    const rawPriceHistory = await response.json()
+    const priceHistory: { x: number; y: number }[] = rawPriceHistory.c.map(
+      (price: number, index: number) => ({ x: index, y: price * quantity })
+    )
+    return priceHistory
   } catch (e) {
-    throw Error('Error getting price history from Finnhub.');
+    throw Error('Error getting price history from Finnhub.')
   }
-};
+}
 
 export const searchStocks = async (query: string) => {
   if (!finnhubToken) {
-    throw Error('Finnhub Token is undefined. Unable to interact with API.');
+    throw Error('Finnhub Token is undefined. Unable to interact with API.')
   }
 
   try {
-    const lookupResponse = await _symbolLookup(query);
+    const lookupResponse = await _symbolLookup(query)
     const stocks = lookupResponse.result
       .filter((stock: any) => !stock.symbol.includes('.'))
       .map((stock: any) => ({
         name: _.startCase(_.toLower(stock.description)),
         symbol: stock.displaySymbol,
-      }));
+      }))
 
-    return stocks;
+    return stocks
   } catch (e) {
-    throw Error('Error searching stocks in Finnhub.');
+    throw Error('Error searching stocks in Finnhub.')
   }
-};
+}
 
 const _symbolLookup = async (query: string) => {
   if (!finnhubToken) {
-    throw Error('Finnhub Token is undefined. Unable to interact with API.');
+    throw Error('Finnhub Token is undefined. Unable to interact with API.')
   }
 
-  const endpoint = `${baseUrl}/search`;
+  const endpoint = `${baseUrl}/search`
   const params: URLSearchParams = new URLSearchParams({
     q: query,
-  });
-  const requestUrl: URL = new URL(`${endpoint}?` + params);
+  })
+  const requestUrl: URL = new URL(`${endpoint}?` + params)
   const config: RequestInit = {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       'X-Finnhub-Token': finnhubToken,
     },
-  };
+  }
 
   try {
-    const response = await fetch(requestUrl, config);
-    return response.json();
+    const response = await fetch(requestUrl, config)
+    return response.json()
   } catch (e) {
-    console.log('Error:', e);
+    console.log('Error:', e)
   }
-};
+}

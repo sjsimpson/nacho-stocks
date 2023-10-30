@@ -1,52 +1,39 @@
 import './Trendline.scss'
 
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import { VictoryLine } from 'victory'
 import { LoadingSpinner } from 'm3-react'
+import { getPriceHistory } from '../../../queries/stocks'
 
-import { getPriceHistory } from '../../../api/stocksApi'
-
-interface DataPoint {
-  x: number
-  y: number
+interface TrendlineProps {
+  symbol: string
 }
 
-export default function Trendline({ symbol }: { symbol: string }) {
-  let [priceHistory, setPriceHistory] = useState<DataPoint[]>([])
-  let [color, setColor] = useState<string>('')
-  let [isLoading, setIsLoading] = useState<boolean>(true)
+export default function Trendline(props: TrendlineProps) {
+  const { symbol } = props
 
-  useEffect(() => {
-    getPriceHistory(symbol)
-      .then((res) => {
-        setPriceHistory(res)
-        updateColor(res)
-        setIsLoading(false)
-      })
-      .catch((err) => {
-        console.log('Error in useEffect', err)
-      })
-  }, [])
+  const history = getPriceHistory(symbol)
 
-  const updateColor = (prices: DataPoint[]) => {
-    const diff = prices[prices.length - 1].y - prices[0].y
-    setColor(diff < 0 ? 'red' : 'green')
-  }
+  const color = useMemo(() => {
+    if (history.isSuccess) {
+      const prices = history.data.data
+      const diff = prices[prices.length - 1].y - prices[0].y
+      return diff < 0 ? 'red' : 'green'
+    }
+  }, [history])
 
   return (
     <div>
-      {isLoading ? (
+      {history.isLoading ? (
         <LoadingSpinner size="large" />
       ) : (
-        <VictoryLine
-          style={{ data: { stroke: color, strokeWidth: 10 } }}
-          data={priceHistory}
-          animate
-          // animate={{
-          //   duration: 1000,
-          //   // onLoad: { duration: 1000 },
-          // }}
-        />
+        history.isSuccess && (
+          <VictoryLine
+            style={{ data: { stroke: color, strokeWidth: 10 } }}
+            data={history.data.data}
+            animate
+          />
+        )
       )}
     </div>
   )

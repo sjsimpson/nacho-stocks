@@ -4,9 +4,8 @@ import { useState } from 'react'
 import { Button, Icon } from 'm3-react'
 
 import { useAuthStore } from '../../../stores/authStore'
-import { useMutation } from '@tanstack/react-query'
-import api from '../../../api'
 import { useToasts } from '../../../context/ToastProvider'
+import { useBuyStock, useSellStock } from '../../../queries/transactions'
 
 export default function BuyWidget({
   price,
@@ -15,55 +14,73 @@ export default function BuyWidget({
   price: number
   symbol: string
 }) {
-  const [numberToBuy, setNumberToBuy] = useState<number>(1)
+  const [quantity, setQuantity] = useState<number>(1)
   const [active, setActive] = useState<boolean>(false)
 
   const toast = useToasts()
   const token = useAuthStore((state) => state.token)
+  const buyStock = useBuyStock()
+  const sellStock = useSellStock()
 
   const increment = (event: any) => {
     event.preventDefault()
-    setNumberToBuy(numberToBuy + 1)
+    setQuantity(quantity + 1)
   }
 
   const decrement = (event: any) => {
     event.preventDefault()
-    if (numberToBuy > 1) {
-      setNumberToBuy(numberToBuy - 1)
+    if (quantity > 1) {
+      setQuantity(quantity - 1)
     }
   }
 
   const handleInput = (event: any) => {
-    setNumberToBuy(parseInt(event.target.value))
+    setQuantity(parseInt(event.target.value))
   }
 
-  const buyStock = useMutation(
-    () =>
-      api.post(
-        '/transactions',
+  const buy = () => {
+    if (token) {
+      buyStock.mutate(
+        { symbol, quantity, token },
         {
-          symbol,
-          price,
-          quantity: numberToBuy,
-          type: 'purchase',
-        },
-        { headers: { 'x-api-token': token } }
-      ),
-    {
-      onError: () => {
-        toast?.addToast({
-          type: 'error',
-          message: 'Error purchasing stock, please try again later.',
-        })
-      },
-      onSuccess: () => {
-        toast?.addToast({
-          type: 'success',
-          message: 'Stock purchase successful!',
-        })
-      },
+          onError: () => {
+            toast?.addToast({
+              type: 'error',
+              message: 'Error purchasing stock, please try again later.',
+            })
+          },
+          onSuccess: () => {
+            toast?.addToast({
+              type: 'success',
+              message: 'Stock purchase successful!',
+            })
+          },
+        }
+      )
     }
-  )
+  }
+
+  const sell = () => {
+    if (token) {
+      sellStock.mutate(
+        { symbol, quantity, token },
+        {
+          onError: () => {
+            toast?.addToast({
+              type: 'error',
+              message: 'Error purchasing stock, please try again later.',
+            })
+          },
+          onSuccess: () => {
+            toast?.addToast({
+              type: 'success',
+              message: 'Stock purchase successful!',
+            })
+          },
+        }
+      )
+    }
+  }
 
   return (
     <div className="buy-widget">
@@ -73,7 +90,7 @@ export default function BuyWidget({
         </div>
         <div className={active ? 'input-container active' : 'input-container'}>
           <input
-            value={numberToBuy}
+            value={quantity}
             onInput={handleInput}
             type="number"
             min="1"
@@ -93,12 +110,9 @@ export default function BuyWidget({
         )}
         <Button
           variant="filled"
-          text={`Buy for $${(numberToBuy * price!).toFixed(2)}`}
+          text={`Buy for $${(quantity * price!).toFixed(2)}`}
           disabled={!token || buyStock.isLoading}
-          onClick={() => {
-            buyStock.mutate()
-            console.log('clicked buy')
-          }}
+          onClick={() => buy()}
         />
       </div>
     </div>

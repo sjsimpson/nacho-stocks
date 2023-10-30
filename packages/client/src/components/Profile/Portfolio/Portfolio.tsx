@@ -1,26 +1,22 @@
-import { useQuery } from '@tanstack/react-query'
-import { Route } from 'react-router-dom'
-import api from '../../../api'
+import {
+  getPerformanceHistory,
+  getPositionValue,
+} from '../../../queries/positions'
+import { getUserCash } from '../../../queries/user'
 import { useAuthStore } from '../../../stores/authStore'
+
 import Card from './../../common/Card'
 import MainContent from './../../common/MainContent'
-// import Nav from './Nav'
-import Positions from './../Positions/Positions'
-import TransactionHistory from './../TransactionHistory'
+import Positions from './Positions'
+import TransactionHistory from './TransactionHistory'
+import ValueHistory from './ValueHistory'
 
 export default function Portfolio() {
   const token = useAuthStore((state) => state.token)
 
-  const value = useQuery({
-    queryFn: () =>
-      api.get('/positions/value', { headers: { 'x-api-token': token } }),
-    queryKey: ['value'],
-  })
-
-  const cash = useQuery({
-    queryFn: () => api.get('/user/cash', { headers: { 'x-api-token': token } }),
-    queryKey: ['cash'],
-  })
+  const value = token && getPositionValue(token, !!token)
+  const cash = token && getUserCash(token, !!token)
+  const history = token && getPerformanceHistory(token, !!token)
 
   return (
     <MainContent>
@@ -45,6 +41,9 @@ export default function Portfolio() {
         >
           <Card cardStyle="elevated">
             <h3 style={{ marginTop: '0px' }}>Portfolio Graph</h3>
+            {history && history.isSuccess && (
+              <ValueHistory priceHistory={history.data.data} />
+            )}
           </Card>
           <div
             style={{
@@ -57,13 +56,13 @@ export default function Portfolio() {
             <Card cardStyle="elevated" style={{ maxHeight: '50%' }}>
               <h3 style={{ marginTop: '0px' }}>Portfolio Value</h3>
               <div style={{ fontSize: '24px', lineHeight: '32px' }}>
-                ${value.isSuccess && value.data.data.value}
+                ${value && value.isSuccess && value.data.data.value}
               </div>
             </Card>
             <Card cardStyle="elevated" style={{ maxHeight: '50%' }}>
               <h3 style={{ marginTop: '0px' }}>Total Cash</h3>
               <div style={{ fontSize: '24px', lineHeight: '32px' }}>
-                ${cash.isSuccess && cash.data.data.cash}
+                ${cash && cash.isSuccess && cash.data.data.cash.toFixed(2)}
               </div>
             </Card>
           </div>

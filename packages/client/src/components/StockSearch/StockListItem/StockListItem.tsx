@@ -1,27 +1,22 @@
 import './StockListItem.scss'
 
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 import { LoadingSpinner } from 'm3-react'
 
 import Trendline from '../Trendline'
 
-import { getStockPrice } from '../../../api/stocksApi'
+import { getStockPrice } from '../../../queries/stocks'
 
-export default function StockListItem({ stock }: { stock: Stock }) {
-  const [price, setPrice] = useState<number | undefined>(undefined)
+interface StockListItemProps {
+  stock: Stock
+}
+export default function StockListItem(props: StockListItemProps) {
+  const { stock } = props
+
   const navigate = useNavigate()
 
-  useEffect(() => {
-    getStockPrice(stock.symbol)
-      .then((res) => {
-        setPrice(res.price)
-      })
-      .catch((err) => {
-        console.log('Error in useEffect', err)
-      })
-  }, [])
+  const price = getStockPrice(stock.symbol)
 
   const handleClick = () => {
     navigate(stock.symbol)
@@ -41,8 +36,8 @@ export default function StockListItem({ stock }: { stock: Stock }) {
         </div>
         <div className="stock-container-right">
           <div className="currency-symbol">$</div>
-          {price ? (
-            <div className="stock-price">{price.toFixed(2)}</div>
+          {price.isSuccess ? (
+            <div className="stock-price">{price.data.price.toFixed(2)}</div>
           ) : (
             <LoadingSpinner size="small" />
           )}

@@ -14,9 +14,10 @@ import {
 } from 'm3-react'
 
 import { useAuthStore } from '../../stores/authStore'
-import { useMutation } from '@tanstack/react-query'
-import api from '../../api'
+import { useLogin, useSignup } from '../../queries/auth'
 
+// TODO: Update TextInput to forwardRef, so I can focus the username input on
+// open
 export default function Login({
   open,
   closeModal,
@@ -32,6 +33,9 @@ export default function Login({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const login = useLogin()
+  const signup = useSignup()
+
   const shake = () => {
     const shaker = document.getElementById('login-shake')
     shaker?.classList.add('shake')
@@ -39,37 +43,6 @@ export default function Login({
       shaker?.classList.remove('shake')
     }, 500)
   }
-
-  const login = useMutation(
-    () => api.post('/auth/login', { username, password }),
-    {
-      onError: () => {
-        setLoading(false)
-        shake()
-      },
-      onSuccess: (data) => {
-        setLoading(false)
-
-        closeModal()
-        setToken(data.data)
-        console.log('data', data)
-      },
-    }
-  )
-
-  const signup = useMutation(
-    () => api.post('/user', { username, password, email }),
-    {
-      onError: (error) => {
-        setLoading(false)
-        shake()
-        setError('Error server side with signup')
-      },
-      onSuccess: () => {
-        setLoading(false)
-      },
-    }
-  )
 
   const setToken = useAuthStore((state) => state.setToken)
 
@@ -82,41 +55,75 @@ export default function Login({
 
   const handleLogin = async () => {
     setLoading(true)
-    login.mutate()
+    login.mutate(
+      { username, password },
+      {
+        onError: () => {
+          setLoading(false)
+          shake()
+        },
+        onSuccess: (data) => {
+          setLoading(false)
+
+          closeModal()
+          setToken(data.data)
+        },
+      }
+    )
   }
 
   const handleSignUp = async () => {
     if (confirmedPass === password) {
       setLoading(true)
-      signup.mutate()
+      signup.mutate(
+        { username, password, email },
+        {
+          onError: (error) => {
+            setLoading(false)
+            shake()
+            setError('Error server side with signup')
+          },
+          onSuccess: () => {
+            setLoading(false)
+          },
+        }
+      )
     } else {
       setError('Passwords must match')
       shake()
     }
   }
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault()
+    newUser ? handleSignUp() : handleLogin()
+  }
+
   return (
     <>
       <Dialog open={open} modalSize="small" innerProps={{ id: 'login-shake' }}>
-        <DialogHeader>
-          <div className="modal-header-container">
-            <div className="modal-header-start">
-              {newUser && (
-                <div className="back-button" onClick={() => setNewUser(false)}>
-                  <Icon icon="arrow_back" />
+        <form action="." className="login" onSubmit={handleSubmit}>
+          <DialogHeader>
+            <div className="modal-header-container">
+              <div className="modal-header-start">
+                {newUser && (
+                  <div
+                    className="back-button"
+                    onClick={() => setNewUser(false)}
+                  >
+                    <Icon icon="arrow_back" />
+                  </div>
+                )}
+                <div className="header-text">
+                  {newUser ? 'Create New Account' : 'Login'}
                 </div>
-              )}
-              <div className="header-text">
-                {newUser ? 'Create New Account' : 'Login'}
+              </div>
+              <div className="close-button" onClick={handleClose}>
+                <Icon icon="close" />
               </div>
             </div>
-            <div className="close-button" onClick={handleClose}>
-              <Icon icon="close" />
-            </div>
-          </div>
-        </DialogHeader>
-        <DialogContent>
-          <div className="login">
+          </DialogHeader>
+          <DialogContent>
             <div className="form-group">
               <TextInput
                 id="username"
@@ -168,49 +175,50 @@ export default function Login({
                 />
               </div>
             )}
-          </div>
-        </DialogContent>
-        {error && (
-          <div
-            style={{
-              borderRadius: 2,
-              paddingTop: 8,
-              paddingBottom: 8,
-              paddingLeft: 16,
-              paddingRight: 16,
-              marginBottom: 16,
-              backgroundColor: 'red',
-            }}
-          >
-            {error}
-          </div>
-        )}
-        <DialogFooter>
-          <div
-            className="login-footer"
-            style={{ justifyContent: newUser ? 'flex-end' : 'space-between' }}
-          >
-            {!newUser && (
+          </DialogContent>
+          {error && (
+            <div
+              style={{
+                borderRadius: 2,
+                paddingTop: 8,
+                paddingBottom: 8,
+                paddingLeft: 16,
+                paddingRight: 16,
+                marginBottom: 16,
+                backgroundColor: 'red',
+              }}
+            >
+              {error}
+            </div>
+          )}
+          <DialogFooter>
+            <div
+              className="login-footer"
+              style={{ justifyContent: newUser ? 'flex-end' : 'space-between' }}
+            >
+              {!newUser && (
+                <Button
+                  type="button"
+                  variant="text"
+                  text="No Account? Sign up!"
+                  disabled={loading}
+                  onClick={() => setNewUser(true)}
+                />
+              )}
               <Button
-                variant="text"
-                text="No Account? Sign up!"
+                type="submit"
+                variant="filled"
                 disabled={loading}
-                onClick={() => setNewUser(true)}
+                text={newUser ? 'Create Account' : 'Login'}
               />
-            )}
-            <Button
-              variant="filled"
-              disabled={loading}
-              text={newUser ? 'Create Account' : 'Login'}
-              onClick={newUser ? handleSignUp : handleLogin}
-            />
-          </div>
-        </DialogFooter>
-        {loading && (
-          <div className="login-overlay">
-            <LoadingSpinner size="small" />
-          </div>
-        )}
+            </div>
+          </DialogFooter>
+          {loading && (
+            <div className="login-overlay">
+              <LoadingSpinner size="small" />
+            </div>
+          )}
+        </form>
       </Dialog>
       <div
         onClick={handleClose}

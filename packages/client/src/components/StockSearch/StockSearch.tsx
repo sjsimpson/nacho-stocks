@@ -7,27 +7,29 @@ import StockListItem from './StockListItem'
 
 import { LoadingSpinner } from 'm3-react'
 
-import { searchStocks } from '../../api/stocksApi'
+import { searchStocks } from '../../queries/stocks'
 
 import PageHeader from '../common/PageHeader'
+import { useToasts } from '../../context/ToastProvider'
 
 export default function StockSearch() {
-  let [stocks, setStocks] = useState<Stock[]>([])
-  let [isLoading, setIsLoading] = useState<boolean>(false)
+  const [enabled, setEnabled] = useState(false)
+  const [searchValue, setSearchValue] = useState('')
+
+  const toast = useToasts()
+  const stocks = searchStocks(searchValue, enabled)
 
   const handleSearch = (searchValue: string) => {
-    console.log('handle-search')
-    setIsLoading(true)
-
-    searchStocks(searchValue)
-      .then((res: any) => {
-        setStocks(res)
-        setIsLoading(false)
+    if (searchValue !== '') {
+      setSearchValue(searchValue)
+      setEnabled(true)
+    } else {
+      toast?.addToast({
+        type: 'warn',
+        message:
+          'Cannot search for nothing. Please enter a symbol in the search bar',
       })
-      .catch((err: any) => {
-        setIsLoading(false)
-        console.log('Error in useEffect', err)
-      })
+    }
   }
 
   return (
@@ -41,12 +43,13 @@ export default function StockSearch() {
           <SearchBar handleSearch={handleSearch} />
         </div>
         <div>
-          {isLoading ? (
+          {stocks.isLoading && enabled ? (
             <div className="loading-content">
               <LoadingSpinner size="large" />
             </div>
           ) : (
-            stocks.map((stock) => (
+            stocks.isSuccess &&
+            stocks.data.data.map((stock) => (
               <StockListItem key={stock.symbol} stock={stock} />
             ))
           )}
