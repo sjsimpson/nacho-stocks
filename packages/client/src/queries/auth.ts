@@ -1,5 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { User } from '../types'
+import { useMutation } from '@tanstack/react-query'
 import api from '../api'
 
 export const useLogin = () =>

@@ -1,9 +1,7 @@
-import { IncomingHttpHeaders } from 'http'
-import { Request, Response, NextFunction } from 'express'
+import { Response, NextFunction } from 'express'
 import jwt from 'njwt'
 import dotenv from 'dotenv'
 import { AuthenticatedRequest } from '../types/authenticatedRequest'
-// import { CustomRequest }
 
 dotenv.config({ path: __dirname + '/../../../../.env' })
 

@@ -68,9 +68,15 @@ const getPortfolioPerformanceHistory = async (userId: string) => {
     if (index === 0) {
       portfolioValueHistory = [...history]
     } else {
-      history.map((point, index) => (portfolioValueHistory[index].y += point.y))
+      history.map((point, history_index) => {
+        portfolioValueHistory[history_index].x = history_index
+        portfolioValueHistory[history_index].y += point.y
+      })
     }
   })
+
+  if (portfolioValueHistory.length === 0)
+    throw Error('Unable to get value history')
 
   return portfolioValueHistory
 }

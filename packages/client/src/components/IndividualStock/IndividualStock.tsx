@@ -62,9 +62,9 @@ export default function IndividualStock() {
             )}
           </div>
         </div>
-        <div className="graph">
-          <PriceGraph symbol={symbol!} />
-        </div>
+        {/*<div className="graph">
+           <PriceGraph symbol={symbol!} />
+        </div> */}
       </Card>
       <TradeSection />
     </div>

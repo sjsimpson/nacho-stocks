@@ -30,9 +30,9 @@ export default function StockListItem(props: StockListItemProps) {
             <div className="stock-symbol">{stock.symbol}</div>
             <div className="stock-name">{stock.name}</div>
           </div>
-          <div className="trendlines">
+          {/*<div className="trendlines">
             <Trendline symbol={stock.symbol} />
-          </div>
+          </div>*/}
         </div>
         <div className="stock-container-right">
           <div className="currency-symbol">$</div>

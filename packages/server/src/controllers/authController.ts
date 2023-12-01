@@ -12,6 +12,7 @@ export const login = async (
   rememberMe: boolean = false
 ): Promise<Jwt> => {
   console.log(`Checking for user ${username}`)
+  console.log('JWT SECRET', jwtSecret)
 
   const user = await UserModel.findOne({ username, password })
 

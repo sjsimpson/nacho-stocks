@@ -90,6 +90,7 @@ export const getPrice = async (symbol: string) => {
   }
 }
 
+// NOTE: Now a paid api because of the greedy fatcats at Finnhub
 export const getPriceHistory = async (
   symbol: string,
   quantity: number = 1

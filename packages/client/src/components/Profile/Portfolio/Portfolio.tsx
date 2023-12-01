@@ -14,9 +14,9 @@ import ValueHistory from './ValueHistory'
 export default function Portfolio() {
   const token = useAuthStore((state) => state.token)
 
-  const value = token && getPositionValue(token, !!token)
-  const cash = token && getUserCash(token, !!token)
-  const history = token && getPerformanceHistory(token, !!token)
+  const value = getPositionValue(token, !!token)
+  const cash = getUserCash(token, !!token)
+  // const history = getPerformanceHistory(token, !!token)
 
   return (
     <MainContent>
@@ -40,10 +40,7 @@ export default function Portfolio() {
           }}
         >
           <Card cardStyle="elevated">
-            <h3 style={{ marginTop: '0px' }}>Portfolio Graph</h3>
-            {history && history.isSuccess && (
-              <ValueHistory priceHistory={history.data.data} />
-            )}
+            <ValueHistory />
           </Card>
           <div
             style={{

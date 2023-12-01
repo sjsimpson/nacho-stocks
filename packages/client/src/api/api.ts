@@ -1,5 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
-import { User } from '../types'
+import axios from 'axios'
 import config from '../../config'
 
 const apiClient = () => {

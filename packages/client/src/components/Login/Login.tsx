@@ -1,6 +1,6 @@
 import './Login.scss'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import {
   Button,
@@ -15,6 +15,7 @@ import {
 
 import { useAuthStore } from '../../stores/authStore'
 import { useLogin, useSignup } from '../../queries/auth'
+import { matchPasswords } from '../../lib/matchPasswords'
 
 // TODO: Update TextInput to forwardRef, so I can focus the username input on
 // open
@@ -33,6 +34,7 @@ export default function Login({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
+  const match = matchPasswords({ pass1: password, pass2: confirmedPass })
   const login = useLogin()
   const signup = useSignup()
 
@@ -73,7 +75,7 @@ export default function Login({
   }
 
   const handleSignUp = async () => {
-    if (confirmedPass === password) {
+    if (match) {
       setLoading(true)
       signup.mutate(
         { username, password, email },
@@ -83,13 +85,17 @@ export default function Login({
             shake()
             setError('Error server side with signup')
           },
-          onSuccess: () => {
+          onSuccess: (data) => {
             setLoading(false)
+
+            closeModal()
+
+            setToken(data.data)
           },
         }
       )
     } else {
-      setError('Passwords must match')
+      setError('Passwords must match.')
       shake()
     }
   }
@@ -176,7 +182,7 @@ export default function Login({
               </div>
             )}
           </DialogContent>
-          {error && (
+          {newUser && !match && (
             <div
               style={{
                 borderRadius: 2,
@@ -188,7 +194,7 @@ export default function Login({
                 backgroundColor: 'red',
               }}
             >
-              {error}
+              Passwords must match
             </div>
           )}
           <DialogFooter>
@@ -208,17 +214,17 @@ export default function Login({
               <Button
                 type="submit"
                 variant="filled"
-                disabled={loading}
+                disabled={loading || (newUser && !match)}
                 text={newUser ? 'Create Account' : 'Login'}
               />
             </div>
           </DialogFooter>
-          {loading && (
-            <div className="login-overlay">
-              <LoadingSpinner size="small" />
-            </div>
-          )}
         </form>
+        {loading && (
+          <div className="login-overlay">
+            <LoadingSpinner size="small" />
+          </div>
+        )}
       </Dialog>
       <div
         onClick={handleClose}

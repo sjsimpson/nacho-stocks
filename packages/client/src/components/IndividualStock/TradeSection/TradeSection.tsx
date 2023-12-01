@@ -100,6 +100,7 @@ function TradeSection() {
 
       <Button
         text={mode === 'purchase' ? 'Buy' : 'Sell'}
+        disabled={!token || buyStock.isLoading || sellStock.isLoading}
         onClick={() => (mode === 'purchase' ? buy() : sell())}
       />
     </Card>

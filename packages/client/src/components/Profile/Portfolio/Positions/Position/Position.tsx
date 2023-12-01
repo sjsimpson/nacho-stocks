@@ -39,9 +39,9 @@ function Position(props: PositionProps) {
           gap: 16,
         }}
       >
-        <div style={{ display: 'flex', height: '52px' }}>
+        {/*<div style={{ display: 'flex', height: '52px' }}>
           <Trendline symbol={position.symbol} />
-        </div>
+        </div>*/}
         <div className="total">
           $
           {price.isSuccess && (position.quantity * price.data.price).toFixed(2)}

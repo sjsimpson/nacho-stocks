@@ -67,6 +67,7 @@ export function Nav() {
     <div className="profile-nav">
       {navLinks.map((link) => (
         <Link
+          key={link.location}
           link={link}
           updateOffset={(offset) => {
             setOverlayOffset(offset)
