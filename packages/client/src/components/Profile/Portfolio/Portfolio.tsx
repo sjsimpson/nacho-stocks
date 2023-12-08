@@ -2,7 +2,7 @@ import {
   getPerformanceHistory,
   getPositionValue,
 } from '../../../queries/positions'
-import { getUserCash } from '../../../queries/user'
+import { useUserQuery } from '../../../queries/user'
 import { useAuthStore } from '../../../stores/authStore'
 
 import Card from './../../common/Card'
@@ -15,8 +15,7 @@ export default function Portfolio() {
   const token = useAuthStore((state) => state.token)
 
   const value = getPositionValue(token, !!token)
-  const cash = getUserCash(token, !!token)
-  // const history = getPerformanceHistory(token, !!token)
+  const { query } = useUserQuery(token)
 
   return (
     <MainContent>
@@ -59,7 +58,7 @@ export default function Portfolio() {
             <Card cardStyle="elevated" style={{ maxHeight: '50%' }}>
               <h3 style={{ marginTop: '0px' }}>Total Cash</h3>
               <div style={{ fontSize: '24px', lineHeight: '32px' }}>
-                ${cash && cash.isSuccess && cash.data.data.cash.toFixed(2)}
+                ${query.isSuccess && query.data.data.cashAssets.toFixed(2)}
               </div>
             </Card>
           </div>

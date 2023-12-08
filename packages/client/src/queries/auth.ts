@@ -8,6 +8,7 @@ export const useLogin = () =>
   )
 
 export const useSignup = () =>
-  useMutation(({ username, password, email }: Required<User>) =>
-    api.post('/user', { username, password, email })
+  useMutation(
+    ({ username, password, email }: Required<Omit<User, 'cashAssets'>>) =>
+      api.post('/user', { username, password, email })
   )

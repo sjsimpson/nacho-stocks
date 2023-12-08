@@ -1,13 +1,6 @@
 import { Button, TextInput } from 'm3-react'
 import { useState } from 'react'
-import { useToasts } from '../../../context/ToastProvider'
-import {
-  changeUserPassword,
-  getUserInfo,
-  updateEmail,
-  updateUser,
-  updateUsername,
-} from '../../../queries/user'
+import { useUserQuery } from '../../../queries/user'
 import { useAuthStore } from '../../../stores/authStore'
 import { matchPasswords } from '../../../lib/matchPasswords'
 import Card from '../../common/Card'
@@ -19,63 +12,27 @@ function Account() {
   const [newPassRepeat, setNewPassRepeat] = useState('')
 
   const token = useAuthStore((store) => store.token)
-  const toasts = useToasts()
+
+  const { query, updateEmail, updateUsername, updatePassword } =
+    useUserQuery(token)
 
   const match = matchPasswords({ pass1: newPass, pass2: newPassRepeat })
-  const info = getUserInfo(token)
-
-  const changePassword = changeUserPassword()
-  const changeEmail = updateEmail()
-  const changeUsername = updateUsername()
 
   const handleChangePassword = () => {
     if (newPass === newPassRepeat && token) {
-      changePassword.mutate(
-        { password: oldPass, newPassword: newPass, token },
-        {
-          onSuccess: (data) => {
-            toasts?.addToast({ type: 'success', message: 'Success' })
-          },
-
-          onError: (err: any) => {
-            toasts?.addToast({ type: 'error', message: err.toString() })
-          },
-        }
-      )
+      updatePassword.mutate({ password: oldPass, newPassword: newPass, token })
     }
   }
 
   const handleUpdateEmail = (value: string) => {
     if (value && token) {
-      changeEmail.mutate(
-        { body: { email: value }, token },
-        {
-          onSuccess: (data) => {
-            toasts?.addToast({ type: 'success', message: 'Success' })
-          },
-
-          onError: (err: any) => {
-            toasts?.addToast({ type: 'error', message: err.toString() })
-          },
-        }
-      )
+      updateEmail.mutate({ body: { email: value }, token })
     }
   }
 
   const handleUpdateUsername = (value: string) => {
     if (value && token) {
-      changeUsername.mutate(
-        { body: { username: value }, token },
-        {
-          onSuccess: (data) => {
-            toasts?.addToast({ type: 'success', message: 'Success' })
-          },
-
-          onError: (err: any) => {
-            toasts?.addToast({ type: 'error', message: err.toString() })
-          },
-        }
-      )
+      updateUsername.mutate({ body: { username: value }, token })
     }
   }
 
@@ -102,16 +59,16 @@ function Account() {
           >
             <AccountInfo
               name="Email"
-              data={info.isSuccess ? info.data.data.email : ''}
-              loading={changeEmail.isLoading}
-              error={changeEmail.isError}
+              data={query.isSuccess ? query.data.data.email : ''}
+              loading={updateEmail.isLoading}
+              error={updateEmail.isError}
               onSave={handleUpdateEmail}
             />
             <AccountInfo
               name="Username"
-              data={info.isSuccess ? info.data.data.username : ''}
-              loading={changeUsername.isLoading}
-              error={changeUsername.isError}
+              data={query.isSuccess ? query.data.data.username : ''}
+              loading={updateUsername.isLoading}
+              error={updateUsername.isError}
               onSave={handleUpdateUsername}
             />
           </div>

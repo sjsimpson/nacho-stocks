@@ -19,7 +19,6 @@ router
   .route('/')
   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
-      console.log(`Checking for user by id: ${req.userId}`)
       const user = await getUser(req.params.id)
       res.send(user)
     } catch (error: any) {
@@ -66,8 +65,8 @@ router
   .get(verifyToken, async (req: AuthenticatedRequest, res: Response) => {
     try {
       const user = await getUser(req.userId!)
-      const { username, email } = user
-      res.send({ username, email })
+      const { username, email, cashAssets } = user
+      res.send({ username, email, cashAssets })
     } catch (error: any) {
       res.status(500).send(error.message)
     }

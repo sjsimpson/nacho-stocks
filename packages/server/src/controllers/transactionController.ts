@@ -10,7 +10,7 @@ const createTransaction = async ({
   quantity,
 }: Omit<Transaction, 'price'>) => {
   const price = await getPrice(symbol)
-  const transactionCost = quantity * price
+  const transactionTotal = quantity * price
   switch (type) {
     case 'sale':
       const position = await getUserPosition(userId, symbol)
@@ -22,7 +22,7 @@ const createTransaction = async ({
     case 'purchase':
       const user = await getUser(userId)
 
-      if (!user || transactionCost > user.cashAssets) {
+      if (!user || transactionTotal > user.cashAssets) {
         throw Error('Insufficient funds for transaction')
       }
       break

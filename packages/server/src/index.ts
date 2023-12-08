@@ -10,7 +10,7 @@ import positions from './routes/positions'
 
 const app = express()
 const serverPort = process.env.PORT || 3003
-const clientPort = process.env.CLIENT_PORT || 3004
+const clientPort = process.env.CLIENT_PORT || 3000
 // const appOrigin = authConfig.appOrigin || `http://localhost:${clientPort}`;
 const appOrigin =
   process.env.NODE_ENV === 'dev'
