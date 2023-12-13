@@ -7,25 +7,31 @@ import stocks from './routes/stocks'
 import auth from './routes/auth'
 import transactions from './routes/transactions'
 import positions from './routes/positions'
+import { useRedisClient } from './redis'
+// import { redisInstance } from './redis'
 
-const app = express()
-const serverPort = process.env.PORT || 3003
-const clientPort = process.env.CLIENT_PORT || 3000
+const SERVER_PORT = process.env.PORT || 3003
+const CLIENT_PORT = process.env.CLIENT_PORT || 3000
 // const appOrigin = authConfig.appOrigin || `http://localhost:${clientPort}`;
-const appOrigin =
+const APP_ORIGIN =
   process.env.NODE_ENV === 'dev'
-    ? `http://localhost:${clientPort}`
+    ? `http://localhost:${CLIENT_PORT}`
     : 'https://nachostocks.com'
-const mongoDB = process.env.MONGO_URI || 'mongodb://mongo:27017/nacho-stocks'
+const MONGO_URI = process.env.MONGO_URI || 'mongodb://mongo:27017/nacho-stocks'
 
 mongoose.set('strictQuery', false)
-mongoose.connect(mongoDB)
+mongoose.connect(MONGO_URI)
+
+useRedisClient().connect()
+// redisInstance.connect()
 
 export interface QueryPayload {
   payload: string
 }
 
-app.use(cors({ origin: appOrigin }))
+const app = express()
+
+app.use(cors({ origin: APP_ORIGIN }))
 
 app.get('/', (req: Request, res: Response) => {
   const responseData: QueryPayload = {
@@ -41,6 +47,6 @@ app.use('/stocks', stocks)
 app.use('/positions', positions)
 app.use('/transactions', transactions)
 
-app.listen(serverPort, () => {
-  console.log(`Example app listening at http://localhost:${serverPort}`)
+app.listen(SERVER_PORT, () => {
+  console.log(`Example app listening at http://localhost:${SERVER_PORT}`)
 })

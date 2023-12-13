@@ -18,7 +18,8 @@
     "lerna": "^5.4.0",
     "lodash": "^4.17.21",
     "mongoose": "^6.6.4",
-    "njwt": "^1.2.0"
+    "njwt": "^1.2.0",
+    "redis": "^4.6.11"
   },
   "devDependencies": {
     "@types/cors": "^2.8.12",

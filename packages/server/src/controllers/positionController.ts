@@ -1,4 +1,7 @@
-import { getPrice, getPriceHistory } from './stockController'
+import {
+  getPrice,
+  // getPriceHistory
+} from './stockController'
 import PositionModel from '../models/position'
 import { FilterQuery } from 'mongoose'
 
@@ -53,33 +56,36 @@ const getCurrentPortfolioValue = async (userId: string) => {
   return value.toFixed(2)
 }
 
-const getPortfolioPerformanceHistory = async (userId: string) => {
-  const positions = await getUserPositions(userId)
+// NOTE: Unable to show performance history currently based on price history
+// TODO: Update performance history to be based on lambda
 
-  const priceHistories = await Promise.all(
-    positions.map(async ({ symbol, quantity }) => {
-      return await getPriceHistory(symbol, quantity)
-    })
-  )
-
-  let portfolioValueHistory: { x: number; y: number }[] = []
-
-  priceHistories.map((history, index) => {
-    if (index === 0) {
-      portfolioValueHistory = [...history]
-    } else {
-      history.map((point, history_index) => {
-        portfolioValueHistory[history_index].x = history_index
-        portfolioValueHistory[history_index].y += point.y
-      })
-    }
-  })
-
-  if (portfolioValueHistory.length === 0)
-    throw Error('Unable to get value history')
-
-  return portfolioValueHistory
-}
+// const getPortfolioPerformanceHistory = async (userId: string) => {
+//   const positions = await getUserPositions(userId)
+//
+//   const priceHistories = await Promise.all(
+//     positions.map(async ({ symbol, quantity }) => {
+//       return await getPriceHistory(symbol, quantity)
+//     })
+//   )
+//
+//   let portfolioValueHistory: { x: number; y: number }[] = []
+//
+//   priceHistories.map((history, index) => {
+//     if (index === 0) {
+//       portfolioValueHistory = [...history]
+//     } else {
+//       history.map((point, history_index) => {
+//         portfolioValueHistory[history_index].x = history_index
+//         portfolioValueHistory[history_index].y += point.y
+//       })
+//     }
+//   })
+//
+//   if (portfolioValueHistory.length === 0)
+//     throw Error('Unable to get value history')
+//
+//   return portfolioValueHistory
+// }
 
 // const getGainsLosses = async (userId: string) => {
 //   const currentValue = await getCurrentPortfolioValue(userId)
@@ -106,7 +112,7 @@ export {
   getUserPosition,
   getUserPositions,
   // getGainsLosses,
-  getPortfolioPerformanceHistory,
+  // getPortfolioPerformanceHistory,
   getCurrentPortfolioValue,
   updatePosition,
 }
