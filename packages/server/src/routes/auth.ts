@@ -18,16 +18,12 @@ router.post('/login', jsonParser, async (req: Request, res: Response) => {
   }
 })
 
-router.get(
-  '/authenticate',
-  verifyToken,
-  async (req: Request, res: Response) => {
-    try {
-      res.status(200)
-    } catch (error: any) {
-      res.status(500).send(error.message)
-    }
+router.get('/verify', verifyToken, async (req: Request, res: Response) => {
+  try {
+    res.status(200).send({ valid: true })
+  } catch (error: any) {
+    res.status(500).send(error.message)
   }
-)
+})
 
 export default router

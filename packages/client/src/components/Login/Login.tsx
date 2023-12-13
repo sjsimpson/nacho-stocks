@@ -14,7 +14,8 @@ import {
 } from 'm3-react'
 
 import { useAuthStore } from '../../stores/authStore'
-import { useLogin, useSignup } from '../../queries/auth'
+import { useAuthQuery } from '../../queries/auth'
+// import { useLogin, useSignup } from '../../queries/auth'
 import { matchPasswords } from '../../lib/matchPasswords'
 
 // TODO: Update TextInput to forwardRef, so I can focus the username input on
@@ -35,8 +36,7 @@ export default function Login({
   const [error, setError] = useState('')
 
   const match = matchPasswords({ pass1: password, pass2: confirmedPass })
-  const login = useLogin()
-  const signup = useSignup()
+  const { login, signup } = useAuthQuery(null)
 
   const shake = () => {
     const shaker = document.getElementById('login-shake')

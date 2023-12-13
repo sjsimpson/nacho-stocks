@@ -3,6 +3,7 @@ import { Button } from 'm3-react'
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useToasts } from '../../../context/ToastProvider'
+import useVerifyAuth from '../../../lib/verifyAuth'
 import { getStockPrice } from '../../../queries/stocks'
 import { useBuyStock, useSellStock } from '../../../queries/transactions'
 import { useAuthStore } from '../../../stores/authStore'
@@ -20,6 +21,7 @@ function TradeSection() {
 
   const price = getStockPrice(symbol!)
 
+  const { valid } = useVerifyAuth()
   const buyStock = useBuyStock()
   const sellStock = useSellStock()
 
@@ -100,7 +102,7 @@ function TradeSection() {
 
       <Button
         text={mode === 'purchase' ? 'Buy' : 'Sell'}
-        disabled={!token || buyStock.isLoading || sellStock.isLoading}
+        disabled={!valid || !token || buyStock.isLoading || sellStock.isLoading}
         onClick={() => (mode === 'purchase' ? buy() : sell())}
       />
     </Card>

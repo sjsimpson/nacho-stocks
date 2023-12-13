@@ -1,17 +1,23 @@
-import jwt from 'jwt-decode'
+import { useAuthStore } from '../stores/authStore'
+import { useMemo } from 'react'
+import { useAuthQuery } from '../queries/auth'
 
-interface DecodedJWT {
-  iss: string
-  sub: string
-  jti: string
-  iat: number
-  exp: number
-}
+export default function useVerifyAuth() {
+  const token = useAuthStore((state) => state.token)
+  const setToken = useAuthStore((state) => state.setToken)
 
-export default function verifyAuth(token: string) {
-  // TODO: implement RSA signing to verify jwt client side
-  const decoded: DecodedJWT = jwt(token)
+  const { query } = useAuthQuery(token)
 
-  const expiration = new Date(decoded.exp * 1000)
-  return expiration.getTime() > Date.now()
+  const valid = useMemo(() => {
+    console.log('token', token)
+    console.log('query', query)
+    if (query.isError) {
+      setToken(null)
+      return false
+    }
+
+    return true
+  }, [query.isError])
+
+  return { valid }
 }
