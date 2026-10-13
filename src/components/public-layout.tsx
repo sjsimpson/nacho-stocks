@@ -19,17 +19,29 @@ export function PublicLayout({
             <span aria-hidden>🧀</span> Nacho Stocks
           </Link>
           <nav aria-label="Main" className="ml-auto flex items-center gap-1">
-            <Button variant="ghost" render={<Link to="/about" />}>
+            <Button
+              variant="ghost"
+              nativeButton={false}
+              render={<Link to="/about" />}
+            >
               About
             </Button>
             {user ? (
-              <Button render={<Link to="/portfolio" />}>My portfolio</Button>
+              <Button nativeButton={false} render={<Link to="/portfolio" />}>
+                My portfolio
+              </Button>
             ) : (
               <>
-                <Button variant="ghost" render={<Link to="/login" />}>
+                <Button
+                  variant="ghost"
+                  nativeButton={false}
+                  render={<Link to="/login" />}
+                >
                   Log in
                 </Button>
-                <Button render={<Link to="/signup" />}>Sign up</Button>
+                <Button nativeButton={false} render={<Link to="/signup" />}>
+                  Sign up
+                </Button>
               </>
             )}
             <ThemeToggle />

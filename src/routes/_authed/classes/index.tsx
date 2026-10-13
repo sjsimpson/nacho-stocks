@@ -108,6 +108,7 @@ function ClassesPage() {
           </CardHeader>
           <CardContent>
             <form
+              method="post"
               onSubmit={(e) => {
                 e.preventDefault()
                 setError(null)

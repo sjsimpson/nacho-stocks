@@ -176,7 +176,7 @@ function Signup() {
                 <TabsTrigger value="teacher">Teacher</TabsTrigger>
               </TabsList>
               <TabsContent value="student">
-                <form onSubmit={onStudent}>
+                <form method="post" onSubmit={onStudent}>
                   <FieldGroup>
                     {usernameField('student-username')}
                     {passwordField('student-password')}
@@ -197,7 +197,7 @@ function Signup() {
                 </form>
               </TabsContent>
               <TabsContent value="teacher">
-                <form onSubmit={onTeacher}>
+                <form method="post" onSubmit={onTeacher}>
                   <FieldGroup>
                     <Field>
                       <FieldLabel htmlFor="name">Full name</FieldLabel>

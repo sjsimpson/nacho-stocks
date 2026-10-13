@@ -40,7 +40,7 @@ interface ProfileResponse {
   description?: string
 }
 
-type LatestResponse = Record<string, { price: number }>
+type LatestResponse = Record<string, { price?: number } | null>
 
 type QuotesResponse = { timestamp: number; price: number }[]
 

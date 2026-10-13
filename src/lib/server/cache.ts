@@ -2,8 +2,8 @@ import { Redis } from '@upstash/redis'
 import { env } from './env'
 
 interface Cache {
-  get<T>(key: string): Promise<T | null>
-  set<T>(key: string, value: T, ttlSeconds: number): Promise<void>
+  get: <T>(key: string) => Promise<T | null>
+  set: <T>(key: string, value: T, ttlSeconds: number) => Promise<void>
 }
 
 function memoryCache(): Cache {
@@ -45,7 +45,9 @@ export async function cached<T>(
   const hit = await cache.get<T>(key)
   if (hit !== null) return hit
   const value = await load()
-  if (value !== null && value !== undefined) {
+  // Don't cache misses (e.g. unknown symbol); retry next time.
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- T may include null
+  if (value != null) {
     await cache.set(key, value, ttlSeconds)
   }
   return value

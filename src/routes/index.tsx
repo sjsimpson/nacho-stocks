@@ -39,15 +39,28 @@ function Home() {
         </p>
         <div className="mt-8 flex justify-center gap-3">
           {user ? (
-            <Button size="lg" render={<Link to="/portfolio" />}>
+            <Button
+              size="lg"
+              nativeButton={false}
+              render={<Link to="/portfolio" />}
+            >
               Go to my portfolio
             </Button>
           ) : (
             <>
-              <Button size="lg" render={<Link to="/signup" />}>
+              <Button
+                size="lg"
+                nativeButton={false}
+                render={<Link to="/signup" />}
+              >
                 Get started
               </Button>
-              <Button size="lg" variant="outline" render={<Link to="/login" />}>
+              <Button
+                size="lg"
+                variant="outline"
+                nativeButton={false}
+                render={<Link to="/login" />}
+              >
                 Log in
               </Button>
             </>

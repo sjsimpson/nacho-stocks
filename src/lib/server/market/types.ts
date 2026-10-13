@@ -19,10 +19,10 @@ export interface PricePoint {
 }
 
 export interface MarketDataProvider {
-  search(query: string): Promise<StockSummary[]>
-  profile(symbol: string): Promise<StockProfile | null>
+  search: (query: string) => Promise<StockSummary[]>
+  profile: (symbol: string) => Promise<StockProfile | null>
   /** Latest prices in cents keyed by symbol. Unknown symbols are omitted. */
-  quotes(symbols: string[]): Promise<Record<string, number>>
+  quotes: (symbols: string[]) => Promise<Record<string, number>>
   /** Daily closes, oldest first. */
-  history(isin: string, days: number): Promise<PricePoint[]>
+  history: (isin: string, days: number) => Promise<PricePoint[]>
 }

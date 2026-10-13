@@ -143,6 +143,7 @@ export function StudentActions({
       <Dialog open={action === 'rename'} onOpenChange={(o) => !o && close()}>
         <DialogContent>
           <form
+            method="post"
             onSubmit={(e) => {
               e.preventDefault()
               const f = new FormData(e.currentTarget)
@@ -198,6 +199,7 @@ export function StudentActions({
       <Dialog open={action === 'password'} onOpenChange={(o) => !o && close()}>
         <DialogContent>
           <form
+            method="post"
             onSubmit={(e) => {
               e.preventDefault()
               const password = String(

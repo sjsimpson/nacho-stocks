@@ -105,7 +105,7 @@ function AccountPage() {
             {user.email && <CardDescription>{user.email}</CardDescription>}
           </CardHeader>
           <CardContent>
-            <form onSubmit={onProfile}>
+            <form method="post" onSubmit={onProfile}>
               <FieldGroup>
                 {user.accountType === 'teacher' && (
                   <Field>
@@ -154,7 +154,7 @@ function AccountPage() {
             <CardDescription>Other devices will be signed out.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={onPassword}>
+            <form method="post" onSubmit={onPassword}>
               <FieldGroup>
                 <Field>
                   <FieldLabel htmlFor="currentPassword">

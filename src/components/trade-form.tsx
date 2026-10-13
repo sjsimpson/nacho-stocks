@@ -90,7 +90,7 @@ export function TradeForm({
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onSubmit}>
+        <form method="post" onSubmit={onSubmit}>
           <FieldGroup>
             <Tabs
               value={type}

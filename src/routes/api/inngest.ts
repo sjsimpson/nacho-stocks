@@ -1,15 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { serve } from 'inngest/edge'
-import { functions, inngest } from '@/lib/server/jobs'
 
-const handler = serve({ client: inngest, functions })
+// Imported lazily so server-only code stays out of the client route tree.
+const getHandler = async () => {
+  const [{ serve }, { functions, inngest }] = await Promise.all([
+    import('inngest/edge'),
+    import('@/lib/server/jobs'),
+  ])
+  return serve({ client: inngest, functions })
+}
 
 export const Route = createFileRoute('/api/inngest')({
   server: {
     handlers: {
-      GET: ({ request }) => handler(request),
-      POST: ({ request }) => handler(request),
-      PUT: ({ request }) => handler(request),
+      GET: async ({ request }) => (await getHandler())(request),
+      POST: async ({ request }) => (await getHandler())(request),
+      PUT: async ({ request }) => (await getHandler())(request),
     },
   },
 })

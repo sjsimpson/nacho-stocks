@@ -28,6 +28,7 @@ export async function executeTrade(input: {
       .from(schema.user)
       .where(eq(schema.user.id, input.userId))
       .for('update')
+    if (!u) throw new TradeError('Account not found.')
     const [pos] = await tx
       .select()
       .from(schema.position)
@@ -75,7 +76,7 @@ export async function executeTrade(input: {
       .insert(schema.trade)
       .values({ ...input, priceCents })
       .returning()
-    return trade
+    return trade!
   })
 }
 

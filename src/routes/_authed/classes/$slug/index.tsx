@@ -5,6 +5,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query'
 import { CopyIcon, RefreshCwIcon } from 'lucide-react'
+import { useMemo } from 'react'
 import { toast } from 'sonner'
 import { DataTable, columnHelper } from '@/components/data-table'
 import { Change } from '@/components/money'
@@ -44,54 +45,58 @@ export const Route = createFileRoute('/_authed/classes/$slug/')({
 
 type Row = ClassDashboard['roster'][number]
 
+const col = columnHelper<Row>()
+
 function useColumns(organizationId: string, slug: string) {
-  const col = columnHelper<Row>()
-  return [
-    col.accessor((r) => r.displayUsername ?? r.username ?? '', {
-      id: 'username',
-      header: 'Student',
-      cell: (c) => (
-        <Link
-          to="/classes/$slug/students/$userId"
-          params={{ slug, userId: c.row.original.userId }}
-          className="font-medium underline-offset-2 hover:underline"
-        >
-          @{c.getValue()}
-        </Link>
-      ),
-    }),
-    col.accessor('totalCents', {
-      header: 'Total value',
-      meta: { align: 'right' },
-      cell: (c) => formatCents(c.getValue()),
-    }),
-    col.accessor('returnRatio', {
-      header: 'Return',
-      meta: { align: 'right' },
-      cell: (c) => <Change ratio={c.getValue()} />,
-    }),
-    col.accessor('cashCents', {
-      header: 'Cash',
-      meta: { align: 'right' },
-      cell: (c) => formatCents(c.getValue()),
-    }),
-    col.accessor('holdingsCents', {
-      header: 'Stocks',
-      meta: { align: 'right' },
-      cell: (c) => formatCents(c.getValue()),
-    }),
-    col.display({
-      id: 'actions',
-      header: () => <span className="sr-only">Actions</span>,
-      cell: (c) => (
-        <StudentActions
-          member={c.row.original}
-          organizationId={organizationId}
-          slug={slug}
-        />
-      ),
-    }),
-  ]
+  return useMemo(
+    () => [
+      col.accessor((r) => r.displayUsername ?? r.username ?? '', {
+        id: 'username',
+        header: 'Student',
+        cell: (c) => (
+          <Link
+            to="/classes/$slug/students/$userId"
+            params={{ slug, userId: c.row.original.userId }}
+            className="font-medium underline-offset-2 hover:underline"
+          >
+            @{c.getValue()}
+          </Link>
+        ),
+      }),
+      col.accessor('totalCents', {
+        header: 'Total value',
+        meta: { align: 'right' },
+        cell: (c) => formatCents(c.getValue()),
+      }),
+      col.accessor('returnRatio', {
+        header: 'Return',
+        meta: { align: 'right' },
+        cell: (c) => <Change ratio={c.getValue()} />,
+      }),
+      col.accessor('cashCents', {
+        header: 'Cash',
+        meta: { align: 'right' },
+        cell: (c) => formatCents(c.getValue()),
+      }),
+      col.accessor('holdingsCents', {
+        header: 'Stocks',
+        meta: { align: 'right' },
+        cell: (c) => formatCents(c.getValue()),
+      }),
+      col.display({
+        id: 'actions',
+        header: () => <span className="sr-only">Actions</span>,
+        cell: (c) => (
+          <StudentActions
+            member={c.row.original}
+            organizationId={organizationId}
+            slug={slug}
+          />
+        ),
+      }),
+    ],
+    [organizationId, slug]
+  )
 }
 
 function ClassPage() {

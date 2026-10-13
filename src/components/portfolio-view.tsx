@@ -170,7 +170,7 @@ export function PortfolioView({
               <MoneyAreaChart
                 data={series}
                 label="Total value"
-                description={`Portfolio value from ${series[0].date} to ${series.at(-1)!.date}, now ${formatCents(series.at(-1)!.cents)}.`}
+                description={`Portfolio value from ${series[0]!.date} to ${series.at(-1)!.date}, now ${formatCents(series.at(-1)!.cents)}.`}
               />
             ) : (
               <p className="py-8 text-center text-sm text-muted-foreground">

@@ -7,7 +7,7 @@ import {
   getPortfolio,
   getValueHistory,
 } from '@/lib/server/portfolio'
-import { authed } from '@/lib/server/session'
+import { authed } from '@/lib/middleware'
 
 export const getMyPortfolio = createServerFn({ method: 'GET' })
   .middleware([authed])

@@ -28,6 +28,8 @@ import {
 } from '@/components/ui/table'
 import { cn } from '@/lib/utils'
 
+const columnMeta: { align?: 'right' } = {}
+
 const features = tableFeatures({
   rowSortingFeature,
   sortedRowModel: createSortedRowModel(),
@@ -38,7 +40,7 @@ const features = tableFeatures({
   },
   rowPaginationFeature,
   paginatedRowModel: createPaginatedRowModel(),
-  columnMeta: {} as { align?: 'right' },
+  columnMeta,
 })
 
 type Features = typeof features

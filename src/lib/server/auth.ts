@@ -55,7 +55,7 @@ export const auth = betterAuth({
       organizationHooks: {
         beforeAddMember: async ({ member }) => {
           if (member.role !== 'member') return
-          const [{ n }] = await db
+          const [row] = await db
             .select({ n: count() })
             .from(schema.member)
             .where(
@@ -64,7 +64,7 @@ export const auth = betterAuth({
                 eq(schema.member.role, 'member')
               )
             )
-          if (n >= MAX_CLASSES_PER_STUDENT) {
+          if ((row?.n ?? 0) >= MAX_CLASSES_PER_STUDENT) {
             throw new APIError('BAD_REQUEST', {
               message: 'You are already in a class.',
             })

@@ -92,7 +92,7 @@ function StockPage() {
                 <MoneyAreaChart
                   data={series}
                   label="Price"
-                  description={`${profile.symbol} closing price from ${series[0].date} to ${series.at(-1)!.date}.`}
+                  description={`${profile.symbol} closing price from ${series[0]!.date} to ${series.at(-1)!.date}.`}
                 />
               ) : (
                 <p className="py-8 text-center text-sm text-muted-foreground">

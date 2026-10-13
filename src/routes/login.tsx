@@ -25,14 +25,14 @@ import { Input } from '@/components/ui/input'
 import { useAuthRefresh } from '@/hooks/use-auth-refresh'
 import { authClient } from '@/lib/auth-client'
 
-const search = z.object({ redirect: z.string().optional() })
+const searchSchema = z.object({ redirect: z.string().optional() })
 
 /** Only allow same-site redirects. */
 const safeRedirect = (to?: string) =>
   to && to.startsWith('/') && !to.startsWith('//') ? to : '/portfolio'
 
 export const Route = createFileRoute('/login')({
-  validateSearch: search,
+  validateSearch: searchSchema,
   beforeLoad: ({ context, search }) => {
     if (context.user) throw redirect({ href: safeRedirect(search.redirect) })
   },
@@ -55,11 +55,11 @@ function Login() {
     const password = String(form.get('password'))
     setPending(true)
     setError(null)
-    const { error } = identifier.includes('@')
+    const result = identifier.includes('@')
       ? await authClient.signIn.email({ email: identifier, password })
       : await authClient.signIn.username({ username: identifier, password })
     setPending(false)
-    if (error) {
+    if (result.error) {
       setError('Wrong username or password.')
       return
     }
@@ -78,7 +78,7 @@ function Login() {
             <CardDescription>Use your username or email.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={onSubmit} noValidate>
+            <form method="post" onSubmit={onSubmit} noValidate>
               <FieldGroup>
                 <Field>
                   <FieldLabel htmlFor="identifier">
