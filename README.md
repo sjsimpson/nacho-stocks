@@ -36,7 +36,7 @@ Checks: `pnpm typecheck && pnpm lint && pnpm test`.
 1. Create a Vercel project from this repo. Vercel detects TanStack Start + Nitro.
 2. Add integrations from the Vercel Marketplace: **Neon** (sets `DATABASE_URL`), **Upstash Redis** (sets `UPSTASH_REDIS_REST_*`), **Inngest** (sets `INNGEST_*` and syncs `/api/inngest`).
 3. Set `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL` (the production URL), `EULERPOOL_API_KEY`, `RESEND_API_KEY`, and `EMAIL_FROM`. Verify your sending domain in Resend (DNS records).
-4. Run migrations against Neon: `vercel env pull .env.production.local` then `DATABASE_URL=... pnpm db:migrate`.
+4. Deploy. Vercel runs `vercel-build`, which applies pending migrations before building. Enable Neon preview branches in the integration so preview deploys migrate their own branch, not production.
 5. Sign up on the deployed site, verify your email, then make yourself admin: `DATABASE_URL=... pnpm admin:grant <username>`. Manage other admins from `/admin` > Users.
 
 Market data by [Eulerpool](https://eulerpool.com). For education only, not investment advice.
