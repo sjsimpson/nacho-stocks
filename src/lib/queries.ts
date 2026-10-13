@@ -5,7 +5,15 @@ import {
   getStudentPortfolio,
 } from './fns/classes'
 import { getMyPortfolio } from './fns/portfolio'
+import { fetchSessionUser } from './fns/session'
 import { getStock, searchStocks } from './fns/stocks'
+
+export const sessionQuery = () =>
+  queryOptions({
+    queryKey: ['session'],
+    queryFn: () => fetchSessionUser(),
+    staleTime: 30_000,
+  })
 
 export const stockSearchQuery = (q: string) =>
   queryOptions({

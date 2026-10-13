@@ -6,10 +6,7 @@ import { username } from 'better-auth/plugins/username'
 import { tanstackStartCookies } from 'better-auth/tanstack-start'
 import { and, count, eq } from 'drizzle-orm'
 import { db, schema } from '@/db'
-import {
-  MAX_CLASSES_PER_STUDENT,
-  STARTING_CASH_CENTS,
-} from '@/lib/constants'
+import { MAX_CLASSES_PER_STUDENT, STARTING_CASH_CENTS } from '@/lib/constants'
 import { USERNAME_MAX, USERNAME_MIN, checkUsername } from '@/lib/username'
 import { env } from './env'
 

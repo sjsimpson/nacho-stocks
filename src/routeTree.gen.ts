@@ -10,7 +10,14 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthedRouteImport } from './routes/_authed'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as AuthedPortfolioRouteImport } from './routes/_authed/portfolio'
 import { Route as ApiInngestRouteImport } from './routes/api/inngest'
+import { Route as AuthedStocksIndexRouteImport } from './routes/_authed/stocks/index'
+import { Route as AuthedStocksSymbolRouteImport } from './routes/_authed/stocks/$symbol'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -18,10 +25,44 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthedRoute = AuthedRouteImport.update({
+  id: '/_authed',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedPortfolioRoute = AuthedPortfolioRouteImport.update({
+  id: '/portfolio',
+  path: '/portfolio',
+  getParentRoute: () => AuthedRoute,
+} as any)
 const ApiInngestRoute = ApiInngestRouteImport.update({
   id: '/api/inngest',
   path: '/api/inngest',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthedStocksIndexRoute = AuthedStocksIndexRouteImport.update({
+  id: '/stocks/',
+  path: '/stocks/',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedStocksSymbolRoute = AuthedStocksSymbolRouteImport.update({
+  id: '/stocks/$symbol',
+  path: '/stocks/$symbol',
+  getParentRoute: () => AuthedRoute,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
@@ -31,30 +72,82 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/portfolio': typeof AuthedPortfolioRoute
   '/api/inngest': typeof ApiInngestRoute
+  '/stocks/$symbol': typeof AuthedStocksSymbolRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/stocks/': typeof AuthedStocksIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/portfolio': typeof AuthedPortfolioRoute
   '/api/inngest': typeof ApiInngestRoute
+  '/stocks/$symbol': typeof AuthedStocksSymbolRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/stocks': typeof AuthedStocksIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authed': typeof AuthedRouteWithChildren
+  '/about': typeof AboutRoute
+  '/login': typeof LoginRoute
+  '/signup': typeof SignupRoute
+  '/_authed/portfolio': typeof AuthedPortfolioRoute
   '/api/inngest': typeof ApiInngestRoute
+  '/_authed/stocks/$symbol': typeof AuthedStocksSymbolRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/_authed/stocks/': typeof AuthedStocksIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/api/inngest' | '/api/auth/$'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/signup'
+    | '/portfolio'
+    | '/api/inngest'
+    | '/stocks/$symbol'
+    | '/api/auth/$'
+    | '/stocks/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/api/inngest' | '/api/auth/$'
-  id: '__root__' | '/' | '/api/inngest' | '/api/auth/$'
+  to:
+    | '/'
+    | '/about'
+    | '/login'
+    | '/signup'
+    | '/portfolio'
+    | '/api/inngest'
+    | '/stocks/$symbol'
+    | '/api/auth/$'
+    | '/stocks'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authed'
+    | '/about'
+    | '/login'
+    | '/signup'
+    | '/_authed/portfolio'
+    | '/api/inngest'
+    | '/_authed/stocks/$symbol'
+    | '/api/auth/$'
+    | '/_authed/stocks/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthedRoute: typeof AuthedRouteWithChildren
+  AboutRoute: typeof AboutRoute
+  LoginRoute: typeof LoginRoute
+  SignupRoute: typeof SignupRoute
   ApiInngestRoute: typeof ApiInngestRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -68,12 +161,61 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authed': {
+      id: '/_authed'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authed/portfolio': {
+      id: '/_authed/portfolio'
+      path: '/portfolio'
+      fullPath: '/portfolio'
+      preLoaderRoute: typeof AuthedPortfolioRouteImport
+      parentRoute: typeof AuthedRoute
+    }
     '/api/inngest': {
       id: '/api/inngest'
       path: '/api/inngest'
       fullPath: '/api/inngest'
       preLoaderRoute: typeof ApiInngestRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authed/stocks/': {
+      id: '/_authed/stocks/'
+      path: '/stocks'
+      fullPath: '/stocks/'
+      preLoaderRoute: typeof AuthedStocksIndexRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/stocks/$symbol': {
+      id: '/_authed/stocks/$symbol'
+      path: '/stocks/$symbol'
+      fullPath: '/stocks/$symbol'
+      preLoaderRoute: typeof AuthedStocksSymbolRouteImport
+      parentRoute: typeof AuthedRoute
     }
     '/api/auth/$': {
       id: '/api/auth/$'
@@ -85,8 +227,27 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AuthedRouteChildren {
+  AuthedPortfolioRoute: typeof AuthedPortfolioRoute
+  AuthedStocksSymbolRoute: typeof AuthedStocksSymbolRoute
+  AuthedStocksIndexRoute: typeof AuthedStocksIndexRoute
+}
+
+const AuthedRouteChildren: AuthedRouteChildren = {
+  AuthedPortfolioRoute: AuthedPortfolioRoute,
+  AuthedStocksSymbolRoute: AuthedStocksSymbolRoute,
+  AuthedStocksIndexRoute: AuthedStocksIndexRoute,
+}
+
+const AuthedRouteWithChildren =
+  AuthedRoute._addFileChildren(AuthedRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthedRoute: AuthedRouteWithChildren,
+  AboutRoute: AboutRoute,
+  LoginRoute: LoginRoute,
+  SignupRoute: SignupRoute,
   ApiInngestRoute: ApiInngestRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
