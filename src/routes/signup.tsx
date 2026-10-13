@@ -28,6 +28,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useAuthRefresh } from '@/hooks/use-auth-refresh'
 import { signUpStudent, signUpTeacher } from '@/lib/fns/auth'
 import { joinClassFn } from '@/lib/fns/classes'
+import { errorMessage } from '@/lib/errors'
 import { USERNAME_MAX, USERNAME_MIN } from '@/lib/username'
 
 const search = z.object({
@@ -43,17 +44,6 @@ export const Route = createFileRoute('/signup')({
   head: () => ({ meta: [{ title: 'Sign up · Nacho Stocks' }] }),
   component: Signup,
 })
-
-/** Server fn validation errors arrive as a thrown error with a JSON message. */
-function errorMessage(e: unknown) {
-  if (!(e instanceof Error)) return 'Something went wrong.'
-  try {
-    const issues = JSON.parse(e.message) as { message: string }[]
-    return issues[0]?.message ?? e.message
-  } catch {
-    return e.message
-  }
-}
 
 function Signup() {
   const { user } = Route.useRouteContext()

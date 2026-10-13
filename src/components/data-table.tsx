@@ -44,7 +44,8 @@ const features = tableFeatures({
 type Features = typeof features
 
 /** Column helper bound to DataTable's features. */
-export const columnHelper = <T extends RowData>() => createColumnHelper<Features, T>()
+export const columnHelper = <T extends RowData>() =>
+  createColumnHelper<Features, T>()
 
 const SHOW_ALL = Number.MAX_SAFE_INTEGER
 
@@ -172,8 +173,7 @@ export function DataTable<T extends RowData>({
           className="flex items-center justify-end gap-2 text-sm"
         >
           <span className="text-muted-foreground">
-            Page {pagination.pageIndex + 1} of{' '}
-            {table.getPageCount()}
+            Page {pagination.pageIndex + 1} of {table.getPageCount()}
           </span>
           <Button
             variant="outline"
