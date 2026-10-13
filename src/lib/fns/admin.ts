@@ -10,6 +10,7 @@ import {
   rejectRequest,
   requireAdmin,
   searchUsers,
+  setAdmin,
 } from '@/lib/server/admin'
 import { attempt } from '@/lib/server/result'
 import { authed } from '@/lib/middleware'
@@ -111,3 +112,13 @@ export const searchUsersFn = createServerFn({ method: 'GET' })
     requireAdmin(context.user)
     return searchUsers(data.q)
   })
+
+export const setAdminFn = createServerFn({ method: 'POST' })
+  .middleware([authed])
+  .validator(z.object({ userId: z.string().min(1), admin: z.boolean() }))
+  .handler(({ data, context }) =>
+    attempt(async () => {
+      requireAdmin(context.user)
+      await setAdmin(context.user.id, data.userId, data.admin)
+    })
+  )

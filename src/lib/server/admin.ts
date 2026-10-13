@@ -12,6 +12,17 @@ export function requireAdmin(user: { role?: string | null }) {
   if (user.role !== 'admin') throw new ClassError('Admins only.')
 }
 
+/** Verified, real addresses of every admin. Used for notifications. */
+async function listAdminEmails() {
+  const rows = await db
+    .select({ email: schema.user.email })
+    .from(schema.user)
+    .where(
+      and(eq(schema.user.role, 'admin'), eq(schema.user.emailVerified, true))
+    )
+  return rows.map((r) => r.email).filter((e) => !isPlaceholderEmail(e))
+}
+
 // --- Requests (teacher side) ---
 
 export async function createClassroomRequest(
@@ -50,9 +61,10 @@ export async function createClassroomRequest(
     .values({ userId: user.id, ...input })
     .returning()
 
-  if (env.ADMIN_EMAILS.length) {
+  const adminEmails = await listAdminEmails()
+  if (adminEmails.length) {
     await sendEmail({
-      to: env.ADMIN_EMAILS,
+      to: adminEmails,
       ...templates.classroomRequested({
         username: user.username ?? user.id,
         email: user.email,
@@ -268,4 +280,32 @@ export async function searchUsers(query: string) {
     email: isPlaceholderEmail(r.email) ? null : r.email,
     createdAt: r.createdAt.toISOString(),
   }))
+}
+
+/**
+ * Grants or revokes platform admin. Admins can't change their own role, so
+ * the acting admin always remains and the last admin can't be removed.
+ */
+export async function setAdmin(
+  actorId: string,
+  userId: string,
+  admin: boolean
+) {
+  if (actorId === userId)
+    throw new ClassError('You can’t change your own role.')
+  const [target] = await db
+    .select({
+      email: schema.user.email,
+      emailVerified: schema.user.emailVerified,
+    })
+    .from(schema.user)
+    .where(eq(schema.user.id, userId))
+  if (!target) throw new ClassError('User not found.')
+  if (admin && (isPlaceholderEmail(target.email) || !target.emailVerified)) {
+    throw new ClassError('Admins need a verified email address.')
+  }
+  await db
+    .update(schema.user)
+    .set({ role: admin ? 'admin' : 'user' })
+    .where(eq(schema.user.id, userId))
 }

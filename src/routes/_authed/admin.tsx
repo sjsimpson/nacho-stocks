@@ -5,12 +5,7 @@ import {
   useSuspenseQuery,
 } from '@tanstack/react-query'
 import { useMemo, useState } from 'react'
-import {
-  Link,
-  createFileRoute,
-  notFound,
-  useNavigate,
-} from '@tanstack/react-router'
+import { Link, createFileRoute, notFound } from '@tanstack/react-router'
 import { toast } from 'sonner'
 import { DataTable, columnHelper } from '@/components/data-table'
 import { PageHeader } from '@/components/page-header'
@@ -40,9 +35,9 @@ import {
   FieldLabel,
 } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
+import { UserActions } from '@/components/user-actions'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useDebounced } from '@/hooks/use-debounced'
-import { authClient } from '@/lib/auth-client'
 import { errorMessage } from '@/lib/errors'
 import {
   type AdminDashboard,
@@ -366,8 +361,7 @@ function CreateClassroom() {
 }
 
 function UserSearch() {
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
+  const currentUserId = Route.useRouteContext().user.id
   const [input, setInput] = useState('')
   const q = useDebounced(input.trim(), 300)
   const { data = [], isFetching } = useQuery({
@@ -405,26 +399,12 @@ function UserSearch() {
         id: 'actions',
         header: () => <span className="sr-only">Actions</span>,
         cell: (c) =>
-          c.row.original.role === 'admin' ? null : (
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={async () => {
-                const { error } = await authClient.admin.impersonateUser({
-                  userId: c.row.original.id,
-                })
-                if (error)
-                  return toast.error(error.message ?? 'Could not impersonate.')
-                queryClient.clear()
-                await navigate({ to: '/portfolio', reloadDocument: true })
-              }}
-            >
-              View as user
-            </Button>
+          c.row.original.id === currentUserId ? null : (
+            <UserActions user={c.row.original} />
           ),
       }),
     ]
-  }, [navigate, queryClient])
+  }, [currentUserId])
 
   return (
     <section aria-labelledby="users-heading" className="space-y-4">

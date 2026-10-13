@@ -13,9 +13,6 @@ import { sendEmail } from './email'
 import * as templates from './email/templates'
 import { env } from './env'
 
-export const isAdminEmail = (email: string) =>
-  env.ADMIN_EMAILS.includes(email.toLowerCase())
-
 export const auth = betterAuth({
   secret: env.BETTER_AUTH_SECRET,
   baseURL: env.BETTER_AUTH_URL,
@@ -33,15 +30,6 @@ export const auth = betterAuth({
     autoSignInAfterVerification: true,
     sendVerificationEmail: ({ user, url }) =>
       sendEmail({ to: user.email, ...templates.verifyEmail(url) }),
-    // Admin rights need a verified address, so nobody can claim one by
-    // signing up with the admin's email.
-    afterEmailVerification: async (user) => {
-      if (!isAdminEmail(user.email)) return
-      await db
-        .update(schema.user)
-        .set({ role: 'admin' })
-        .where(eq(schema.user.id, user.id))
-    },
   },
   user: {
     // Students without an email can add one later. Unverified (placeholder)

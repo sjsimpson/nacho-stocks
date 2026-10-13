@@ -24,7 +24,7 @@ Single TanStack Start app (React 19, Vite, Nitro) deployed to Vercel. v1 (Expres
 - `pnpm db:generate` then `pnpm db:migrate` after schema changes
 - `pnpm auth:generate` - regenerate `src/db/auth-schema.ts` after BetterAuth config changes. It overwrites the file; re-add `.notNull()` on `cashCents`.
 - `pnpm db:generate` prompts interactively on column renames; run it in a real terminal.
-- `pnpm admin:grant <username|email>` - make a user admin locally without email verification.
+- `pnpm admin:grant <username|email>` - bootstrap the first admin (any DB via `DATABASE_URL`). Later admins: `/admin` > Users.
 
 Env: copy `.env.example` to `.env`. Locally set `INNGEST_DEV=1`; Upstash optional (falls back to in-memory cache).
 
@@ -53,7 +53,7 @@ Env: copy `.env.example` to `.env`. Locally set `INNGEST_DEV=1`; Upstash optiona
 - One account type. Signup: username + password, email optional. No email = hidden placeholder `@students.invalid` (never emailed). Public `/api/auth/sign-up/email` is blocked; signup goes through `signUpFn`.
 - Teacher = owner/admin member of a classroom. No global teacher flag.
 - Classroom = BetterAuth organization. Users can't create them (`allowUserToCreateOrganization: false`). Flow: user with verified email submits `classroom_request` -> admin approves on `/admin` -> `createClass(name, ownerId)` (server call without headers = system action) -> teacher emailed.
-- Admin = `user.role === 'admin'`. Granted on email verification if email is in `ADMIN_EMAILS`, or via `pnpm admin:grant`. Admins can manage any classroom and impersonate users.
+- Admin = `user.role === 'admin'` (DB is the only source). Granted via `pnpm admin:grant` or by another admin on `/admin` (`setAdmin`: needs verified email, can't change own role). Admins can manage any classroom, impersonate users, and get classroom-request emails. No permission system yet; checks live in `requireAdmin` / `requireTeacher`.
 - Students join by `organization.joinCode`. `MAX_CLASSES_PER_STUDENT` in `lib/constants.ts` (default 1).
 - One portfolio per user; class membership only grants teachers read access.
 - Teachers can rename students and reset passwords; both logged to `student_audit`. Users with email can also reset via `/forgot-password`.

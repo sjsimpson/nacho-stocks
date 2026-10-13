@@ -1,5 +1,6 @@
 /**
- * Local override: make a user an admin without a verified email.
+ * Bootstraps the first admin (or recovers access). Point DATABASE_URL at the
+ * target database. Later admins are managed from /admin > Users.
  * Usage: pnpm admin:grant <username|email>
  */
 import { eq, or } from 'drizzle-orm'
