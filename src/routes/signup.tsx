@@ -110,7 +110,7 @@ function Signup() {
     )
   }
 
-  const usernameField = (id: string) => (
+  const usernameField = (id: string, isStudent: boolean) => (
     <Field>
       <FieldLabel htmlFor={id}>Username</FieldLabel>
       <Input
@@ -123,8 +123,8 @@ function Signup() {
         required
       />
       <FieldDescription>
-        {USERNAME_MIN}-{USERNAME_MAX} letters, numbers, _ or . Don’t use your
-        real name.
+        {USERNAME_MIN}-{USERNAME_MAX} letters, numbers, _ or .
+        {isStudent && ' Don’t use your real name.'}
       </FieldDescription>
     </Field>
   )
@@ -178,7 +178,7 @@ function Signup() {
               <TabsContent value="student">
                 <form method="post" onSubmit={onStudent}>
                   <FieldGroup>
-                    {usernameField('student-username')}
+                    {usernameField('student-username', true)}
                     {passwordField('student-password')}
                     <Field>
                       <FieldLabel htmlFor="code">
@@ -218,7 +218,7 @@ function Signup() {
                         required
                       />
                     </Field>
-                    {usernameField('teacher-username')}
+                    {usernameField('teacher-username', false)}
                     {passwordField('teacher-password')}
                     {footer}
                   </FieldGroup>
