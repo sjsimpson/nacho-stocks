@@ -1,6 +1,16 @@
-node_modules/
-dist/
-.env
-.yalc/
-yalc.lock
-yarn-error.log
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.env*
+.nitro
+.tanstack
+.wrangler
+.output
+.vinxi
+__unconfig*
+todos.json
+
+# typescript
+*.tsbuildinfo
