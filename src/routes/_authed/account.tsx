@@ -3,6 +3,7 @@ import { useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { toast } from 'sonner'
 import { PageHeader } from '@/components/page-header'
+import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -43,27 +44,45 @@ function AccountPage() {
   const router = useRouter()
   const queryClient = useQueryClient()
   const profile = useFormState()
+  const email = useFormState()
   const password = useFormState()
+
+  async function refreshSession() {
+    queryClient.removeQueries({ queryKey: ['session'] })
+    await router.invalidate()
+  }
 
   async function onProfile(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    const f = new FormData(e.currentTarget)
-    const username = String(f.get('username')).trim()
+    const username = String(
+      new FormData(e.currentTarget).get('username')
+    ).trim()
     const problem = checkUsername(username)
     if (problem) return profile.setError(usernameProblemMessage[problem])
     profile.setPending(true)
     profile.setError(null)
-    const { error } = await authClient.updateUser({
-      username,
-      ...(user.accountType === 'teacher'
-        ? { name: String(f.get('name')).trim() }
-        : { name: username }),
-    })
+    const { error } = await authClient.updateUser({ username, name: username })
     profile.setPending(false)
     if (error) return profile.setError(error.message ?? 'Could not save.')
-    toast.success('Profile saved')
-    queryClient.removeQueries({ queryKey: ['session'] })
-    await router.invalidate()
+    toast.success('Username saved')
+    await refreshSession()
+  }
+
+  async function onEmail(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    const newEmail = String(new FormData(e.currentTarget).get('email'))
+      .trim()
+      .toLowerCase()
+    email.setPending(true)
+    email.setError(null)
+    const { error } = await authClient.changeEmail({
+      newEmail,
+      callbackURL: '/account',
+    })
+    email.setPending(false)
+    if (error) return email.setError(error.message ?? 'Could not update email.')
+    toast.success(`Check ${newEmail} for a verification link.`)
+    await refreshSession()
   }
 
   async function onPassword(e: React.FormEvent<HTMLFormElement>) {
@@ -82,42 +101,29 @@ function AccountPage() {
       revokeOtherSessions: true,
     })
     password.setPending(false)
-    if (error)
+    if (error) {
       return password.setError(error.message ?? 'Could not change password.')
+    }
     form.reset()
     toast.success('Password changed. Other devices were signed out.')
   }
 
   return (
     <>
-      <PageHeader
-        title="Account"
-        description={
-          user.accountType === 'teacher' ? 'Teacher account' : 'Student account'
-        }
-      />
+      <PageHeader title="Account" />
       <div className="grid max-w-4xl gap-6 md:grid-cols-2">
         <Card>
           <CardHeader>
             <CardTitle>
-              <h2>Profile</h2>
+              <h2>Username</h2>
             </CardTitle>
-            {user.email && <CardDescription>{user.email}</CardDescription>}
+            <CardDescription>
+              Shown to your teacher and classmates.
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <form method="post" onSubmit={onProfile}>
               <FieldGroup>
-                {user.accountType === 'teacher' && (
-                  <Field>
-                    <FieldLabel htmlFor="name">Full name</FieldLabel>
-                    <Input
-                      id="name"
-                      name="name"
-                      defaultValue={user.name}
-                      required
-                    />
-                  </Field>
-                )}
                 <Field data-invalid={!!profile.error}>
                   <FieldLabel htmlFor="username">Username</FieldLabel>
                   <Input
@@ -129,17 +135,59 @@ function AccountPage() {
                     pattern="[a-zA-Z0-9_.]+"
                     required
                   />
-                  {user.accountType === 'student' && (
-                    <FieldDescription>
-                      Don’t use your real name.
-                    </FieldDescription>
-                  )}
+                  <FieldDescription>
+                    Students: don’t use your real name.
+                  </FieldDescription>
                   {profile.error && (
                     <FieldError role="alert">{profile.error}</FieldError>
                   )}
                 </Field>
                 <Button type="submit" disabled={profile.pending}>
-                  Save profile
+                  Save username
+                </Button>
+              </FieldGroup>
+            </form>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>
+              <h2>Email</h2>
+            </CardTitle>
+            <CardDescription>
+              {user.email ? (
+                <span className="flex flex-wrap items-center gap-2">
+                  {user.email}
+                  <Badge variant={user.emailVerified ? 'default' : 'secondary'}>
+                    {user.emailVerified ? 'Verified' : 'Not verified'}
+                  </Badge>
+                </span>
+              ) : (
+                'Optional. Lets you reset your password and request a classroom.'
+              )}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <form method="post" onSubmit={onEmail}>
+              <FieldGroup>
+                <Field data-invalid={!!email.error}>
+                  <FieldLabel htmlFor="email">
+                    {user.email ? 'New email' : 'Email'}
+                  </FieldLabel>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    required
+                  />
+                  {email.error && (
+                    <FieldError role="alert">{email.error}</FieldError>
+                  )}
+                </Field>
+                <Button type="submit" disabled={email.pending}>
+                  {user.email ? 'Change email' : 'Add email'}
                 </Button>
               </FieldGroup>
             </form>

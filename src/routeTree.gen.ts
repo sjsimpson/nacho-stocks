@@ -12,13 +12,17 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthedRouteImport } from './routes/_authed'
 import { Route as AboutRouteImport } from './routes/about'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as LoginRouteImport } from './routes/login'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as AuthedAccountRouteImport } from './routes/_authed/account'
+import { Route as AuthedAdminRouteImport } from './routes/_authed/admin'
 import { Route as AuthedJoinRouteImport } from './routes/_authed/join'
 import { Route as AuthedPortfolioRouteImport } from './routes/_authed/portfolio'
 import { Route as ApiInngestRouteImport } from './routes/api/inngest'
 import { Route as AuthedClassesIndexRouteImport } from './routes/_authed/classes/index'
+import { Route as AuthedClassesRequestRouteImport } from './routes/_authed/classes/request'
 import { Route as AuthedStocksIndexRouteImport } from './routes/_authed/stocks/index'
 import { Route as AuthedStocksSymbolRouteImport } from './routes/_authed/stocks/$symbol'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
@@ -39,9 +43,19 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SignupRoute = SignupRouteImport.update({
@@ -52,6 +66,11 @@ const SignupRoute = SignupRouteImport.update({
 const AuthedAccountRoute = AuthedAccountRouteImport.update({
   id: '/account',
   path: '/account',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedAdminRoute = AuthedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
   getParentRoute: () => AuthedRoute,
 } as any)
 const AuthedJoinRoute = AuthedJoinRouteImport.update({
@@ -72,6 +91,11 @@ const ApiInngestRoute = ApiInngestRouteImport.update({
 const AuthedClassesIndexRoute = AuthedClassesIndexRouteImport.update({
   id: '/classes/',
   path: '/classes/',
+  getParentRoute: () => AuthedRoute,
+} as any)
+const AuthedClassesRequestRoute = AuthedClassesRequestRouteImport.update({
+  id: '/classes/request',
+  path: '/classes/request',
   getParentRoute: () => AuthedRoute,
 } as any)
 const AuthedStocksIndexRoute = AuthedStocksIndexRouteImport.update({
@@ -104,12 +128,16 @@ const AuthedClassesSlugStudentsUserIdRoute =
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/account': typeof AuthedAccountRoute
+  '/admin': typeof AuthedAdminRoute
   '/join': typeof AuthedJoinRoute
   '/portfolio': typeof AuthedPortfolioRoute
   '/api/inngest': typeof ApiInngestRoute
+  '/classes/request': typeof AuthedClassesRequestRoute
   '/stocks/$symbol': typeof AuthedStocksSymbolRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/classes/': typeof AuthedClassesIndexRoute
@@ -120,12 +148,16 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/account': typeof AuthedAccountRoute
+  '/admin': typeof AuthedAdminRoute
   '/join': typeof AuthedJoinRoute
   '/portfolio': typeof AuthedPortfolioRoute
   '/api/inngest': typeof ApiInngestRoute
+  '/classes/request': typeof AuthedClassesRequestRoute
   '/stocks/$symbol': typeof AuthedStocksSymbolRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/classes': typeof AuthedClassesIndexRoute
@@ -138,12 +170,16 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_authed': typeof AuthedRouteWithChildren
   '/about': typeof AboutRoute
+  '/forgot-password': typeof ForgotPasswordRoute
   '/login': typeof LoginRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/signup': typeof SignupRoute
   '/_authed/account': typeof AuthedAccountRoute
+  '/_authed/admin': typeof AuthedAdminRoute
   '/_authed/join': typeof AuthedJoinRoute
   '/_authed/portfolio': typeof AuthedPortfolioRoute
   '/api/inngest': typeof ApiInngestRoute
+  '/_authed/classes/request': typeof AuthedClassesRequestRoute
   '/_authed/stocks/$symbol': typeof AuthedStocksSymbolRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/_authed/classes/': typeof AuthedClassesIndexRoute
@@ -156,12 +192,16 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/forgot-password'
     | '/login'
+    | '/reset-password'
     | '/signup'
     | '/account'
+    | '/admin'
     | '/join'
     | '/portfolio'
     | '/api/inngest'
+    | '/classes/request'
     | '/stocks/$symbol'
     | '/api/auth/$'
     | '/classes/'
@@ -172,12 +212,16 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/forgot-password'
     | '/login'
+    | '/reset-password'
     | '/signup'
     | '/account'
+    | '/admin'
     | '/join'
     | '/portfolio'
     | '/api/inngest'
+    | '/classes/request'
     | '/stocks/$symbol'
     | '/api/auth/$'
     | '/classes'
@@ -189,12 +233,16 @@ export interface FileRouteTypes {
     | '/'
     | '/_authed'
     | '/about'
+    | '/forgot-password'
     | '/login'
+    | '/reset-password'
     | '/signup'
     | '/_authed/account'
+    | '/_authed/admin'
     | '/_authed/join'
     | '/_authed/portfolio'
     | '/api/inngest'
+    | '/_authed/classes/request'
     | '/_authed/stocks/$symbol'
     | '/api/auth/$'
     | '/_authed/classes/'
@@ -207,7 +255,9 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthedRoute: typeof AuthedRouteWithChildren
   AboutRoute: typeof AboutRoute
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
   LoginRoute: typeof LoginRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   SignupRoute: typeof SignupRoute
   ApiInngestRoute: typeof ApiInngestRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
@@ -236,11 +286,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/login': {
       id: '/login'
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/signup': {
@@ -255,6 +319,13 @@ declare module '@tanstack/react-router' {
       path: '/account'
       fullPath: '/account'
       preLoaderRoute: typeof AuthedAccountRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/admin': {
+      id: '/_authed/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthedAdminRouteImport
       parentRoute: typeof AuthedRoute
     }
     '/_authed/join': {
@@ -283,6 +354,13 @@ declare module '@tanstack/react-router' {
       path: '/classes'
       fullPath: '/classes/'
       preLoaderRoute: typeof AuthedClassesIndexRouteImport
+      parentRoute: typeof AuthedRoute
+    }
+    '/_authed/classes/request': {
+      id: '/_authed/classes/request'
+      path: '/classes/request'
+      fullPath: '/classes/request'
+      preLoaderRoute: typeof AuthedClassesRequestRouteImport
       parentRoute: typeof AuthedRoute
     }
     '/_authed/stocks/': {
@@ -325,8 +403,10 @@ declare module '@tanstack/react-router' {
 
 interface AuthedRouteChildren {
   AuthedAccountRoute: typeof AuthedAccountRoute
+  AuthedAdminRoute: typeof AuthedAdminRoute
   AuthedJoinRoute: typeof AuthedJoinRoute
   AuthedPortfolioRoute: typeof AuthedPortfolioRoute
+  AuthedClassesRequestRoute: typeof AuthedClassesRequestRoute
   AuthedStocksSymbolRoute: typeof AuthedStocksSymbolRoute
   AuthedClassesIndexRoute: typeof AuthedClassesIndexRoute
   AuthedStocksIndexRoute: typeof AuthedStocksIndexRoute
@@ -336,8 +416,10 @@ interface AuthedRouteChildren {
 
 const AuthedRouteChildren: AuthedRouteChildren = {
   AuthedAccountRoute: AuthedAccountRoute,
+  AuthedAdminRoute: AuthedAdminRoute,
   AuthedJoinRoute: AuthedJoinRoute,
   AuthedPortfolioRoute: AuthedPortfolioRoute,
+  AuthedClassesRequestRoute: AuthedClassesRequestRoute,
   AuthedStocksSymbolRoute: AuthedStocksSymbolRoute,
   AuthedClassesIndexRoute: AuthedClassesIndexRoute,
   AuthedStocksIndexRoute: AuthedStocksIndexRoute,
@@ -352,7 +434,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthedRoute: AuthedRouteWithChildren,
   AboutRoute: AboutRoute,
+  ForgotPasswordRoute: ForgotPasswordRoute,
   LoginRoute: LoginRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   SignupRoute: SignupRoute,
   ApiInngestRoute: ApiInngestRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,

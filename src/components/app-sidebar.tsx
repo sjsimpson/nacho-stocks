@@ -5,6 +5,7 @@ import {
   LogOutIcon,
   SchoolIcon,
   SearchIcon,
+  ShieldIcon,
   UserIcon,
   UsersIcon,
 } from 'lucide-react'
@@ -29,10 +30,16 @@ export function AppSidebar({ user }: { user: SessionUser }) {
   const nav = [
     { to: '/portfolio', label: 'Portfolio', icon: BriefcaseIcon },
     { to: '/stocks', label: 'Find stocks', icon: SearchIcon },
-    user.accountType === 'teacher'
-      ? { to: '/classes', label: 'Classes', icon: UsersIcon }
-      : { to: '/join', label: 'My class', icon: SchoolIcon },
+    { to: '/join', label: 'My class', icon: SchoolIcon },
+    {
+      to: '/classes',
+      label: user.teaching > 0 ? 'Classrooms I teach' : 'Teach a class',
+      icon: UsersIcon,
+    },
     { to: '/account', label: 'Account', icon: UserIcon },
+    ...(user.isAdmin
+      ? [{ to: '/admin', label: 'Admin', icon: ShieldIcon } as const]
+      : []),
   ] as const
 
   async function signOut() {

@@ -1,6 +1,6 @@
 import { randomInt } from 'node:crypto'
 import { getRequestHeaders } from '@tanstack/react-start/server'
-import { and, eq, inArray, sql } from 'drizzle-orm'
+import { and, count, eq, inArray, sql } from 'drizzle-orm'
 import { db, schema } from '@/db'
 import { TEACHER_ROLES, STARTING_CASH_CENTS } from '@/lib/constants'
 import { holdingsValue } from '@/lib/trading'
@@ -24,7 +24,7 @@ const slugify = (name: string) =>
     .replace(/^-|-$/g, '')
     .slice(0, 40)
 
-/** Throws unless the user is an owner/admin of the class. Returns their member row. */
+/** Throws unless the user teaches the class (owner/admin) or is a platform admin. */
 export async function requireTeacher(userId: string, organizationId: string) {
   const [m] = await db
     .select()
@@ -36,8 +36,14 @@ export async function requireTeacher(userId: string, organizationId: string) {
         inArray(schema.member.role, [...TEACHER_ROLES])
       )
     )
-  if (!m) throw new ClassError('You do not manage this class.')
-  return m
+  if (m) return { role: m.role }
+  // Platform admins can manage any classroom (support).
+  const [u] = await db
+    .select({ role: schema.user.role })
+    .from(schema.user)
+    .where(eq(schema.user.id, userId))
+  if (u?.role === 'admin') return { role: 'admin' as const }
+  throw new ClassError('You do not manage this class.')
 }
 
 /** Throws unless the target is a student (role `member`) in the class. */
@@ -54,6 +60,19 @@ async function requireStudentIn(userId: string, organizationId: string) {
     )
   if (!m) throw new ClassError('That student is not in this class.')
   return m
+}
+
+export async function countTeaching(userId: string) {
+  const [row] = await db
+    .select({ n: count() })
+    .from(schema.member)
+    .where(
+      and(
+        eq(schema.member.userId, userId),
+        inArray(schema.member.role, [...TEACHER_ROLES])
+      )
+    )
+  return row?.n ?? 0
 }
 
 export async function getClassBySlug(slug: string) {
@@ -81,7 +100,12 @@ export async function listClassesFor(userId: string) {
     .orderBy(schema.organization.name)
 }
 
-export async function createClass(name: string) {
+/**
+ * Creates a classroom owned by `ownerId`. Called without request headers, so
+ * BetterAuth treats it as a system action; users can't create classrooms
+ * themselves. Only call from admin-checked code.
+ */
+export async function createClass(name: string, ownerId: string) {
   const base = slugify(name) || 'class'
   for (let attempt = 0; attempt < 5; attempt++) {
     const slug =
@@ -89,8 +113,7 @@ export async function createClass(name: string) {
     const taken = await getClassBySlug(slug)
     if (taken) continue
     return auth.api.createOrganization({
-      body: { name, slug, joinCode: generateJoinCode() },
-      headers: getRequestHeaders(),
+      body: { name, slug, joinCode: generateJoinCode(), userId: ownerId },
     })
   }
   throw new ClassError('Could not create class. Try a different name.')

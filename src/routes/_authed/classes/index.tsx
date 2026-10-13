@@ -1,80 +1,53 @@
-import {
-  Link,
-  createFileRoute,
-  redirect,
-  useNavigate,
-} from '@tanstack/react-router'
-import {
-  useMutation,
-  useQueryClient,
-  useSuspenseQuery,
-} from '@tanstack/react-query'
+import { Link, createFileRoute } from '@tanstack/react-router'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { ChevronRightIcon } from 'lucide-react'
-import { useState } from 'react'
 import { PageHeader } from '@/components/page-header'
+import { RequestStatus } from '@/components/request-status'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { errorMessage } from '@/lib/errors'
-import { createClassFn } from '@/lib/fns/classes'
-import { myClassesQuery } from '@/lib/queries'
+import { myClassesQuery, myRequestsQuery } from '@/lib/queries'
 
 export const Route = createFileRoute('/_authed/classes/')({
-  beforeLoad: ({ context }) => {
-    if (context.user.accountType !== 'teacher') throw redirect({ to: '/join' })
-  },
   loader: ({ context }) =>
-    context.queryClient.ensureQueryData(myClassesQuery()),
-  head: () => ({ meta: [{ title: 'Classes · Nacho Stocks' }] }),
+    Promise.all([
+      context.queryClient.ensureQueryData(myClassesQuery()),
+      context.queryClient.ensureQueryData(myRequestsQuery()),
+    ]),
+  head: () => ({ meta: [{ title: 'Classrooms · Nacho Stocks' }] }),
   component: ClassesPage,
 })
 
 function ClassesPage() {
-  const navigate = useNavigate()
-  const queryClient = useQueryClient()
-  const { data: classes } = useSuspenseQuery(myClassesQuery())
-  const [error, setError] = useState<string | null>(null)
-
-  const create = useMutation({
-    mutationFn: (name: string) => createClassFn({ data: { name } }),
-    onSuccess: async (result) => {
-      if (!result.ok) return setError(result.error)
-      await queryClient.invalidateQueries({ queryKey: ['classes'] })
-      await navigate({
-        to: '/classes/$slug',
-        params: { slug: result.data.slug },
-      })
-    },
-    onError: (e) => setError(errorMessage(e)),
-  })
+  const { data: all } = useSuspenseQuery(myClassesQuery())
+  const { data: requests } = useSuspenseQuery(myRequestsQuery())
+  const teaching = all.filter((c) => c.role !== 'member')
+  const hasPending = requests.some((r) => r.status === 'pending')
 
   return (
     <>
       <PageHeader
-        title="Classes"
-        description="Create a class and share its code with students."
+        title="Classrooms I teach"
+        description="See your students’ portfolios and manage your classrooms."
+        actions={
+          !hasPending && (
+            <Button
+              nativeButton={false}
+              render={<Link to="/classes/request" />}
+            >
+              Request a classroom
+            </Button>
+          )
+        }
       />
-      <div className="grid gap-6 md:grid-cols-[1fr_20rem]">
-        <section aria-labelledby="class-list">
-          <h2 id="class-list" className="sr-only">
-            Your classes
+
+      <div className="max-w-3xl space-y-8">
+        <section aria-labelledby="teaching-heading">
+          <h2 id="teaching-heading" className="sr-only">
+            Your classrooms
           </h2>
-          {classes.length ? (
+          {teaching.length ? (
             <ul className="divide-y rounded-lg border">
-              {classes.map((c) => (
+              {teaching.map((c) => (
                 <li key={c.id}>
                   <Link
                     to="/classes/$slug"
@@ -82,9 +55,9 @@ function ClassesPage() {
                     className="flex items-center gap-3 px-4 py-3 hover:bg-muted/50"
                   >
                     <span className="flex-1 font-medium">{c.name}</span>
-                    {c.role === 'owner' && (
-                      <Badge variant="secondary">Owner</Badge>
-                    )}
+                    <Badge variant="secondary">
+                      {c.role === 'owner' ? 'Owner' : 'Co-teacher'}
+                    </Badge>
                     <ChevronRightIcon
                       aria-hidden
                       className="size-4 text-muted-foreground"
@@ -94,47 +67,59 @@ function ClassesPage() {
               ))}
             </ul>
           ) : (
-            <p className="rounded-lg border border-dashed p-8 text-center text-muted-foreground">
-              No classes yet. Create your first one.
-            </p>
+            <div className="rounded-lg border border-dashed p-8 text-center">
+              <p className="font-medium">You don’t teach any classrooms yet.</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Teachers can request a classroom. We review each request to keep
+                students safe.
+              </p>
+            </div>
           )}
         </section>
-        <Card>
-          <CardHeader>
-            <CardTitle>
-              <h2>New class</h2>
-            </CardTitle>
-            <CardDescription>For example “Period 3 Economics”.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form
-              method="post"
-              onSubmit={(e) => {
-                e.preventDefault()
-                setError(null)
-                create.mutate(String(new FormData(e.currentTarget).get('name')))
-              }}
-            >
-              <FieldGroup>
-                <Field data-invalid={!!error}>
-                  <FieldLabel htmlFor="class-name">Class name</FieldLabel>
-                  <Input
-                    id="class-name"
-                    name="name"
-                    minLength={2}
-                    maxLength={60}
-                    required
-                    aria-invalid={!!error}
-                  />
-                  {error && <FieldError role="alert">{error}</FieldError>}
-                </Field>
-                <Button type="submit" disabled={create.isPending}>
-                  {create.isPending ? 'Creating…' : 'Create class'}
-                </Button>
-              </FieldGroup>
-            </form>
-          </CardContent>
-        </Card>
+
+        {requests.length > 0 && (
+          <section aria-labelledby="requests-heading" className="space-y-3">
+            <h2 id="requests-heading" className="text-lg font-semibold">
+              Your requests
+            </h2>
+            <ul className="divide-y rounded-lg border">
+              {requests.map((r) => (
+                <li
+                  key={r.id}
+                  className="flex flex-wrap items-center gap-3 px-4 py-3"
+                >
+                  <div className="flex-1">
+                    <p className="font-medium">{r.className}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {r.schoolName} ·{' '}
+                      <time dateTime={r.createdAt}>
+                        {new Date(r.createdAt).toLocaleDateString()}
+                      </time>
+                    </p>
+                    {r.rejectionReason && (
+                      <p className="text-sm text-muted-foreground">
+                        {r.rejectionReason}
+                      </p>
+                    )}
+                  </div>
+                  <RequestStatus status={r.status} />
+                  {r.slug && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      nativeButton={false}
+                      render={
+                        <Link to="/classes/$slug" params={{ slug: r.slug }} />
+                      }
+                    >
+                      Open
+                    </Button>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
     </>
   )

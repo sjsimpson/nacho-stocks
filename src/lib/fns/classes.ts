@@ -2,8 +2,6 @@ import { createServerFn } from '@tanstack/react-start'
 import { z } from 'zod'
 import { checkUsername, usernameProblemMessage } from '@/lib/username'
 import {
-  ClassError,
-  createClass,
   getClassBySlug,
   getRoster,
   getStudentInClass,
@@ -26,27 +24,11 @@ export const getMyClasses = createServerFn({ method: 'GET' })
   .middleware([authed])
   .handler(({ context }) => listClassesFor(context.user.id))
 
-export const createClassFn = createServerFn({ method: 'POST' })
-  .middleware([authed])
-  .validator(z.object({ name: z.string().trim().min(2).max(60) }))
-  .handler(({ data, context }) =>
-    attempt(async () => {
-      if (context.user.accountType !== 'teacher') {
-        throw new ClassError('Only teachers can create classes.')
-      }
-      const org = await createClass(data.name)
-      return { slug: org.slug }
-    })
-  )
-
 export const joinClassFn = createServerFn({ method: 'POST' })
   .middleware([authed])
   .validator(z.object({ code: z.string().trim().min(4).max(12) }))
   .handler(({ data, context }) =>
     attempt(async () => {
-      if (context.user.accountType !== 'student') {
-        throw new ClassError('Only student accounts can join a class.')
-      }
       const org = await joinClass(context.user.id, data.code)
       return { name: org.name }
     })

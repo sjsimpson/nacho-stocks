@@ -1,4 +1,4 @@
-import { createFileRoute, redirect } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import {
   useMutation,
   useQueryClient,
@@ -28,10 +28,6 @@ import { joinClassFn } from '@/lib/fns/classes'
 import { myClassesQuery } from '@/lib/queries'
 
 export const Route = createFileRoute('/_authed/join')({
-  beforeLoad: ({ context }) => {
-    if (context.user.accountType === 'teacher')
-      throw redirect({ to: '/classes' })
-  },
   loader: ({ context }) =>
     context.queryClient.ensureQueryData(myClassesQuery()),
   head: () => ({ meta: [{ title: 'My class · Nacho Stocks' }] }),
@@ -40,7 +36,8 @@ export const Route = createFileRoute('/_authed/join')({
 
 function JoinPage() {
   const queryClient = useQueryClient()
-  const { data: classes } = useSuspenseQuery(myClassesQuery())
+  const { data: all } = useSuspenseQuery(myClassesQuery())
+  const classes = all.filter((c) => c.role === 'member')
   const [error, setError] = useState<string | null>(null)
   const canJoin = classes.length < MAX_CLASSES_PER_STUDENT
 

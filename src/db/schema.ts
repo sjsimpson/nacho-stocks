@@ -110,3 +110,41 @@ export const positionRelations = relations(position, ({ one }) => ({
 export const tradeRelations = relations(trade, ({ one }) => ({
   user: one(user, { fields: [trade.userId], references: [user.id] }),
 }))
+
+export const classroomRequestStatus = pgEnum('classroom_request_status', [
+  'pending',
+  'approved',
+  'rejected',
+])
+
+/** A teacher asking for a classroom. Admins approve or reject. */
+export const classroomRequest = pgTable(
+  'classroom_request',
+  {
+    id: serial('id').primaryKey(),
+    userId: text('user_id')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade' }),
+    schoolName: text('school_name').notNull(),
+    className: text('class_name').notNull(),
+    expectedStudents: integer('expected_students').notNull(),
+    message: text('message'),
+    status: classroomRequestStatus('status').default('pending').notNull(),
+    rejectionReason: text('rejection_reason'),
+    organizationId: text('organization_id').references(() => organization.id, {
+      onDelete: 'set null',
+    }),
+    reviewedBy: text('reviewed_by').references(() => user.id, {
+      onDelete: 'set null',
+    }),
+    reviewedAt: timestamp('reviewed_at'),
+    createdAt: timestamp('created_at').defaultNow().notNull(),
+  },
+  (t) => [
+    index('classroom_request_status_idx').on(t.status, t.createdAt),
+    // At most one pending request per user.
+    uniqueIndex('classroom_request_one_pending_idx')
+      .on(t.userId)
+      .where(sql`${t.status} = 'pending'`),
+  ]
+)

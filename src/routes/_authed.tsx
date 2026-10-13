@@ -1,4 +1,5 @@
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router'
+import { AccountBanners } from '@/components/account-banners'
 import { AppSidebar } from '@/components/app-sidebar'
 import { Attribution } from '@/components/attribution'
 import { ThemeToggle } from '@/components/theme-toggle'
@@ -25,6 +26,7 @@ function AuthedLayout() {
     <SidebarProvider>
       <AppSidebar user={user} />
       <SidebarInset>
+        <AccountBanners user={user} />
         <header className="flex h-14 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />

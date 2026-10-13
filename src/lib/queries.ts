@@ -4,6 +4,7 @@ import {
   getMyClasses,
   getStudentPortfolio,
 } from './fns/classes'
+import { getAdminDashboardFn, getMyRequestsFn } from './fns/admin'
 import { getMyPortfolio } from './fns/portfolio'
 import { fetchSessionUser } from './fns/session'
 import { getStock, searchStocks } from './fns/stocks'
@@ -49,3 +50,12 @@ export const studentPortfolioQuery = (slug: string, userId: string) =>
     queryKey: ['classes', slug, 'students', userId],
     queryFn: () => getStudentPortfolio({ data: { slug, userId } }),
   })
+
+export const myRequestsQuery = () =>
+  queryOptions({
+    queryKey: ['classroom-requests', 'mine'],
+    queryFn: () => getMyRequestsFn(),
+  })
+
+export const adminDashboardQuery = () =>
+  queryOptions({ queryKey: ['admin'], queryFn: () => getAdminDashboardFn() })

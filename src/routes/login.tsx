@@ -105,8 +105,13 @@ function Login() {
                 <Button type="submit" disabled={pending}>
                   {pending ? 'Logging in…' : 'Log in'}
                 </Button>
-                <p className="text-center text-sm text-muted-foreground">
-                  Forgot your password? Ask your teacher to reset it.
+                <p className="text-center text-sm">
+                  <Link
+                    to="/forgot-password"
+                    className="underline underline-offset-2"
+                  >
+                    Forgot your password?
+                  </Link>
                 </p>
                 <p className="text-center text-sm">
                   New here?{' '}

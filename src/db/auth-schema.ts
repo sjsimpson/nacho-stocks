@@ -21,7 +21,10 @@ export const user = pgTable('user', {
     .notNull(),
   username: text('username').unique(),
   displayUsername: text('display_username'),
-  accountType: text('account_type').default('student').notNull(),
+  role: text('role'),
+  banned: boolean('banned').default(false),
+  banReason: text('ban_reason'),
+  banExpires: timestamp('ban_expires'),
   cashCents: integer('cash_cents').default(1000000).notNull(),
 })
 
@@ -40,6 +43,7 @@ export const session = pgTable(
     userId: text('user_id')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade' }),
+    impersonatedBy: text('impersonated_by'),
     activeOrganizationId: text('active_organization_id'),
   },
   (table) => [index('session_userId_idx').on(table.userId)]

@@ -10,7 +10,8 @@ Single TanStack Start app (React 19, Vite, Nitro) deployed to Vercel. v1 (Expres
 - shadcn/ui on **Base UI** (`render` prop, not `asChild`). Link-as-button needs `nativeButton={false}`.
 - Tailwind v4, Recharts via shadcn charts, Sonner toasts, next-themes
 - Postgres + Drizzle (Neon in prod, docker locally)
-- BetterAuth: `username` + `organization` plugins
+- BetterAuth: `username`, `admin`, `organization` plugins
+- Resend email (logs to dev server console when `RESEND_API_KEY` unset)
 - Eulerpool market data, Upstash Redis cache, Inngest jobs
 - pnpm only
 
@@ -21,7 +22,9 @@ Single TanStack Start app (React 19, Vite, Nitro) deployed to Vercel. v1 (Expres
 - `pnpm inngest:dev` - Inngest dev server on :8388 (8288 is used by other local projects)
 - `pnpm typecheck`, `pnpm lint`, `pnpm test` (vitest, `src/**/*.test.ts`) - run all three before committing
 - `pnpm db:generate` then `pnpm db:migrate` after schema changes
-- `pnpm auth:generate` - regenerate `src/db/auth-schema.ts` after BetterAuth config changes. It overwrites the file; re-add `.notNull()` on `accountType` and `cashCents`.
+- `pnpm auth:generate` - regenerate `src/db/auth-schema.ts` after BetterAuth config changes. It overwrites the file; re-add `.notNull()` on `cashCents`.
+- `pnpm db:generate` prompts interactively on column renames; run it in a real terminal.
+- `pnpm admin:grant <username|email>` - make a user admin locally without email verification.
 
 Env: copy `.env.example` to `.env`. Locally set `INNGEST_DEV=1`; Upstash optional (falls back to in-memory cache).
 
@@ -47,9 +50,13 @@ Env: copy `.env.example` to `.env`. Locally set `INNGEST_DEV=1`; Upstash optiona
 
 ## Domain
 
-- Account types: `student` (username only, placeholder `@students.invalid` email, hidden) and `teacher` (email). Set server-side in signup fns; public `/api/auth/sign-up/email` is blocked.
-- Class = BetterAuth organization. Roles: `owner`/`admin` = teacher, `member` = student. Join by `organization.joinCode`. `MAX_CLASSES_PER_STUDENT` in `lib/constants.ts` (default 1).
+- One account type. Signup: username + password, email optional. No email = hidden placeholder `@students.invalid` (never emailed). Public `/api/auth/sign-up/email` is blocked; signup goes through `signUpFn`.
+- Teacher = owner/admin member of a classroom. No global teacher flag.
+- Classroom = BetterAuth organization. Users can't create them (`allowUserToCreateOrganization: false`). Flow: user with verified email submits `classroom_request` -> admin approves on `/admin` -> `createClass(name, ownerId)` (server call without headers = system action) -> teacher emailed.
+- Admin = `user.role === 'admin'`. Granted on email verification if email is in `ADMIN_EMAILS`, or via `pnpm admin:grant`. Admins can manage any classroom and impersonate users.
+- Students join by `organization.joinCode`. `MAX_CLASSES_PER_STUDENT` in `lib/constants.ts` (default 1).
 - One portfolio per user; class membership only grants teachers read access.
-- Teachers can rename students and reset passwords; both logged to `student_audit`.
+- Teachers can rename students and reset passwords; both logged to `student_audit`. Users with email can also reset via `/forgot-password`.
 - `snapshot-portfolios` Inngest cron (weekdays 4:30pm ET) writes `price_snapshot` + `portfolio_snapshot`; powers value-over-time charts. Idempotent per date.
 - Eulerpool free tier: non-commercial, quotes delayed 15m, "Data by Eulerpool" attribution required (footer).
+- Locally, another project's Inngest dev server may poll this app and log "Failed to register" every few seconds unless `pnpm inngest:dev` is running. Harmless.
