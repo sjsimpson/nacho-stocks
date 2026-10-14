@@ -60,7 +60,13 @@ function Login() {
       : await authClient.signIn.username({ username: identifier, password })
     setPending(false)
     if (result.error) {
-      setError('Wrong username or password.')
+      // Only bad credentials get the generic message; surface anything else
+      // (origin, rate limit, server error) so it can be diagnosed.
+      setError(
+        result.error.status === 401
+          ? 'Wrong username or password.'
+          : (result.error.message ?? 'Could not log in. Try again.')
+      )
       return
     }
     await refresh()
