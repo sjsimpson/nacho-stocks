@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 3000",
+    "dev": "vite dev --port 4400 --strictPort",
     "generate-routes": "tsr generate",
     "build": "vite build",
     "vercel-build": "drizzle-kit migrate && vite build",
