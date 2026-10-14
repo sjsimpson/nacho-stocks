@@ -24,7 +24,7 @@ pnpm install
 cp .env.example .env        # fill in BETTER_AUTH_SECRET and EULERPOOL_API_KEY
 docker compose up -d        # Postgres
 pnpm db:migrate
-pnpm dev                    # http://localhost:4400
+pnpm dev                    # http://localhost:3000
 pnpm inngest:dev            # optional: run background jobs (http://localhost:8388)
 pnpm admin:grant <username> # make yourself an admin locally
 ```

@@ -6,7 +6,7 @@ import * as templates from './email/templates'
 import { env } from './env'
 
 const appUrl = (path: string) =>
-  new URL(path, env.BETTER_AUTH_URL ?? 'http://localhost:4400').toString()
+  new URL(path, env.BETTER_AUTH_URL ?? 'http://localhost:3000').toString()
 
 export function requireAdmin(user: { role?: string | null }) {
   if (user.role !== 'admin') throw new ClassError('Admins only.')

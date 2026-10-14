@@ -18,7 +18,7 @@ Single TanStack Start app (React 19, Vite, Nitro) deployed to Vercel. v1 (Expres
 ## Commands
 
 - `docker compose up -d` - local Postgres
-- `pnpm dev` - app on :4400 (`--strictPort`; must match `BETTER_AUTH_URL` or auth fails with "Invalid origin"). 300x ports are taken by work projects.
+- `pnpm dev` - app on :3000 (`--strictPort`; must match `BETTER_AUTH_URL` or auth fails with "Invalid origin"). Port 3000 clashes with work projects; stop them before testing.
 - `pnpm inngest:dev` - Inngest dev server on :8388 (8288 is used by other local projects)
 - `pnpm typecheck`, `pnpm lint`, `pnpm test` (vitest, `src/**/*.test.ts`) - run all three before committing
 - `pnpm db:generate` then `pnpm db:migrate` after schema changes. Vercel runs migrations on deploy (`vercel-build`), so keep migrations backward compatible with the running version.

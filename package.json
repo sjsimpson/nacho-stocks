@@ -3,7 +3,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite dev --port 4400 --strictPort",
+    "dev": "vite dev --port 3000 --strictPort",
     "generate-routes": "tsr generate",
     "build": "vite build",
     "vercel-build": "drizzle-kit migrate && vite build",
@@ -16,7 +16,7 @@
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
     "auth:generate": "sh -c 'set -a; . ./.env; set +a; pnpm dlx auth@latest generate --config src/lib/server/auth.ts --output src/db/auth-schema.ts -y'",
-    "inngest:dev": "pnpm dlx inngest-cli@latest dev -p 8388 --no-discovery -u http://localhost:4400/api/inngest",
+    "inngest:dev": "pnpm dlx inngest-cli@latest dev -p 8388 --no-discovery -u http://localhost:3000/api/inngest",
     "test": "vitest run",
     "admin:grant": "tsx --env-file=.env scripts/grant-admin.ts"
   },
