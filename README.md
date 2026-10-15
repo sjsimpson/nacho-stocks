@@ -2,6 +2,8 @@
 
 A paper-trading playground for learning to invest. Built for classrooms: students trade real US stocks with play money, and teachers follow their progress.
 
+Curious where it started? The original version (React + webpack, Express, MongoDB, Cloud Run) lives on the [`v1` branch](https://github.com/sjsimpson/nacho-stocks/tree/v1).
+
 ## Features
 
 - Search US stocks, view price history, buy and sell at delayed market prices
