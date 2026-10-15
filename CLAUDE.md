@@ -2,7 +2,7 @@
 
 Paper-trading app for classrooms. Students trade real US stocks with play money ($10k start). Teachers create classes, share a join code, and view students' portfolios.
 
-Single TanStack Start app (React 19, Vite, Nitro) deployed to Vercel. v1 (Express + Mongo + webpack) lives at tag `v1-final`.
+Single TanStack Start app (React 19, Vite, Nitro) deployed to Vercel. v1 (Express + Mongo + webpack) lives on the `v1` branch.
 
 ## Stack
 
