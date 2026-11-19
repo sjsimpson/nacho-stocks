@@ -22,6 +22,7 @@ Single TanStack Start app (React 19, Vite, Nitro) deployed to Vercel. v1 (Expres
 - `pnpm inngest:dev` - Inngest dev server on :8388 (8288 is used by other local projects)
 - `pnpm typecheck`, `pnpm lint`, `pnpm test` (vitest, `src/**/*.test.ts`) - run all three before committing
 - `pnpm db:generate` then `pnpm db:migrate` after schema changes. Vercel runs migrations on deploy (`vercel-build`), so keep migrations backward compatible with the running version.
+- `pnpm env:check` - first step of `vercel-build`; fails the deploy when a var `src/lib/server/env-schema.ts` requires is missing or invalid. Add new env vars there (and to `.env.example`).
 - `pnpm auth:generate` - regenerate `src/db/auth-schema.ts` after BetterAuth config changes. It overwrites the file; re-add `.notNull()` on `cashCents`.
 - `pnpm db:generate` prompts interactively on column renames; run it in a real terminal.
 - `pnpm admin:grant <username|email>` - bootstrap the first admin (any DB via `DATABASE_URL`). Later admins: `/admin` > Users.
