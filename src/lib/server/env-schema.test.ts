@@ -7,11 +7,6 @@ const valid = {
   EULERPOOL_API_KEY: 'key',
 }
 
-const without = (key: keyof typeof valid) => {
-  const { [key]: _, ...rest } = valid
-  return rest
-}
-
 describe('envSchema', () => {
   it('accepts the required vars alone', () => {
     expect(envSchema.safeParse(valid).success).toBe(true)
@@ -20,13 +15,17 @@ describe('envSchema', () => {
   it.each(['DATABASE_URL', 'BETTER_AUTH_SECRET', 'EULERPOOL_API_KEY'] as const)(
     'rejects a missing %s',
     (key) => {
-      expect(envSchema.safeParse(without(key)).success).toBe(false)
+      expect(envSchema.safeParse({ ...valid, [key]: undefined }).success).toBe(
+        false
+      )
     }
   )
 
   it('rejects a BETTER_AUTH_SECRET under 32 characters', () => {
-    const env = { ...valid, BETTER_AUTH_SECRET: 'x'.repeat(31) }
-    expect(envSchema.safeParse(env).success).toBe(false)
+    expect(
+      envSchema.safeParse({ ...valid, BETTER_AUTH_SECRET: 'x'.repeat(31) })
+        .success
+    ).toBe(false)
   })
 
   it('rejects an empty EULERPOOL_API_KEY', () => {
